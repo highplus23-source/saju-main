@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>날씬예약 | 매일 사주 맞춤 운세 & 식단</title>
+  <meta name="description" content="사주 오행 분석으로 매일 달라지는 나만의 운세와 맞춤 식단을 확인하세요. 재물운, 건강운, 인간관계운 + 레시피까지.">
+  <meta name="theme-color" content="#E85A71">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    :root{
+      --bg:#FFF5F3;--bg2:#FFE8E4;--bg3:#FFF9F8;
+      --glass:rgba(255,245,243,0.92);--border:rgba(0,0,0,0.06);
+      --border-accent:rgba(232,90,113,0.15);
+      --txt:#1A1A2E;--txt2:#5A5470;--muted:#9E95A8;
+      --main:#E85A71;--main-light:#FF8A9B;--main-dark:#C94A5E;
+      --main-bg:rgba(232,90,113,0.06);--main-gradient:linear-gradient(135deg,#E85A71,#FF8A9B);
+      --card-bg:#FFFFFF;--card-shadow:0 4px 24px rgba(232,90,113,0.08);
+      --wood:#4CAF7B;--fire:#E85A71;--earth:#D4A24E;--metal:#7B8DA5;--water:#5A85B5;
+      --success:#4CAF7B;--warn:#D32F2F;
+    }
+    body{font-family:'Noto Sans KR',-apple-system,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;line-height:1.7;-webkit-font-smoothing:antialiased;font-size:16px}
+    .serif{font-family:'Noto Serif KR',serif}
+
+    /* Top Bar */
+    .top-bar{position:fixed;top:0;left:0;right:0;height:56px;z-index:100;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+    .top-bar-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:.9rem;color:var(--main)}
+    .top-bar-brand .dot{width:34px;height:34px;background:var(--main-gradient);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;box-shadow:0 2px 8px rgba(232,90,113,0.25)}
+    .top-bar-brand span{letter-spacing:1px;font-family:'Noto Serif KR',serif}
+    .settings-btn{background:none;border:none;font-size:1.2rem;cursor:pointer;padding:8px;border-radius:50%;transition:background .2s}
+    .settings-btn:hover{background:var(--main-bg)}
+
+    .wrap{max-width:520px;margin:0 auto;padding:68px 16px 40px;position:relative;z-index:1}
+
+    /* Card */
+    .card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;box-shadow:var(--card-shadow)}
+
+    /* === INPUT VIEW === */
+    #inputView header{text-align:center;padding:28px 0 32px}
+    #inputView header h1{font-family:'Noto Serif KR',serif;font-size:1.9rem;font-weight:900;line-height:1.35;letter-spacing:-0.5px}
+    .sub-title{color:var(--txt2);font-size:.95rem;margin-top:12px;line-height:1.8}
+    .hr{width:48px;height:3px;background:var(--main-gradient);border-radius:2px;margin:20px auto}
+    .fg{display:flex;flex-direction:column;gap:6px}
+    .fg label{font-size:.85rem;color:var(--txt2);font-weight:600}
+    .fg input,.fg select{background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:14px;color:var(--txt);font-size:1rem;font-family:inherit;outline:none;transition:border .3s,box-shadow .3s;appearance:none}
+    .fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+    .fg input:focus,.fg select:focus{border-color:var(--main);box-shadow:0 0 0 3px var(--main-bg)}
+    .gender-row{display:flex;gap:8px}
+    .gbtn{flex:1;padding:14px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;color:var(--txt2);font-size:.95rem;cursor:pointer;transition:all .3s;font-family:inherit;text-align:center;font-weight:500}
+    .gbtn.on{border-color:var(--main);color:var(--main);background:var(--main-bg);font-weight:700}
+    .form-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .cal-toggle{display:flex;gap:8px;margin-top:6px;margin-bottom:14px}
+    .cal-btn{padding:10px 20px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--txt2);font-size:.88rem;cursor:pointer;transition:all .3s;font-family:inherit;font-weight:500}
+    .cal-btn.on{border-color:var(--main);color:var(--main);background:var(--main-bg);font-weight:700}
+    .check-row{display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--txt2);cursor:pointer;padding:4px 0}
+    .check-row input[type="checkbox"]{width:18px;height:18px;accent-color:var(--main)}
+    .name-input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:14px;color:var(--txt);font-size:1rem;font-family:inherit;outline:none;transition:border .3s}
+    .name-input:focus{border-color:var(--main);box-shadow:0 0 0 3px var(--main-bg)}
+    .name-input::placeholder{color:var(--muted)}
+    .btn1{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:18px;background:var(--main-gradient);border:none;border-radius:14px;color:#fff;font-size:1.05rem;font-weight:800;cursor:pointer;transition:all .3s;font-family:inherit;margin-top:18px;box-shadow:0 4px 20px rgba(232,90,113,0.3)}
+    .btn1:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(232,90,113,.4)}
+    .form-divider{height:1px;background:var(--border);margin:16px 0}
+
+    /* === LOADING === */
+    .loading-overlay{position:fixed;inset:0;background:rgba(255,245,243,0.96);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;z-index:1000;flex-direction:column}
+    .loading-overlay.show{display:flex}
+    .loading-spinner{width:56px;height:56px;margin-bottom:20px;border:4px solid var(--bg2);border-top:4px solid var(--main);border-radius:50%;animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loading-text{font-family:'Noto Serif KR',serif;font-size:1.05rem;color:var(--txt);text-align:center;line-height:1.6}
+    .loading-progress{width:200px;height:4px;background:var(--bg2);border-radius:2px;overflow:hidden;margin-top:16px}
+    .loading-bar{width:0%;height:100%;background:var(--main-gradient);border-radius:2px;transition:width 2.5s linear}
+
+    /* === DASHBOARD VIEW === */
+    #dashboardView{display:none}
+
+    /* Greeting */
+    .greeting-section{text-align:center;padding:8px 0 20px}
+    .greeting-hello{font-size:1.5rem;font-weight:800;margin-bottom:4px;font-family:'Noto Serif KR',serif}
+    .greeting-date{font-size:.88rem;color:var(--txt2);margin-bottom:4px}
+    .greeting-ilju{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;color:var(--main);font-weight:600;padding:6px 14px;background:var(--main-bg);border-radius:20px;margin-top:6px}
+    .streak-badge{display:inline-flex;align-items:center;gap:4px;font-size:.78rem;color:var(--earth);font-weight:700;margin-left:8px;padding:4px 10px;background:rgba(212,162,78,0.1);border-radius:12px}
+
+    /* Score Card */
+    .score-card{background:var(--main-gradient);border-radius:20px;padding:28px 24px;text-align:center;color:#fff;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(232,90,113,0.25)}
+    .score-card::before{content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 60%);pointer-events:none}
+    .score-label{font-size:.82rem;opacity:.8;margin-bottom:8px;font-weight:500}
+    .score-number{font-size:3.2rem;font-weight:900;font-family:'Noto Serif KR',serif;line-height:1;margin-bottom:8px;text-shadow:0 2px 8px rgba(0,0,0,0.15)}
+    .score-msg{font-size:.92rem;opacity:.9;line-height:1.6}
+
+    /* Fortune Toggle */
+    .fortune-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.03);transition:box-shadow .2s}
+    .fortune-card:hover{box-shadow:0 4px 16px rgba(232,90,113,0.1)}
+    .fortune-header{padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:background .2s;-webkit-tap-highlight-color:transparent}
+    .fortune-header:hover{background:var(--bg3)}
+    .fortune-icon{font-size:1.4rem;min-width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:10px}
+    .fortune-info{flex:1}
+    .fortune-title{font-weight:700;font-size:.92rem;color:var(--txt);margin-bottom:2px}
+    .fortune-stars{color:var(--main);font-size:.85rem;letter-spacing:2px}
+    .fortune-arrow{font-size:.65rem;color:var(--muted);transition:transform .3s}
+    .fortune-header.open .fortune-arrow{transform:rotate(180deg)}
+    .fortune-body{display:none;padding:0 18px 18px;animation:slideDown .3s ease}
+    .fortune-body.open{display:block}
+    @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    .fortune-detail{font-size:.88rem;color:var(--txt2);line-height:1.8}
+    .fortune-detail-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
+    .fortune-detail-item:last-child{margin-bottom:0}
+    .fortune-detail-icon{min-width:20px;text-align:center}
+
+    /* Section Title */
+    .section-title{font-family:'Noto Serif KR',serif;font-size:1.1rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--txt)}
+
+    /* Ingredient Hero */
+    .ingredient-hero{border-radius:20px;padding:28px 24px;text-align:center;margin-bottom:16px;border:1px solid var(--border);position:relative;overflow:hidden}
+    .ingredient-emoji{font-size:3.5rem;margin-bottom:12px;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.1))}
+    .ingredient-name{font-family:'Noto Serif KR',serif;font-size:1.4rem;font-weight:900;margin-bottom:6px}
+    .ingredient-benefit{font-size:.92rem;color:var(--txt2);margin-bottom:12px}
+    .ingredient-reason{font-size:.85rem;color:#fff;padding:8px 16px;border-radius:20px;display:inline-block;font-weight:600}
+
+    /* Meal Cards */
+    .meal-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;margin-bottom:10px;overflow:hidden;transition:box-shadow .2s}
+    .meal-header{padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:14px;-webkit-tap-highlight-color:transparent}
+    .meal-header:hover{background:var(--bg3)}
+    .meal-time-icon{font-size:1.5rem;min-width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--bg2);border-radius:50%}
+    .meal-info{flex:1}
+    .meal-label{font-size:.75rem;color:var(--muted);font-weight:600;text-transform:uppercase}
+    .meal-name{font-weight:700;font-size:.95rem;color:var(--txt);margin-top:2px}
+    .meal-kcal{font-size:.82rem;color:var(--main);font-weight:700}
+    .meal-arrow{font-size:.65rem;color:var(--muted);transition:transform .3s}
+    .meal-header.open .meal-arrow{transform:rotate(180deg)}
+    .meal-body{display:none;padding:0 18px 18px}
+    .meal-body.open{display:block;animation:slideDown .3s ease}
+    .recipe-section{border-top:1px solid var(--border);padding-top:16px}
+    .recipe-title{font-weight:700;font-size:.9rem;color:var(--main);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    .recipe-ingredients{font-size:.85rem;color:var(--txt2);line-height:1.8;margin-bottom:14px;padding:12px 14px;background:var(--bg3);border-radius:12px}
+    .recipe-steps{list-style:none;counter-reset:step}
+    .recipe-steps li{counter-increment:step;font-size:.85rem;color:var(--txt2);line-height:1.7;padding:6px 0 6px 28px;position:relative}
+    .recipe-steps li::before{content:counter(step);position:absolute;left:0;top:8px;width:20px;height:20px;background:var(--main-bg);color:var(--main);border-radius:50%;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+    .recipe-meta{display:flex;gap:16px;margin-top:12px;font-size:.8rem;color:var(--muted)}
+    .recipe-meta span{display:flex;align-items:center;gap:4px}
+    .saju-tip{margin-top:12px;padding:12px 14px;background:linear-gradient(135deg,rgba(232,90,113,0.04),rgba(255,138,155,0.04));border:1px solid var(--border-accent);border-radius:12px;font-size:.82rem;color:var(--main-dark);line-height:1.7}
+
+    /* Avoid Foods */
+    .avoid-section{background:rgba(211,47,47,0.03);border:1px solid rgba(211,47,47,0.1);border-radius:16px;padding:18px;margin-bottom:16px}
+    .avoid-title{font-weight:700;font-size:.9rem;color:var(--warn);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+    .avoid-text{font-size:.85rem;color:var(--txt2);line-height:1.7}
+
+    /* CTA */
+    .cta-mini{text-align:center;padding:24px 20px;background:var(--card-bg);border:1px solid var(--border);border-radius:20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
+    .cta-mini h3{font-family:'Noto Serif KR',serif;font-size:1rem;font-weight:700;margin-bottom:8px;color:var(--txt)}
+    .cta-mini p{font-size:.85rem;color:var(--txt2);margin-bottom:16px;line-height:1.6}
+    .cta-link{display:inline-flex;align-items:center;gap:6px;padding:14px 32px;background:var(--main-gradient);color:#fff;border-radius:14px;font-weight:700;font-size:.95rem;text-decoration:none;transition:all .3s;box-shadow:0 4px 16px rgba(232,90,113,.25)}
+    .cta-link:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,90,113,.35)}
+
+    /* Reset Profile */
+    .reset-section{text-align:center;padding:16px 0 32px}
+    .reset-btn{background:none;border:1px solid var(--border);border-radius:12px;padding:10px 20px;color:var(--muted);font-size:.82rem;cursor:pointer;font-family:inherit;transition:all .2s}
+    .reset-btn:hover{border-color:var(--warn);color:var(--warn)}
+
+    .footer-note{text-align:center;font-size:.75rem;color:var(--muted);padding:8px 0 32px}
+
+    /* Settings Modal */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+    .modal-overlay.show{display:flex}
+    .modal-box{background:var(--card-bg);border-radius:20px;padding:28px;max-width:380px;width:100%;box-shadow:0 16px 48px rgba(0,0,0,0.15)}
+    .modal-title{font-family:'Noto Serif KR',serif;font-size:1.1rem;font-weight:700;margin-bottom:16px;text-align:center}
+    .modal-close{display:block;width:100%;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:12px;color:var(--txt2);font-size:.9rem;cursor:pointer;font-family:inherit;margin-top:10px;transition:all .2s}
+    .modal-close:hover{background:var(--main-bg);border-color:var(--main);color:var(--main)}
+    .modal-danger{color:var(--warn);border-color:rgba(211,47,47,0.2)}
+    .modal-danger:hover{background:rgba(211,47,47,0.05);border-color:var(--warn)}
+
+    /* Animations */
+    .fade-in{animation:fadeIn .5s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .stagger>*{opacity:0;transform:translateY(16px);animation:revealUp .5s ease forwards}
+    .stagger>:nth-child(1){animation-delay:.05s}
+    .stagger>:nth-child(2){animation-delay:.1s}
+    .stagger>:nth-child(3){animation-delay:.15s}
+    .stagger>:nth-child(4){animation-delay:.2s}
+    .stagger>:nth-child(5){animation-delay:.25s}
+    .stagger>:nth-child(6){animation-delay:.3s}
+    .stagger>:nth-child(7){animation-delay:.35s}
+    .stagger>:nth-child(8){animation-delay:.4s}
+    .stagger>:nth-child(9){animation-delay:.45s}
+    .stagger>:nth-child(10){animation-delay:.5s}
+    .stagger>:nth-child(11){animation-delay:.55s}
+    @keyframes revealUp{to{opacity:1;transform:translateY(0)}}
+
+    /* Responsive */
+    @media(max-width:380px){
+      #inputView header h1{font-size:1.5rem}
+      .score-number{font-size:2.6rem}
+    }
+    @media(min-width:768px){
+      .wrap{max-width:560px;padding:72px 24px 40px}
+    }
+
+    *:focus-visible{outline:2px solid var(--main);outline-offset:2px;border-radius:4px}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--muted);border-radius:3px}
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-brand">
+      <div class="dot">🍽️</div>
+      <span>날씬예약</span>
+    </div>
+    <button class="settings-btn" id="settingsBtn" onclick="openSettings()" aria-label="설정" style="display:none">⚙️</button>
+  </nav>
+
+  <div class="wrap">
+    <!-- ===== INPUT VIEW ===== -->
+    <div id="inputView">
+      <header>
+        <h1 class="serif">매일 확인하는<br>나만의 사주 식단</h1>
+        <p class="sub-title">한 번 입력하면 매일 달라지는<br>운세와 맞춤 식단을 받아보세요</p>
+        <div class="hr"></div>
+      </header>
+
+      <section class="card">
+        <div class="fg" style="margin-bottom:14px">
+          <label>이름(별명)</label>
+          <input type="text" class="name-input" id="userName" placeholder="결과에 이름이 표시됩니다">
+        </div>
+        <div class="fg" style="margin-bottom:14px">
+          <label>성별</label>
+          <div class="gender-row">
+            <button class="gbtn on" data-g="male" onclick="sg(this)">남성</button>
+            <button class="gbtn" data-g="female" onclick="sg(this)">여성</button>
+          </div>
+        </div>
+        <div class="form-divider"></div>
+        <label style="font-size:.85rem;color:var(--txt2);font-weight:600">생년월일 & 시간</label>
+        <div class="cal-toggle">
+          <button class="cal-btn on" data-cal="solar" onclick="switchCal(this)">양력</button>
+          <button class="cal-btn" data-cal="lunar" onclick="switchCal(this)">음력</button>
+        </div>
+        <div class="form-grid2">
+          <div class="fg"><select id="bY" aria-label="년도"><option value="">년도</option></select></div>
+          <div class="fg"><select id="bM" aria-label="월"><option value="">월</option></select></div>
+          <div class="fg"><select id="bD" aria-label="일"><option value="">일</option></select></div>
+          <div class="fg"><select id="bH" aria-label="시"><option value="">시</option></select></div>
+        </div>
+        <label class="check-row">
+          <input type="checkbox" id="noTime" onchange="toggleNoTime()">
+          <span>태어난 시간 모름</span>
+        </label>
+        <button class="btn1" onclick="submitProfile()">나의 매일 운세 시작하기 →</button>
+      </section>
+      <p style="text-align:center;font-size:.78rem;color:var(--muted);padding:8px 0">🔒 입력 정보는 본인 기기에만 저장됩니다.</p>
+    </div>
+
+    <!-- ===== DASHBOARD VIEW ===== -->
+    <div id="dashboardView">
+      <div id="dashContent" class="stagger"></div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text" id="loadingText">사주를 분석하고 있습니다...</div>
+    <div class="loading-progress"><div class="loading-bar" id="loadingBar"></div></div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-box">
+      <div class="modal-title">⚙️ 설정</div>
+      <div id="settingsInfo" style="font-size:.88rem;color:var(--txt2);line-height:1.8;margin-bottom:16px;text-align:center"></div>
+      <button class="modal-close modal-danger" onclick="resetProfile()">🔄 프로필 초기화 (다시 입력)</button>
+      <button class="modal-close" onclick="closeSettings()">닫기</button>
+    </div>
+  </div>
+
+  <script src="saju-engine.js"></script>
+  <script>
+    let gender = 'male';
+    const STORAGE_KEY = 'sajuDailyProfile';
+
+    // === Form Helpers ===
+    function sg(b){document.querySelectorAll('.gender-row .gbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');gender=b.dataset.g}
+    function switchCal(btn){document.querySelectorAll('.cal-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+    function toggleNoTime(){const on=document.getElementById('noTime').checked;document.getElementById('bH').disabled=on;if(on)document.getElementById('bH').value='12'}
+    function ec(el){return{'목':'var(--wood)','화':'var(--fire)','토':'var(--earth)','금':'var(--metal)','수':'var(--water)'}[el]||'#888'}
+
+    // === Init Form ===
+    (function(){
+      const y=document.getElementById('bY');for(let i=2026;i>=1940;i--)y.innerHTML+=`<option value="${i}">${i}년</option>`;
+      const m=document.getElementById('bM');for(let i=1;i<=12;i++)m.innerHTML+=`<option value="${i}">${i}월</option>`;
+      const d=document.getElementById('bD');for(let i=1;i<=31;i++)d.innerHTML+=`<option value="${i}">${i}일</option>`;
+      const h=document.getElementById('bH');for(let i=0;i<=23;i++)h.innerHTML+=`<option value="${i}">${String(i).padStart(2,'0')}시</option>`;
+    })();
+
+    // === LocalStorage ===
+    function saveProfile(data){localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}
+    function loadProfile(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))}catch{return null}}
+    function clearProfile(){localStorage.removeItem(STORAGE_KEY)}
+
+    function updateVisitHistory(profile){
+      const today=new Date().toISOString().slice(0,10);
+      if(!profile.visits)profile.visits=[];
+      if(profile.visits[profile.visits.length-1]!==today){profile.visits.push(today)}
+      if(profile.visits.length>60)profile.visits=profile.visits.slice(-60);
+      saveProfile(profile);
+    }
+
+    function getStreak(visits){
+      if(!visits||!visits.length)return 1;
+      let streak=1;
+      const today=new Date();
+      for(let i=visits.length-2;i>=0;i--){
+        const d=new Date(visits[i]);
+        const diff=Math.round((today-d)/(86400000));
+        if(diff<=streak+1)streak++;else break;
+      }
+      return streak;
+    }
+
+    // === Submit Profile (first time) ===
+    function submitProfile(){
+      const y=+document.getElementById('bY').value,m=+document.getElementById('bM').value,d=+document.getElementById('bD').value;
+      const noTime=document.getElementById('noTime').checked;
+      const h=noTime?12:+document.getElementById('bH').value;
+      if(!y||!m||!d||(!noTime&&!document.getElementById('bH').value)){alert('생년월일을 모두 선택해주세요.');return}
+      const name=document.getElementById('userName').value.trim()||'회원';
+
+      showLoading(name);
+
+      const profile={name,birthYear:y,birthMonth:m,birthDay:d,birthHour:h,gender,noTime,visits:[new Date().toISOString().slice(0,10)]};
+      saveProfile(profile);
+
+      setTimeout(()=>{hideLoading();showDashboard(profile)},2500);
+    }
+
+    // === Loading ===
+    function showLoading(name){
+      const o=document.getElementById('loadingOverlay'),t=document.getElementById('loadingText'),b=document.getElementById('loadingBar');
+      o.classList.add('show');t.textContent=`${name}님의 사주를 분석 중...`;b.style.width='0%';
+      setTimeout(()=>b.style.width='100%',50);
+      setTimeout(()=>t.textContent='오늘의 운세를 계산하고 있어요...',1000);
+      setTimeout(()=>t.textContent='맞춤 식단을 준비하고 있어요...',1800);
+    }
+    function hideLoading(){document.getElementById('loadingOverlay').classList.remove('show');document.getElementById('loadingBar').style.width='0%'}
+
+    // === Time Greeting ===
+    function getGreeting(name){
+      const h=new Date().getHours();
+      if(h<6)return `${name}님, 이른 새벽이에요 🌙`;
+      if(h<9)return `좋은 아침이에요, ${name}님 ☀️`;
+      if(h<12)return `${name}님, 오전도 파이팅 💪`;
+      if(h<14)return `점심 맛있게 드세요, ${name}님 🍽️`;
+      if(h<18)return `${name}님, 좋은 오후에요 🌤️`;
+      if(h<21)return `${name}님, 좋은 저녁이에요 🌆`;
+      return `${name}님, 편안한 밤 되세요 🌙`;
+    }
+
+    // === Star Rating ===
+    function stars(n){return '★'.repeat(n)+'☆'.repeat(5-n)}
+
+    // === Main Dashboard Render ===
+    function showDashboard(profile){
+      document.getElementById('inputView').style.display='none';
+      document.getElementById('dashboardView').style.display='block';
+      document.getElementById('settingsBtn').style.display='block';
+
+      updateVisitHistory(profile);
+      const saju=calculateSaju(profile.birthYear,profile.birthMonth,profile.birthDay,profile.birthHour,0,profile.gender);
+      const inter=analyzeTodayInteraction(saju);
+      const fortune=getTodayFortune(saju);
+      const ingredient=getTodayMainIngredient(saju);
+      const recipe=getTodayRecipe(ingredient.name);
+      const foods=getTodayFoods(inter.userEl);
+      const streak=getStreak(profile.visits);
+      const hanjaMap={'목':'木','화':'火','토':'土','금':'金','수':'水'};
+      const dayNames=['일','월','화','수','목','금','토'];
+      const today=new Date();
+      const dateStr=`${today.getFullYear()}년 ${today.getMonth()+1}월 ${today.getDate()}일 ${dayNames[today.getDay()]}요일`;
+
+      const totalScore=Math.round(((fortune.wealth.score+fortune.health.score+fortune.relation.score)/3)*20);
+
+      // Fortune detail content
+      const fortuneDetails={
+        wealth:getFortuneDetailHTML('wealth',fortune.wealth,inter),
+        health:getFortuneDetailHTML('health',fortune.health,inter),
+        relation:getFortuneDetailHTML('relation',fortune.relation,inter)
+      };
+
+      // Build meal plan for today
+      const mealPlan=buildTodayMeals(saju,inter.userEl,ingredient);
+
+      let html=`
+        <div class="greeting-section">
+          <div class="greeting-hello">${getGreeting(profile.name)}</div>
+          <div class="greeting-date">${dateStr}</div>
+          <span class="greeting-ilju">${inter.todayGanH}(${hanjaMap[inter.todayEl]}) · ${inter.todayEl}의 기운</span>
+          ${streak>1?`<span class="streak-badge">🔥 ${streak}일 연속 방문</span>`:''}
+        </div>
+
+        <div class="score-card">
+          <div class="score-label">오늘의 종합 운세</div>
+          <div class="score-number">${totalScore}<span style="font-size:1.2rem;opacity:.7">점</span></div>
+          <div class="score-msg">${getOverallMsg(totalScore,inter)}</div>
+        </div>
+
+        <div class="section-title">🔮 오늘의 운세</div>
+        <div class="fortune-card">
+          <div class="fortune-header" onclick="toggleFortune(this)">
+            <div class="fortune-icon" style="background:rgba(212,162,78,0.1)">💰</div>
+            <div class="fortune-info">
+              <div class="fortune-title">재물운</div>
+              <div class="fortune-stars">${stars(fortune.wealth.score)}</div>
+            </div>
+            <span class="fortune-arrow">▼</span>
+          </div>
+          <div class="fortune-body"><div class="fortune-detail">${fortuneDetails.wealth}</div></div>
+        </div>
+        <div class="fortune-card">
+          <div class="fortune-header" onclick="toggleFortune(this)">
+            <div class="fortune-icon" style="background:rgba(76,175,123,0.1)">💪</div>
+            <div class="fortune-info">
+              <div class="fortune-title">건강운</div>
+              <div class="fortune-stars">${stars(fortune.health.score)}</div>
+            </div>
+            <span class="fortune-arrow">▼</span>
+          </div>
+          <div class="fortune-body"><div class="fortune-detail">${fortuneDetails.health}</div></div>
+        </div>
+        <div class="fortune-card">
+          <div class="fortune-header" onclick="toggleFortune(this)">
+            <div class="fortune-icon" style="background:rgba(90,133,181,0.1)">🤝</div>
+            <div class="fortune-info">
+              <div class="fortune-title">인간관계</div>
+              <div class="fortune-stars">${stars(fortune.relation.score)}</div>
+            </div>
+            <span class="fortune-arrow">▼</span>
+          </div>
+          <div class="fortune-body"><div class="fortune-detail">${fortuneDetails.relation}</div></div>
+        </div>
+
+        <div style="height:8px"></div>
+        <div class="section-title">🥬 오늘의 핵심 식재료</div>
+        <div class="ingredient-hero" style="background:linear-gradient(135deg,${ingredient.color}11,${ingredient.color}06)">
+          <span class="ingredient-emoji">${ingredient.emoji}</span>
+          <div class="ingredient-name" style="color:${ingredient.color}">${ingredient.name}</div>
+          <div class="ingredient-benefit">${ingredient.benefit}</div>
+          <span class="ingredient-reason" style="background:${ingredient.color}">${inter.userEl}(${hanjaMap[inter.userEl]})형 체질 보충</span>
+        </div>
+
+        <div class="section-title">🍽️ 오늘의 추천 식단</div>
+        ${mealPlan}
+
+        <div class="avoid-section">
+          <div class="avoid-title">⚠️ 오늘 피해야 할 음식</div>
+          <div class="avoid-text">${foods.bad}<br><span style="font-size:.8rem;color:var(--muted)">${foods.badReason}</span></div>
+        </div>
+
+        ${recipe?`
+        <div class="section-title">👨‍🍳 오늘의 레시피: ${recipe.title}</div>
+        <div class="card">
+          <div class="recipe-title">📝 재료</div>
+          <div class="recipe-ingredients">${recipe.ingredients.join(' · ')}</div>
+          <div class="recipe-title">👨‍🍳 만드는 법</div>
+          <ol class="recipe-steps">${recipe.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+          <div class="recipe-meta">
+            <span>⏱️ ${recipe.time}</span>
+            <span>🔥 ${recipe.kcal}</span>
+            <span>📊 ${recipe.difficulty}</span>
+          </div>
+          <div class="saju-tip">💡 사주 TIP: ${inter.userEl}(${hanjaMap[inter.userEl]}) 체질에게 ${ingredient.name}의 영양소가 부족한 ${inter.userEl} 기운을 보충해줍니다.</div>
+        </div>`:''}
+
+        <div class="cta-mini">
+          <h3 class="serif">체질에 맞는 전문 상담이 필요하세요?</h3>
+          <p>사주 분석 결과를 바탕으로 1:1 맞춤 상담을 받아보세요</p>
+          <a class="cta-link" href="https://날씬예약.com" target="_blank" rel="noopener">무료 상담 예약 →</a>
+        </div>
+
+        <div class="footer-note">재미로 봐주세요 — 맹신은 금물! :)<br>© 2025 날씬예약</div>
+      `;
+      document.getElementById('dashContent').innerHTML=html;
+    }
+
+    // === Fortune Detail HTML ===
+    function getFortuneDetailHTML(type,fortune,inter){
+      const hanjaMap={'목':'木','화':'火','토':'土','금':'金','수':'水'};
+      const luckColors={'목':'#4CAF7B','화':'#E85A71','토':'#D4A24E','금':'#7B8DA5','수':'#5A85B5'};
+      const h=new Date().getHours();
+      const seed=new Date().getDate()+fortune.score;
+      const luckyNums=[(seed*3+2)%9+1,(seed*7+1)%9+1];
+      const colors={'목':['초록','연두'],'화':['빨강','주황'],'토':['노랑','베이지'],'금':['흰색','은색'],'수':['파랑','남색']};
+      const luckyColor=colors[inter.userEl]||['보라','분홍'];
+      const directions={'목':'동쪽','화':'남쪽','토':'중앙','금':'서쪽','수':'북쪽'};
+      const times=[[9,11],[11,13],[7,9],[13,15],[15,17]];
+      const tIdx=fortune.score%5;
+
+      if(type==='wealth'){
+        return `
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">💬</span><span>${fortune.msg}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">📌</span><span>소비 주의: ${fortune.score>=4?'적극적인 투자 가능':'충동구매를 조심하세요'}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">⏰</span><span>재물 유입 시간: 오전 ${times[tIdx][0]}시~${times[tIdx][1]}시</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">🔢</span><span>행운의 숫자: ${luckyNums[0]}, ${luckyNums[1]}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">🎨</span><span>행운의 색: ${luckyColor[0]}, ${luckyColor[1]}</span></div>`;
+      }else if(type==='health'){
+        const bodyMap={'목':'간·담','화':'심장','토':'위장','금':'폐·호흡기','수':'신장·방광'};
+        const activities={'목':'스트레칭, 요가','화':'유산소 운동, 댄스','토':'산책, 명상','금':'호흡 운동, 등산','수':'수영, 반신욕'};
+        return `
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">💬</span><span>${fortune.msg}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">🏥</span><span>주의 부위: ${bodyMap[inter.userEl]||'전반적 컨디션'}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">🏃</span><span>추천 활동: ${activities[inter.userEl]||'가벼운 산책'}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">${fortune.score>=4?'✅':'⚠️'}</span><span>${fortune.score>=4?'활동적인 하루를 보내기 좋아요':'과로를 피하고 충분히 쉬세요'}</span></div>`;
+      }else{
+        return `
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">💬</span><span>${fortune.msg}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">👥</span><span>${fortune.score>=4?'적극적인 만남이 좋은 날':'가까운 사람과 편안한 시간을'}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">🧭</span><span>좋은 방위: ${directions[inter.userEl]||'동쪽'}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">💡</span><span>${fortune.score>=3?'새로운 제안에 열린 마음으로':'중요한 결정은 내일로 미루세요'}</span></div>`;
+      }
+    }
+
+    // === Overall Message ===
+    function getOverallMsg(score,inter){
+      if(score>=80)return `오늘은 ${inter.userEl}의 기운이 빛나는 최고의 하루예요! ✨`;
+      if(score>=60)return `좋은 기운이 흐르는 하루입니다. 긍정적으로 보내세요 🌟`;
+      if(score>=40)return `무난한 하루예요. 기본에 충실하면 좋은 결과가 있을 거예요 🍀`;
+      return `오늘은 차분하게 보내는 것이 좋아요. 내면에 집중하세요 🌙`;
+    }
+
+    // === Today's Meals ===
+    function buildTodayMeals(saju,userEl,ingredient){
+      const yongsin=findYongsin(saju);
+      const weakEl=yongsin.burok;
+      const hanjaMap={'목':'木','화':'火','토':'土','금':'金','수':'水'};
+      const mealData={
+        '목':{b:`${ingredient.name} 된장국 + 현미밥`,l:`두부 ${ingredient.name} 비빔밥`,d:`${ingredient.name} 닭가슴살 샐러드`},
+        '화':{b:`${ingredient.name} 요거트 볼 + 그래놀라`,l:`${ingredient.name} 포케 보울`,d:`${ingredient.name} 파스타`},
+        '토':{b:`${ingredient.name} 죽 + 달걀`,l:`${ingredient.name} 비빔밥 + 된장찌개`,d:`${ingredient.name} 찜 + 잡곡밥`},
+        '금':{b:`${ingredient.name} 스무디 + 토스트`,l:`${ingredient.name} 쌈밥 + 된장국`,d:`${ingredient.name} 조림 + 현미밥`},
+        '수':{b:`${ingredient.name} 두유 + 오트밀`,l:`${ingredient.name} 국밥`,d:`${ingredient.name} 미역국 + 잡곡밥`}
+      };
+      const meals=mealData[userEl]||mealData['목'];
+      const icons=['🌅','🌞','🌙'],labels=['아침','점심','저녁'],kcals=['350kcal','500kcal','420kcal'];
+      const keys=['b','l','d'];
+      return keys.map((k,i)=>`
+        <div class="meal-card">
+          <div class="meal-header" onclick="toggleMeal(this)">
+            <div class="meal-time-icon">${icons[i]}</div>
+            <div class="meal-info">
+              <div class="meal-label">${labels[i]}</div>
+              <div class="meal-name">${meals[k]}</div>
+            </div>
+            <div class="meal-kcal">${kcals[i]}</div>
+            <span class="meal-arrow">▼</span>
+          </div>
+          <div class="meal-body">
+            <div class="saju-tip">💡 ${weakEl}(${hanjaMap[weakEl]}) 기운이 부족한 체질에 ${ingredient.name}이(가) ${labels[i]} 에너지를 보충해줍니다.</div>
+          </div>
+        </div>`).join('');
+    }
+
+    // === Toggle Functions ===
+    function toggleFortune(header){header.classList.toggle('open');header.nextElementSibling.classList.toggle('open')}
+    function toggleMeal(header){header.classList.toggle('open');header.nextElementSibling.classList.toggle('open')}
+
+    // === Settings ===
+    function openSettings(){
+      const p=loadProfile();
+      if(p){document.getElementById('settingsInfo').innerHTML=`<strong>${p.name}</strong>님<br>${p.birthYear}년 ${p.birthMonth}월 ${p.birthDay}일생`}
+      document.getElementById('settingsModal').classList.add('show');
+    }
+    function closeSettings(){document.getElementById('settingsModal').classList.remove('show')}
+    function resetProfile(){
+      if(confirm('프로필을 초기화하면 방문 기록이 모두 삭제됩니다. 계속할까요?')){
+        clearProfile();closeSettings();
+        document.getElementById('dashboardView').style.display='none';
+        document.getElementById('inputView').style.display='block';
+        document.getElementById('settingsBtn').style.display='none';
+      }
+    }
+
+    // === Init: Check for saved profile ===
+    (function init(){
+      const profile=loadProfile();
+      if(profile&&profile.birthYear){
+        showDashboard(profile);
+      }
+    })();
+  </script>
+</body>
+</html>
