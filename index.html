@@ -89,12 +89,13 @@
     /* Score Card */
     .score-card{border-radius:24px;padding:0;text-align:center;color:var(--txt);margin-bottom:16px;position:relative;overflow:hidden;border:none;box-shadow:none;background:transparent}
     .score-scene{position:relative;background:linear-gradient(180deg,#FFE8E4 0%,#FFF5F3 60%,#FFFFFF 100%);border-radius:24px;padding:32px 24px 24px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--card-shadow)}
-    /* Animated clouds */
-    .score-cloud{position:absolute;opacity:.35;font-size:2rem;animation:cloudDrift 12s linear infinite;pointer-events:none}
-    .score-cloud:nth-child(1){top:18%;left:-10%;animation-duration:14s;font-size:1.6rem;opacity:.25}
-    .score-cloud:nth-child(2){top:8%;left:20%;animation-duration:18s;animation-delay:-6s;font-size:2.2rem;opacity:.3}
-    .score-cloud:nth-child(3){top:28%;left:60%;animation-duration:16s;animation-delay:-10s;font-size:1.4rem;opacity:.2}
-    @keyframes cloudDrift{0%{transform:translateX(0)}100%{transform:translateX(calc(100vw + 80px))}}
+    /* 3D Clouds */
+    .score-cloud{position:absolute;pointer-events:none;animation:cloudFloat 16s ease-in-out infinite;filter:drop-shadow(0 4px 8px rgba(232,90,113,0.1))}
+    .score-cloud svg{display:block}
+    .score-cloud:nth-child(1){top:12%;left:4%;width:72px;animation-duration:14s;opacity:.85}
+    .score-cloud:nth-child(2){top:6%;right:6%;left:auto;width:56px;animation-duration:18s;animation-delay:-4s;opacity:.7}
+    .score-cloud:nth-child(3){bottom:22%;left:8%;width:48px;animation-duration:12s;animation-delay:-8s;opacity:.6}
+    @keyframes cloudFloat{0%,100%{transform:translateY(0) translateX(0)}25%{transform:translateY(-8px) translateX(6px)}50%{transform:translateY(-2px) translateX(12px)}75%{transform:translateY(-10px) translateX(4px)}}
     /* Sparkle particles */
     .score-sparkle{position:absolute;width:6px;height:6px;background:var(--main-light);border-radius:50%;opacity:0;animation:sparkle 2.5s ease-in-out infinite;pointer-events:none}
     .score-sparkle:nth-child(4){top:20%;left:15%;animation-delay:0s}
@@ -102,18 +103,18 @@
     .score-sparkle:nth-child(6){top:12%;right:25%;animation-delay:1.6s;width:5px;height:5px;background:var(--main)}
     .score-sparkle:nth-child(7){top:45%;left:8%;animation-delay:2s;width:3px;height:3px;background:var(--water)}
     @keyframes sparkle{0%,100%{opacity:0;transform:scale(0) translateY(0)}50%{opacity:.8;transform:scale(1) translateY(-8px)}}
-    /* Ring */
-    .score-ring-wrap{position:relative;width:210px;height:210px;margin:0 auto 14px;z-index:2}
-    .score-ring-svg{width:210px;height:210px;transform:rotate(-90deg)}
-    .score-ring-bg{fill:none;stroke:rgba(255,255,255,.6);stroke-width:11}
-    .score-ring-fill{fill:none;stroke-width:11;stroke-linecap:round;transition:stroke-dashoffset 1.2s ease-out;filter:drop-shadow(0 2px 6px rgba(232,90,113,0.3))}
+    /* Ring - thick donut style */
+    .score-ring-wrap{position:relative;width:220px;height:220px;margin:0 auto 14px;z-index:2}
+    .score-ring-svg{width:220px;height:220px;transform:rotate(-90deg)}
+    .score-ring-bg{fill:none;stroke:rgba(232,90,113,.12);stroke-width:22}
+    .score-ring-fill{fill:none;stroke-width:22;stroke-linecap:round;transition:stroke-dashoffset 1.2s ease-out;filter:drop-shadow(0 3px 8px rgba(232,90,113,0.35))}
     .score-ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
     /* Mascot bounce */
-    .score-mascot{width:88px;height:88px;margin-bottom:2px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(232,90,113,0.25));animation:mascotBounce 2s ease-in-out infinite}
+    .score-mascot{width:72px;height:72px;margin-bottom:4px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(232,90,113,0.25));animation:mascotBounce 2s ease-in-out infinite}
     @keyframes mascotBounce{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-6px) rotate(-2deg)}50%{transform:translateY(0) rotate(0deg)}75%{transform:translateY(-4px) rotate(2deg)}}
-    .score-label{font-size:.88rem;color:var(--txt2);font-weight:600;margin-bottom:0;margin-top:2px}
-    .score-number{font-size:2.6rem;font-weight:900;font-family:'Noto Sans KR',sans-serif;line-height:1;color:var(--txt)}
-    .score-number span{font-size:1rem;font-weight:700;color:var(--muted)}
+    .score-label{font-size:.92rem;color:var(--txt2);font-weight:600;margin-bottom:2px;margin-top:2px}
+    .score-number{font-size:3rem;font-weight:900;font-family:'Noto Sans KR',sans-serif;line-height:1;color:var(--txt)}
+    .score-number span{font-size:1.1rem;font-weight:700;color:var(--muted)}
     .score-msg{font-size:.95rem;color:var(--txt2);line-height:1.7;font-weight:500;padding:14px 16px;background:rgba(232,90,113,0.06);border-radius:14px;margin-top:12px;position:relative;z-index:2}
     /* Ground decoration */
     .score-ground{position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(180deg,transparent,rgba(232,90,113,0.04));z-index:1;pointer-events:none}
@@ -783,20 +784,26 @@
         <div id="tabOverall" class="tab-content active">
           <div class="score-card">
             <div class="score-scene">
-              <span class="score-cloud">☁️</span>
-              <span class="score-cloud">☁️</span>
-              <span class="score-cloud">☁️</span>
+              <span class="score-cloud"><svg viewBox="0 0 120 60" fill="none"><ellipse cx="60" cy="38" rx="50" ry="18" fill="#fff" opacity=".9"/><ellipse cx="42" cy="30" rx="28" ry="22" fill="#fff"/><ellipse cx="72" cy="28" rx="24" ry="20" fill="#fff"/><ellipse cx="56" cy="22" rx="20" ry="18" fill="#fff"/><ellipse cx="60" cy="38" rx="50" ry="18" fill="url(#cg1)"/><defs><linearGradient id="cg1" x1="10" y1="20" x2="110" y2="56" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE8E4"/><stop offset="1" stop-color="#fff"/></linearGradient></defs></svg></span>
+              <span class="score-cloud"><svg viewBox="0 0 100 50" fill="none"><ellipse cx="50" cy="32" rx="42" ry="15" fill="#fff" opacity=".9"/><ellipse cx="36" cy="25" rx="22" ry="18" fill="#fff"/><ellipse cx="60" cy="23" rx="20" ry="17" fill="#fff"/><ellipse cx="48" cy="18" rx="16" ry="15" fill="#fff"/><ellipse cx="50" cy="32" rx="42" ry="15" fill="url(#cg2)"/><defs><linearGradient id="cg2" x1="8" y1="17" x2="92" y2="47" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE8E4"/><stop offset="1" stop-color="#fff"/></linearGradient></defs></svg></span>
+              <span class="score-cloud"><svg viewBox="0 0 80 40" fill="none"><ellipse cx="40" cy="26" rx="34" ry="12" fill="#fff" opacity=".9"/><ellipse cx="30" cy="20" rx="18" ry="14" fill="#fff"/><ellipse cx="48" cy="18" rx="16" ry="13" fill="#fff"/><ellipse cx="40" cy="14" rx="12" ry="11" fill="#fff"/><ellipse cx="40" cy="26" rx="34" ry="12" fill="url(#cg3)"/><defs><linearGradient id="cg3" x1="6" y1="14" x2="74" y2="38" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE8E4"/><stop offset="1" stop-color="#fff"/></linearGradient></defs></svg></span>
               <span class="score-sparkle"></span>
               <span class="score-sparkle"></span>
               <span class="score-sparkle"></span>
               <span class="score-sparkle"></span>
               <div class="score-ring-wrap">
-                <svg class="score-ring-svg" viewBox="0 0 210 210">
-                  <circle class="score-ring-bg" cx="105" cy="105" r="92"/>
-                  <circle class="score-ring-fill" cx="105" cy="105" r="92"
-                    stroke="${totalScore>=80?'var(--main)':totalScore>=60?'var(--main-light)':totalScore>=40?'var(--earth)':'var(--metal)'}"
-                    stroke-dasharray="578"
-                    stroke-dashoffset="${Math.round(578 - (578 * totalScore / 100))}"
+                <svg class="score-ring-svg" viewBox="0 0 220 220">
+                  <defs>
+                    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#E85A71"/>
+                      <stop offset="100%" stop-color="#FF8A9B"/>
+                    </linearGradient>
+                  </defs>
+                  <circle class="score-ring-bg" cx="110" cy="110" r="88"/>
+                  <circle class="score-ring-fill" cx="110" cy="110" r="88"
+                    stroke="url(#ringGrad)"
+                    stroke-dasharray="553"
+                    stroke-dashoffset="${Math.round(553 - (553 * totalScore / 100))}"
                   />
                 </svg>
                 <div class="score-ring-center">
