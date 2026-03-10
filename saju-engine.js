@@ -212,11 +212,11 @@ function getSipsin(dayGanIdx, targetGanIdx) {
   const order = ['목', '화', '토', '금', '수'];
   const diff = ((order.indexOf(tEl) - order.indexOf(dayEl)) + 5) % 5;
   return [
-    same ? '비견(比肩, 자기와 같은 기운·동료)' : '겁재(劫財, 경쟁·도전·자존심)',
-    same ? '식신(食神, 재능·표현·여유)' : '상관(傷官, 반항·창의·예술)',
-    same ? '편재(偏財, 투자·모험·유동자산)' : '정재(正財, 안정적 수입·고정자산)',
-    same ? '편관(偏官, 외부 압박·변혁·스트레스)' : '정관(正官, 직장·명예·원칙)',
-    same ? '편인(偏印, 비주류 학문·종교·직관)' : '정인(正印, 교육·어머니·문서)'
+    same ? '비견<br>(比肩, 자기와 같은 기운·동료)' : '겁재<br>(劫財, 경쟁·도전·자존심)',
+    same ? '식신<br>(食神, 재능·표현·여유)' : '상관<br>(傷官, 반항·창의·예술)',
+    same ? '편재<br>(偏財, 투자·모험·유동자산)' : '정재<br>(正財, 안정적 수입·고정자산)',
+    same ? '편관<br>(偏官, 외부 압박·변혁·스트레스)' : '정관<br>(正官, 직장·명예·원칙)',
+    same ? '편인<br>(偏印, 비주류 학문·종교·직관)' : '정인<br>(正印, 교육·어머니·문서)'
   ][diff];
 }
 
@@ -1291,49 +1291,49 @@ function getTodayMainIngredient(saju) {
 
   const ingredients = {
     '목': [
-      { name:'시금치', emoji:'🥬', image:'https://images.pexels.com/photos/6083893/pexels-photo-6083893.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'간 기능 강화 & 해독', color:'#4CAF7B' },
-      { name:'브로콜리', emoji:'🥦', image:'https://images.pexels.com/photos/90893/pexels-photo-90893.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'항산화 & 비타민C 보충', color:'#4CAF7B' },
+      { name:'시금치', emoji:'🥬', image:'https://images.pexels.com/photos/750952/pexels-photo-750952.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'간 기능 강화 & 해독', color:'#4CAF7B' },
+      { name:'브로콜리', emoji:'🥦', image:'https://images.pexels.com/photos/161514/brocoli-vegetables-salad-green-161514.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'항산화 & 비타민C 보충', color:'#4CAF7B' },
       { name:'아보카도', emoji:'🥑', image:'https://images.pexels.com/photos/31833143/pexels-photo-31833143.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'좋은 지방으로 간 보호', color:'#4CAF7B' },
-      { name:'셀러리', emoji:'🌿', image:'https://images.pexels.com/photos/8580433/pexels-photo-8580433.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'혈압 조절 & 디톡스', color:'#4CAF7B' },
-      { name:'케일', emoji:'🥬', image:'https://images.pexels.com/photos/1346342/pexels-photo-1346342.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'엽록소 풍부 & 해독', color:'#4CAF7B' },
-      { name:'녹차', emoji:'🍵', image:'https://images.pexels.com/photos/31956301/pexels-photo-31956301.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'카테킨으로 지방 분해', color:'#4CAF7B' },
-      { name:'두부', emoji:'🧈', image:'https://images.pexels.com/photos/33356138/pexels-photo-33356138.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'식물성 단백질 보충', color:'#4CAF7B' }
+      { name:'셀러리', emoji:'🌿', image:'images/샐러리.jpeg', benefit:'혈압 조절 & 디톡스', color:'#4CAF7B' },
+      { name:'케일', emoji:'🥬', image:'https://images.pexels.com/photos/12363216/pexels-photo-12363216.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'엽록소 풍부 & 해독', color:'#4CAF7B' },
+      { name:'녹차', emoji:'🍵', image:'https://images.pexels.com/photos/31742956/pexels-photo-31742956.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'카테킨으로 지방 분해', color:'#4CAF7B' },
+      { name:'두부', emoji:'🧈', image:'https://images.pexels.com/photos/4518586/pexels-photo-4518586.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'식물성 단백질 보충', color:'#4CAF7B' }
     ],
     '화': [
-      { name:'토마토', emoji:'🍅', image:'https://images.pexels.com/photos/14657386/pexels-photo-14657386.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'심장 보호 리코펜 풍부', color:'#E85A71' },
-      { name:'파프리카', emoji:'🫑', image:'https://images.pexels.com/photos/15820587/pexels-photo-15820587.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'비타민C & 항산화', color:'#E85A71' },
-      { name:'석류', emoji:'🍎', image:'https://images.pexels.com/photos/34704679/pexels-photo-34704679.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'혈액순환 개선', color:'#E85A71' },
-      { name:'비트', emoji:'🫒', image:'https://images.pexels.com/photos/6468551/pexels-photo-6468551.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'혈액 생성 촉진', color:'#E85A71' },
-      { name:'고구마', emoji:'🍠', image:'https://images.pexels.com/photos/10497774/pexels-photo-10497774.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'베타카로틴 & 에너지', color:'#E85A71' },
-      { name:'연어', emoji:'🐟', image:'https://images.pexels.com/photos/36292347/pexels-photo-36292347.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'오메가3로 혈관 건강', color:'#E85A71' },
-      { name:'강황', emoji:'🌿', image:'https://images.pexels.com/photos/7468415/pexels-photo-7468415.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'항염증 & 혈액순환', color:'#E85A71' }
+      { name:'토마토', emoji:'🍅', image:'https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'심장 보호 리코펜 풍부', color:'#E85A71' },
+      { name:'파프리카', emoji:'🫑', image:'https://images.pexels.com/photos/2893635/pexels-photo-2893635.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'비타민C & 항산화', color:'#E85A71' },
+      { name:'석류', emoji:'🍎', image:'https://images.pexels.com/photos/65256/pomegranate-open-cores-fruit-fruit-logistica-65256.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'혈액순환 개선', color:'#E85A71' },
+      { name:'비트', emoji:'🫒', image:'https://images.pexels.com/photos/33893317/pexels-photo-33893317.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'혈액 생성 촉진', color:'#E85A71' },
+      { name:'고구마', emoji:'🍠', image:'https://images.pexels.com/photos/13059602/pexels-photo-13059602.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'베타카로틴 & 에너지', color:'#E85A71' },
+      { name:'연어', emoji:'🐟', image:'https://images.pexels.com/photos/842142/pexels-photo-842142.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'오메가3로 혈관 건강', color:'#E85A71' },
+      { name:'강황', emoji:'🌿', image:'images/강황.jpeg', benefit:'항염증 & 혈액순환', color:'#E85A71' }
     ],
     '토': [
-      { name:'호박', emoji:'🎃', image:'https://images.pexels.com/photos/13990684/pexels-photo-13990684.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'위장 보호 & 소화 촉진', color:'#D4A24E' },
-      { name:'고구마', emoji:'🍠', image:'https://images.pexels.com/photos/10497774/pexels-photo-10497774.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'소화 촉진 & 에너지', color:'#D4A24E' },
-      { name:'현미', emoji:'🌾', image:'https://images.pexels.com/photos/343871/pexels-photo-343871.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'안정적 에너지 공급', color:'#D4A24E' },
-      { name:'당근', emoji:'🥕', image:'https://images.pexels.com/photos/6955149/pexels-photo-6955149.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'비타민A & 위장 보호', color:'#D4A24E' },
-      { name:'버섯', emoji:'🍄', image:'https://images.pexels.com/photos/8588501/pexels-photo-8588501.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'면역력 & 소화효소', color:'#D4A24E' },
-      { name:'감자', emoji:'🥔', image:'https://images.pexels.com/photos/8839625/pexels-photo-8839625.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'포만감 & 칼륨 보충', color:'#D4A24E' },
-      { name:'달걀', emoji:'🥚', image:'https://images.pexels.com/photos/4394258/pexels-photo-4394258.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'완전 단백질 공급', color:'#D4A24E' }
+      { name:'호박', emoji:'🎃', image:'https://images.pexels.com/photos/5634607/pexels-photo-5634607.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'위장 보호 & 소화 촉진', color:'#D4A24E' },
+      { name:'고구마', emoji:'🍠', image:'https://images.pexels.com/photos/13059602/pexels-photo-13059602.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'소화 촉진 & 에너지', color:'#D4A24E' },
+      { name:'현미', emoji:'🌾', image:'https://images.unsplash.com/photo-1673158190671-cd4e3baffbec?q=80&w=300&auto=format&fit=crop', benefit:'안정적 에너지 공급', color:'#D4A24E' },
+      { name:'당근', emoji:'🥕', image:'https://images.pexels.com/photos/1306559/pexels-photo-1306559.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'비타민A & 위장 보호', color:'#D4A24E' },
+      { name:'버섯', emoji:'🍄', image:'https://images.pexels.com/photos/10307853/pexels-photo-10307853.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'면역력 & 소화효소', color:'#D4A24E' },
+      { name:'감자', emoji:'🥔', image:'https://images.pexels.com/photos/2286776/pexels-photo-2286776.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'포만감 & 칼륨 보충', color:'#D4A24E' },
+      { name:'달걀', emoji:'🥚', image:'https://images.pexels.com/photos/6294430/pexels-photo-6294430.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'완전 단백질 공급', color:'#D4A24E' }
     ],
     '금': [
-      { name:'배', emoji:'🍐', image:'https://images.pexels.com/photos/8086137/pexels-photo-8086137.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'폐를 윤택하게 보호', color:'#7B8DA5' },
-      { name:'도라지', emoji:'🌿', image:'https://images.pexels.com/photos/11144010/pexels-photo-11144010.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'기관지 & 호흡기 강화', color:'#7B8DA5' },
-      { name:'양배추', emoji:'🥬', image:'https://images.pexels.com/photos/23221031/pexels-photo-23221031.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'위·폐 점막 보호', color:'#7B8DA5' },
-      { name:'연근', emoji:'🌱', image:'https://images.pexels.com/photos/22391699/pexels-photo-22391699.png?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'폐 기능 개선', color:'#7B8DA5' },
-      { name:'마늘', emoji:'🧄', image:'https://images.pexels.com/photos/6638901/pexels-photo-6638901.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'면역력 & 살균 작용', color:'#7B8DA5' },
-      { name:'무', emoji:'🥕', image:'https://images.pexels.com/photos/8992924/pexels-photo-8992924.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'소화 촉진 & 폐 보호', color:'#7B8DA5' },
-      { name:'은행', emoji:'🟡', image:'https://images.pexels.com/photos/29503018/pexels-photo-29503018.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'폐 기능 강화', color:'#7B8DA5' }
+      { name:'배', emoji:'🍐', image:'https://images.pexels.com/photos/5945765/pexels-photo-5945765.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'폐를 윤택하게 보호', color:'#7B8DA5' },
+      { name:'도라지', emoji:'🌿', image:'images/도라지.jpeg', benefit:'기관지 & 호흡기 강화', color:'#7B8DA5' },
+      { name:'양배추', emoji:'🥬', image:'https://images.pexels.com/photos/6157047/pexels-photo-6157047.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'위·폐 점막 보호', color:'#7B8DA5' },
+      { name:'연근', emoji:'🌱', image:'images/연근.jpeg', benefit:'폐 기능 개선', color:'#7B8DA5' },
+      { name:'마늘', emoji:'🧄', image:'https://images.pexels.com/photos/19543595/pexels-photo-19543595.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'면역력 & 살균 작용', color:'#7B8DA5' },
+      { name:'무', emoji:'🥕', image:'images/무.jpeg', benefit:'소화 촉진 & 폐 보호', color:'#7B8DA5' },
+      { name:'은행', emoji:'🟡', image:'images/은행.jpeg', benefit:'폐 기능 강화', color:'#7B8DA5' }
     ],
     '수': [
-      { name:'검은콩', emoji:'🫘', image:'https://images.pexels.com/photos/10839568/pexels-photo-10839568.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'신장 보강 대표 식품', color:'#5A85B5' },
-      { name:'미역', emoji:'🌊', image:'https://images.pexels.com/photos/2781540/pexels-photo-2781540.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'수분 균형 & 독소 배출', color:'#5A85B5' },
-      { name:'블루베리', emoji:'🫐', image:'https://images.pexels.com/photos/12571099/pexels-photo-12571099.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'항산화 & 부종 완화', color:'#5A85B5' },
-      { name:'다시마', emoji:'🌿', image:'https://images.pexels.com/photos/9957266/pexels-photo-9957266.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'미네랄 & 요오드 보충', color:'#5A85B5' },
-      { name:'검은깨', emoji:'⚫', image:'https://images.pexels.com/photos/28959314/pexels-photo-28959314.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'신장·모발 영양 공급', color:'#5A85B5' },
-      { name:'흑미', emoji:'🍚', image:'https://images.pexels.com/photos/24334865/pexels-photo-24334865.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'항산화 & 신장 보강', color:'#5A85B5' },
-      { name:'굴', emoji:'🦪', image:'https://images.pexels.com/photos/29058866/pexels-photo-29058866.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'아연 풍부 & 면역력', color:'#5A85B5' }
+      { name:'검은콩', emoji:'🫘', image:'https://images.pexels.com/photos/6316704/pexels-photo-6316704.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'신장 보강 대표 식품', color:'#5A85B5' },
+      { name:'미역', emoji:'🌊', image:'images/미역.jpeg', benefit:'수분 균형 & 독소 배출', color:'#5A85B5' },
+      { name:'블루베리', emoji:'🫐', image:'https://images.pexels.com/photos/3987272/pexels-photo-3987272.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'항산화 & 부종 완화', color:'#5A85B5' },
+      { name:'다시마', emoji:'🌿', image:'images/다시마.jpeg', benefit:'미네랄 & 요오드 보충', color:'#5A85B5' },
+      { name:'검은깨', emoji:'⚫', image:'images/검은깨.jpeg', benefit:'신장·모발 영양 공급', color:'#5A85B5' },
+      { name:'흑미', emoji:'🍚', image:'images/흑미.jpeg', benefit:'항산화 & 신장 보강', color:'#5A85B5' },
+      { name:'굴', emoji:'🦪', image:'https://images.pexels.com/photos/6953375/pexels-photo-6953375.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'아연 풍부 & 면역력', color:'#5A85B5' }
     ]
   };
 
