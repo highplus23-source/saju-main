@@ -1,12 +1,14 @@
-// ========== 사주 전략 가이드 엔진 ==========
+// ==========================================
+// 만세력 (사주팔자) 계산 알고리즘
+// ==========================================
 
-// 천간 (天干)
+// 천간 (天干, 하늘의 기운 10가지)
 const CHEONGAN = ['갑', '을', '병', '정', '무', '기', '경', '신', '임', '계'];
 const CHEONGAN_HANJA = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
 const CHEONGAN_ELEMENT = ['목', '목', '화', '화', '토', '토', '금', '금', '수', '수'];
 const CHEONGAN_YINYANG = ['양', '음', '양', '음', '양', '음', '양', '음', '양', '음'];
 
-// 지지 (地支)
+// 지지 (地支, 땅의 기운 12가지)
 const JIJI = ['자', '축', '인', '묘', '진', '사', '오', '미', '신', '유', '술', '해'];
 const JIJI_HANJA = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
 const JIJI_ELEMENT = ['수', '토', '목', '목', '토', '화', '화', '토', '금', '금', '토', '수'];
@@ -14,62 +16,76 @@ const JIJI_ANIMAL = ['쥐', '소', '호랑이', '토끼', '용', '뱀', '말', '
 
 const ELEMENT_EMOJI = { '목': '🌳', '화': '🔥', '토': '🏔️', '금': '⚔️', '수': '💧' };
 
-// 절기 (양력 기준 대략 날짜) — 월 경계
+// 절기 (월 경계 기준, 양력)
 const JEOLGI = [
-  { month: 1, day: 6, name: '소한' },
-  { month: 2, day: 4, name: '입춘' },
-  { month: 3, day: 6, name: '경칩' },
-  { month: 4, day: 5, name: '청명' },
-  { month: 5, day: 6, name: '입하' },
-  { month: 6, day: 6, name: '망종' },
-  { month: 7, day: 7, name: '소서' },
-  { month: 8, day: 7, name: '입추' },
-  { month: 9, day: 8, name: '백로' },
-  { month: 10, day: 8, name: '한로' },
-  { month: 11, day: 7, name: '입동' },
-  { month: 12, day: 7, name: '대설' },
+  { month: 1,  day: 6,  name: '소한' },
+  { month: 2,  day: 4,  name: '입춘' },
+  { month: 3,  day: 6,  name: '경칩' },
+  { month: 4,  day: 5,  name: '청명' },
+  { month: 5,  day: 6,  name: '입하' },
+  { month: 6,  day: 6,  name: '망종' },
+  { month: 7,  day: 7,  name: '소서' },
+  { month: 8,  day: 7,  name: '입추' },
+  { month: 9,  day: 8,  name: '백로' },
+  { month: 10, day: 8,  name: '한로' },
+  { month: 11, day: 7,  name: '입동' },
+  { month: 12, day: 7,  name: '대설' },
 ];
 
-// ===== 30분 보정 (KST Offset) =====
-// 입력 시간에서 30분을 빼고, 표준 시 경계(자시 23:00~01:00)를 사용
+// ===== KST 30분 보정 =====
+// 한국 표준시는 동경 135도 기준이지만 실제 서울은 동경 126.5도
+// → 약 30분 차이를 보정
 function applyKSTOffset(hour, minute) {
   let totalMin = hour * 60 + minute - 30;
   if (totalMin < 0) totalMin += 1440;
   return { h: Math.floor(totalMin / 60), m: totalMin % 60 };
 }
 
+// ===== 시지(時支) 인덱스 계산 =====
+// 보정된 시간 기준으로 12지 시(時) 결정
 function getHourJiIdx(hour, minute) {
-  // 표준 시 경계 사용 (보정 후 시간 기준)
   const t = hour * 60 + minute;
-  if (t >= 1380 || t < 60) return 0;  // 자 23:00~01:00
-  if (t < 180) return 1;  // 축 01:00~03:00
-  if (t < 300) return 2;  // 인 03:00~05:00
-  if (t < 420) return 3;  // 묘 05:00~07:00
-  if (t < 540) return 4;  // 진 07:00~09:00
-  if (t < 660) return 5;  // 사 09:00~11:00
-  if (t < 780) return 6;  // 오 11:00~13:00
-  if (t < 900) return 7;  // 미 13:00~15:00
-  if (t < 1020) return 8;  // 신 15:00~17:00
-  if (t < 1140) return 9;  // 유 17:00~19:00
-  if (t < 1260) return 10; // 술 19:00~21:00
-  return 11; // 해 21:00~23:00
+  if (t >= 1380 || t < 60)  return 0;  // 자시 23:00~01:00
+  if (t < 180)  return 1;  // 축시 01:00~03:00
+  if (t < 300)  return 2;  // 인시 03:00~05:00
+  if (t < 420)  return 3;  // 묘시 05:00~07:00
+  if (t < 540)  return 4;  // 진시 07:00~09:00
+  if (t < 660)  return 5;  // 사시 09:00~11:00
+  if (t < 780)  return 6;  // 오시 11:00~13:00
+  if (t < 900)  return 7;  // 미시 13:00~15:00
+  if (t < 1020) return 8;  // 신시 15:00~17:00
+  if (t < 1140) return 9;  // 유시 17:00~19:00
+  if (t < 1260) return 10; // 술시 19:00~21:00
+  return 11;               // 해시 21:00~23:00
 }
 
 const SIJU_LABELS = [
   '자시(子時) 23:00~01:00', '축시(丑時) 01:00~03:00', '인시(寅時) 03:00~05:00',
   '묘시(卯時) 05:00~07:00', '진시(辰時) 07:00~09:00', '사시(巳時) 09:00~11:00',
-  '오시(午時) 11:00~13:00', '미시(未時) 13:00~15:00', '신시(申時) 15:00~17:30',
+  '오시(午時) 11:00~13:00', '미시(未時) 13:00~15:00', '신시(申時) 15:00~17:00',
   '유시(酉時) 17:00~19:00', '술시(戌時) 19:00~21:00', '해시(亥時) 21:00~23:00'
 ];
 
-// ===== 년주 =====
+// ===== 야자시(夜子時) 판별 =====
+// 보정 후 23:00~00:00 사이 = 야자시
+function isYajasi(correctedHour, correctedMinute) {
+  const t = correctedHour * 60 + correctedMinute;
+  return t >= 1380;
+}
+
+// ===== 년주(年柱) =====
+// 입춘(立春, 2월 4일경) 기준으로 연도 전환
 function getYearPillar(year, month, day) {
   let adj = year;
   if (month < 2 || (month === 2 && day < 4)) adj = year - 1;
-  return { gan: (adj - 4) % 10, ji: (adj - 4) % 12 };
+  return {
+    gan: (adj - 4) % 10,
+    ji:  (adj - 4) % 12
+  };
 }
 
-// ===== 월주 =====
+// ===== 월주(月柱) =====
+// 절기(節氣)를 기준으로 월지(月支) 결정, 연간(年干)으로 월간(月干) 계산
 function getSajuMonth(month, day) {
   const monthJiMap = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0];
   for (let i = JEOLGI.length - 1; i >= 0; i--) {
@@ -77,84 +93,87 @@ function getSajuMonth(month, day) {
     if (month > j.month || (month === j.month && day >= j.day))
       return monthJiMap[i];
   }
-  return 0; // 소한 전 = 자월
+  return 0; // 소한 전 = 자월(子月)
 }
 
 function getMonthPillar(yearGan, month, day) {
-  const jiIdx = getSajuMonth(month, day);
+  const jiIdx  = getSajuMonth(month, day);
   const baseGan = ((yearGan % 5) * 2 + 2) % 10;
-  const offset = (jiIdx - 2 + 12) % 12;
-  return { gan: (baseGan + offset) % 10, ji: jiIdx };
+  const offset  = (jiIdx - 2 + 12) % 12;
+  return {
+    gan: (baseGan + offset) % 10,
+    ji:  jiIdx
+  };
 }
 
-// ===== 일주 (JDN 기반 — DST 영향 없음) =====
+// ===== 일주(日柱) — 율리우스 적일(JDN) 기반 =====
+// DST(일광절약) 영향 없는 순수 날짜 계산
 function getJDN(year, month, day) {
   const a = Math.floor((14 - month) / 12);
   const y = year + 4800 - a;
   const m = month + 12 * a - 3;
-  return day + Math.floor((153 * m + 2) / 5) + 365 * y
-    + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+  return day
+    + Math.floor((153 * m + 2) / 5)
+    + 365 * y
+    + Math.floor(y / 4)
+    - Math.floor(y / 100)
+    + Math.floor(y / 400)
+    - 32045;
 }
 
 function getDayPillar(year, month, day) {
   const jdn = getJDN(year, month, day);
   return {
     gan: (jdn + 9) % 10,
-    ji: (jdn + 1) % 12
+    ji:  (jdn + 1) % 12
   };
 }
 
-// ===== 시주 =====
+// ===== 시주(時柱) =====
+// 일간(日干)과 시지(時支)로 시간(時干) 결정
 function getHourPillar(dayGan, correctedHour, correctedMinute) {
-  const jiIdx = getHourJiIdx(correctedHour, correctedMinute);
+  const jiIdx  = getHourJiIdx(correctedHour, correctedMinute);
   const baseGan = (dayGan % 5) * 2;
-  const ganIdx = (baseGan + jiIdx) % 10;
+  const ganIdx  = (baseGan + jiIdx) % 10;
   return { gan: ganIdx, ji: jiIdx };
 }
 
-// ===== 야자시 판별 (보정 후 시간 기준) =====
-// 보정 후 23:00~00:00 사이 = 야자시
-function isYajasi(correctedHour, correctedMinute) {
-  const t = correctedHour * 60 + correctedMinute;
-  return t >= 1380; // 23:00 이후
-}
-
-// ===== 메인 사주 산출 =====
+// ===== 메인 사주팔자 산출 =====
 function calculateSaju(year, month, day, hour, minute, gender) {
-  // 1) 30분 보정 적용
+  // 1) KST 30분 보정
   const corrected = applyKSTOffset(hour, minute);
   const cH = corrected.h, cM = corrected.m;
 
-  const yearP = getYearPillar(year, month, day);
+  const yearP  = getYearPillar(year, month, day);
   const monthP = getMonthPillar(yearP.gan, month, day);
 
-  // 2) 일주 결정
-  let dayP;
+  // 2) 일주 결정 (야자시는 당일 유지)
   const yajasi = isYajasi(cH, cM);
-
-  if (yajasi) {
-    // 야자시: 일주는 당일(입력일) 유지
-    dayP = getDayPillar(year, month, day);
-  } else {
-    dayP = getDayPillar(year, month, day);
-  }
+  const dayP   = getDayPillar(year, month, day);
 
   // 3) 시주 결정
+  // 야자시(夜子時): 시주 천간은 '다음날' 일간 기준
   let hourP;
   if (yajasi) {
-    // 야자시: 자시이므로 시주 천간은 '다음날' 일간 기준
-    const nextDay = new Date(year, month - 1, day + 1);
-    const nextDayP = getDayPillar(nextDay.getFullYear(), nextDay.getMonth() + 1, nextDay.getDate());
+    const nextDay  = new Date(year, month - 1, day + 1);
+    const nextDayP = getDayPillar(
+      nextDay.getFullYear(), nextDay.getMonth() + 1, nextDay.getDate()
+    );
     hourP = getHourPillar(nextDayP.gan, cH, cM);
   } else {
     hourP = getHourPillar(dayP.gan, cH, cM);
   }
 
   return {
-    year: yearP, month: monthP, day: dayP, hour: hourP,
-    gender, birthYear: year, birthMonth: month, birthDay: day,
+    year:  yearP,
+    month: monthP,
+    day:   dayP,
+    hour:  hourP,
+    gender,
+    birthYear: year, birthMonth: month, birthDay: day,
     birthHour: hour, birthMinute: minute,
-    correctedHour: cH, correctedMinute: cM, isYajasi: yajasi
+    correctedHour: cH, correctedMinute: cM,
+    isYajasi: yajasi
   };
 }
 
@@ -168,12 +187,22 @@ function analyzeElements(saju) {
   return c;
 }
 
-// ===== 조사 헬퍼 (이/가) =====
-// 한국어 조사: 받침 있으면 '이', 없으면 '가'
-function josa이가(word) {
+// ===== 한국어 조사(助詞) 헬퍼 =====
+// 받침 유무 판별
+function hasBatchim(word) {
   const code = word.charCodeAt(word.length - 1);
-  return (code - 0xAC00) % 28 !== 0 ? '이' : '가';
+  return (code - 0xAC00) % 28 !== 0;
 }
+// 이/가
+function josa이가(word) { return hasBatchim(word) ? '이' : '가'; }
+// 은/는
+function josa은는(word) { return hasBatchim(word) ? '은' : '는'; }
+// 을/를
+function josa을를(word) { return hasBatchim(word) ? '을' : '를'; }
+// 과/와
+function josa과와(word) { return hasBatchim(word) ? '과' : '와'; }
+// 으로/로
+function josa으로(word) { return hasBatchim(word) ? '으로' : '로'; }
 
 // ===== 십신(十神) — 일간과 다른 천간의 관계를 나타내는 10가지 신살 =====
 function getSipsin(dayGanIdx, targetGanIdx) {
@@ -632,9 +661,9 @@ function analyzeTodayInteraction(saju) {
 
   let rel, msg, risk;
   if (todayEl === userEl) {
-    rel = 'same'; msg = '오늘은 당신의 체질이 가장 강해지는 날입니다'; risk = null;
+    rel = 'same'; msg = '오늘은 당신의 체질(體質, 타고난 몸의 기운)이 가장 강해지는 날입니다'; risk = null;
   } else if (ctrl[todayEl] === userEl) {
-    rel = 'conflict'; msg = `${todayEl}와 ${userEl}는 서로 충돌하는 기운입니다`; risk = bodyMap[userEl];
+    rel = 'conflict'; msg = `${todayEl}${josa과와(todayEl)} ${userEl}${josa은는(userEl)} 서로 충돌(沖突)하는 기운입니다`; risk = bodyMap[userEl];
   } else if (gen[todayEl] === userEl) {
     rel = 'support'; msg = '오늘은 당신의 기운이 충전되는 날입니다'; risk = null;
   } else if (gen[userEl] === todayEl) {
