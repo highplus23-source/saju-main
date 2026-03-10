@@ -7,7 +7,8 @@
   <meta name="description" content="사주 오행 분석으로 매일 달라지는 나만의 운세와 맞춤 식단을 확인하세요. 재물운, 건강운, 인간관계운 + 레시피까지.">
   <meta name="theme-color" content="#E85A71">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -22,14 +23,14 @@
       --wood:#4CAF7B;--fire:#E85A71;--earth:#D4A24E;--metal:#7B8DA5;--water:#5A85B5;
       --success:#4CAF7B;--warn:#D32F2F;
     }
-    body{font-family:'Noto Sans KR',-apple-system,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;line-height:1.7;-webkit-font-smoothing:antialiased;font-size:16px}
-    .serif{font-family:'Noto Serif KR',serif}
+    body{font-family:'Noto Sans KR',-apple-system,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;line-height:1.7;-webkit-font-smoothing:antialiased;font-size:16px;word-break:keep-all;overflow-wrap:break-word}
+    .serif{font-family:'Noto Sans KR',sans-serif}
 
     /* Top Bar */
     .top-bar{position:fixed;top:0;left:0;right:0;height:56px;z-index:100;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px}
     .top-bar-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:.9rem;color:var(--main)}
     .top-bar-brand .dot{width:34px;height:34px;background:var(--main-gradient);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;box-shadow:0 2px 8px rgba(232,90,113,0.25)}
-    .top-bar-brand span{letter-spacing:1px;font-family:'Noto Serif KR',serif}
+    .top-bar-brand span{letter-spacing:1px;font-family:'Noto Sans KR',sans-serif}
     .settings-btn{background:none;border:none;font-size:1.2rem;cursor:pointer;padding:8px;border-radius:50%;transition:background .2s}
     .settings-btn:hover{background:var(--main-bg)}
 
@@ -40,7 +41,7 @@
 
     /* === INPUT VIEW === */
     #inputView header{text-align:center;padding:28px 0 32px}
-    #inputView header h1{font-family:'Noto Serif KR',serif;font-size:1.9rem;font-weight:900;line-height:1.35;letter-spacing:-0.5px}
+    #inputView header h1{font-family:'Noto Sans KR',sans-serif;font-size:1.9rem;font-weight:900;line-height:1.35;letter-spacing:-0.5px}
     .sub-title{color:var(--txt2);font-size:.95rem;margin-top:12px;line-height:1.8}
     .hr{width:48px;height:3px;background:var(--main-gradient);border-radius:2px;margin:20px auto}
     .fg{display:flex;flex-direction:column;gap:6px}
@@ -51,7 +52,8 @@
     .gender-row{display:flex;gap:8px}
     .gbtn{flex:1;padding:14px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;color:var(--txt2);font-size:.95rem;cursor:pointer;transition:all .3s;font-family:inherit;text-align:center;font-weight:500}
     .gbtn.on{border-color:var(--main);color:var(--main);background:var(--main-bg);font-weight:700}
-    .form-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .form-grid2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+    .form-grid3{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
     .cal-toggle{display:flex;gap:8px;margin-top:6px;margin-bottom:14px}
     .cal-btn{padding:10px 20px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--txt2);font-size:.88rem;cursor:pointer;transition:all .3s;font-family:inherit;font-weight:500}
     .cal-btn.on{border-color:var(--main);color:var(--main);background:var(--main-bg);font-weight:700}
@@ -69,7 +71,7 @@
     .loading-overlay.show{display:flex}
     .loading-spinner{width:56px;height:56px;margin-bottom:20px;border:4px solid var(--bg2);border-top:4px solid var(--main);border-radius:50%;animation:spin 1s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
-    .loading-text{font-family:'Noto Serif KR',serif;font-size:1.05rem;color:var(--txt);text-align:center;line-height:1.6}
+    .loading-text{font-family:'Noto Sans KR',sans-serif;font-size:1.05rem;color:var(--txt);text-align:center;line-height:1.6}
     .loading-progress{width:200px;height:4px;background:var(--bg2);border-radius:2px;overflow:hidden;margin-top:16px}
     .loading-bar{width:0%;height:100%;background:var(--main-gradient);border-radius:2px;transition:width 2.5s linear}
 
@@ -78,44 +80,100 @@
 
     /* Greeting */
     .greeting-section{text-align:center;padding:8px 0 20px}
-    .greeting-hello{font-size:1.5rem;font-weight:800;margin-bottom:4px;font-family:'Noto Serif KR',serif}
+    .greeting-hello{font-size:1.5rem;font-weight:800;margin-bottom:4px;font-family:'Noto Sans KR',sans-serif}
     .greeting-date{font-size:.88rem;color:var(--txt2);margin-bottom:4px}
     .greeting-ilju{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;color:var(--main);font-weight:600;padding:6px 14px;background:var(--main-bg);border-radius:20px;margin-top:6px}
     .streak-badge{display:inline-flex;align-items:center;gap:4px;font-size:.78rem;color:var(--earth);font-weight:700;margin-left:8px;padding:4px 10px;background:rgba(212,162,78,0.1);border-radius:12px}
+    .revisit-msg{font-size:.82rem;color:var(--txt2);margin-top:8px;font-weight:500}
 
     /* Score Card */
     .score-card{background:var(--main-gradient);border-radius:20px;padding:28px 24px;text-align:center;color:#fff;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(232,90,113,0.25)}
     .score-card::before{content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 60%);pointer-events:none}
     .score-label{font-size:.82rem;opacity:.8;margin-bottom:8px;font-weight:500}
-    .score-number{font-size:3.2rem;font-weight:900;font-family:'Noto Serif KR',serif;line-height:1;margin-bottom:8px;text-shadow:0 2px 8px rgba(0,0,0,0.15)}
+    .score-number{font-size:3.2rem;font-weight:900;font-family:'Noto Sans KR',sans-serif;line-height:1;margin-bottom:8px;text-shadow:0 2px 8px rgba(0,0,0,0.15)}
     .score-msg{font-size:.92rem;opacity:.9;line-height:1.6}
 
-    /* Fortune Toggle */
-    .fortune-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.03);transition:box-shadow .2s}
-    .fortune-card:hover{box-shadow:0 4px 16px rgba(232,90,113,0.1)}
-    .fortune-header{padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:background .2s;-webkit-tap-highlight-color:transparent}
-    .fortune-header:hover{background:var(--bg3)}
-    .fortune-icon{font-size:1.4rem;min-width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:10px}
-    .fortune-info{flex:1}
-    .fortune-title{font-weight:700;font-size:.92rem;color:var(--txt);margin-bottom:2px}
-    .fortune-stars{color:var(--main);font-size:.85rem;letter-spacing:2px}
-    .fortune-arrow{font-size:.65rem;color:var(--muted);transition:transform .3s}
-    .fortune-header.open .fortune-arrow{transform:rotate(180deg)}
-    .fortune-body{display:none;padding:0 18px 18px;animation:slideDown .3s ease}
-    .fortune-body.open{display:block}
-    @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-    .fortune-detail{font-size:.88rem;color:var(--txt2);line-height:1.8}
+    /* Fortune Grid */
+    .fortune-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
+    .fortune-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:16px 12px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.03);cursor:pointer;transition:box-shadow .2s,border-color .2s,transform .15s;-webkit-tap-highlight-color:transparent}
+    .fortune-card:hover{box-shadow:0 4px 16px rgba(232,90,113,0.1);transform:translateY(-1px)}
+    .fortune-card:active{transform:scale(0.97)}
+    .fortune-icon{font-size:1.5rem;margin-bottom:8px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;margin:0 auto 8px}
+    .fortune-title{font-weight:700;font-size:.85rem;color:var(--txt);margin-bottom:4px}
+    .fortune-stars{color:var(--main);font-size:.7rem;letter-spacing:1px;margin-bottom:6px}
+    .fortune-chevron{font-size:.65rem;color:var(--muted)}
+    /* Fortune Modal */
+    .fortune-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:none;align-items:center;justify-content:center;padding:24px;-webkit-tap-highlight-color:transparent}
+    .fortune-modal-overlay.show{display:flex}
+    .fortune-modal{background:var(--card-bg);border-radius:20px;max-width:420px;width:100%;max-height:70vh;overflow-y:auto;padding:24px 20px 28px;position:relative;animation:popIn .25s ease;box-shadow:0 16px 48px rgba(0,0,0,0.2)}
+    @keyframes popIn{from{transform:scale(0.9);opacity:0}to{transform:scale(1);opacity:1}}
+    .fortune-modal-close{position:absolute;top:14px;right:16px;font-size:1.4rem;color:var(--muted);cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background .2s}
+    .fortune-modal-close:hover{background:var(--bg2);color:var(--txt)}
+    .fortune-modal-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+    .fortune-modal-icon{font-size:1.5rem;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:14px}
+    .fortune-modal-title{font-weight:800;font-size:1.1rem;color:var(--txt)}
+    .fortune-modal-stars{color:var(--main);font-size:.8rem;letter-spacing:1px;margin-top:2px}
+    .fortune-modal-msg{font-size:.92rem;color:var(--txt2);line-height:1.8;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+    .fortune-modal-detail{font-size:.88rem;color:var(--txt2);line-height:1.8}
     .fortune-detail-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
     .fortune-detail-item:last-child{margin-bottom:0}
     .fortune-detail-icon{min-width:20px;text-align:center}
+    .fortune-food-tip{margin-top:14px;padding:12px 14px;background:var(--bg3);border-radius:12px;border-left:3px solid var(--main)}
+    .fortune-food-label{font-size:.75rem;color:var(--main);font-weight:700;margin-bottom:2px}
+    .fortune-food-text{font-size:.85rem;color:var(--txt);font-weight:600}
+    .fortune-food-menu{font-size:.78rem;color:var(--muted);margin-top:2px}
+
+    /* Today Energy Banner */
+    .today-energy-banner{text-align:center;padding:20px;margin-bottom:16px;background:var(--card-bg);border:1px solid var(--border);border-radius:20px;box-shadow:var(--card-shadow)}
+    .today-energy-date{font-size:.82rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+    .today-energy-main{font-family:'Noto Sans KR',sans-serif;font-size:1.15rem;font-weight:800;color:var(--txt);line-height:1.5}
+    .today-energy-el{font-size:1.3rem;font-weight:900}
+    .today-energy-sub{font-size:.75rem;color:var(--muted);margin-top:6px}
+
+    /* Briefing */
+    .briefing-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:22px 20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
+    .briefing-title{font-size:.9rem;font-weight:700;color:var(--main);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    .briefing-text{font-size:.9rem;color:var(--txt2);line-height:1.85}
+    .briefing-text .bp{margin:0 0 12px;padding:0}
+    .briefing-text .bp:last-child{margin-bottom:0}
+
+    /* Element Chart */
+    .elem-chart-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:22px 20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
+    .elem-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+    .elem-bar-row:last-child{margin-bottom:0}
+    .elem-label{min-width:52px;font-size:.82rem;font-weight:700;display:flex;align-items:center;gap:4px}
+    .elem-bar-bg{flex:1;height:10px;background:var(--bg2);border-radius:5px;overflow:hidden}
+    .elem-bar-fill{height:100%;border-radius:5px;transition:width 1s ease-out;width:0}
+    .elem-status{min-width:50px;font-size:.75rem;font-weight:600;text-align:right}
+    .elem-status.weak{color:var(--warn)}
+    .elem-status.strong{color:var(--success)}
+    .elem-summary{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:.85rem;color:var(--txt2);line-height:1.8}
+
+    /* Symptom Section */
+    .symptom-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:22px 20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
+    .symptom-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    .symptom-item{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:16px 12px;text-align:center}
+    .symptom-emoji{font-size:1.5rem;margin-bottom:6px}
+    .symptom-name{font-size:.85rem;font-weight:700;color:var(--txt);margin-bottom:2px}
+    .symptom-desc{font-size:.75rem;color:var(--muted)}
+    .symptom-note{margin-top:12px;padding:14px;background:var(--main-bg);border-radius:12px;font-size:.82rem;color:var(--main-dark);line-height:1.7}
+
+    /* Fixed Bottom CTA */
+    .fixed-cta{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);padding:12px 16px;box-shadow:0 -2px 16px rgba(0,0,0,0.08);z-index:99;display:none;text-align:center}
+    .fixed-cta.show{display:block}
+    .fixed-cta-btn{display:block;max-width:520px;margin:0 auto;padding:16px;background:var(--main-gradient);color:#fff;border:none;border-radius:14px;font-size:1rem;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 4px 20px rgba(232,90,113,0.3);animation:ctaPulse 2s infinite}
+    @keyframes ctaPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+    .fixed-cta-sub{font-size:.72rem;color:var(--muted);margin-top:4px}
 
     /* Section Title */
-    .section-title{font-family:'Noto Serif KR',serif;font-size:1.1rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--txt)}
+    .section-title{font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--txt)}
 
     /* Ingredient Hero */
     .ingredient-hero{border-radius:20px;padding:28px 24px;text-align:center;margin-bottom:16px;border:1px solid var(--border);position:relative;overflow:hidden}
+    .ingredient-img-wrap{width:120px;height:120px;margin:0 auto 16px;border-radius:50%;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);border:3px solid #fff}
+    .ingredient-img{width:100%;height:100%;object-fit:cover;display:block}
     .ingredient-emoji{font-size:3.5rem;margin-bottom:12px;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.1))}
-    .ingredient-name{font-family:'Noto Serif KR',serif;font-size:1.4rem;font-weight:900;margin-bottom:6px}
+    .ingredient-name{font-family:'Noto Sans KR',sans-serif;font-size:1.4rem;font-weight:900;margin-bottom:6px}
     .ingredient-benefit{font-size:.92rem;color:var(--txt2);margin-bottom:12px}
     .ingredient-reason{font-size:.85rem;color:#fff;padding:8px 16px;border-radius:20px;display:inline-block;font-weight:600}
 
@@ -141,15 +199,33 @@
     .recipe-meta{display:flex;gap:16px;margin-top:12px;font-size:.8rem;color:var(--muted)}
     .recipe-meta span{display:flex;align-items:center;gap:4px}
     .saju-tip{margin-top:12px;padding:12px 14px;background:linear-gradient(135deg,rgba(232,90,113,0.04),rgba(255,138,155,0.04));border:1px solid var(--border-accent);border-radius:12px;font-size:.82rem;color:var(--main-dark);line-height:1.7}
+    .recipe-story{font-size:.88rem;color:var(--txt2);line-height:1.85;margin-bottom:16px;padding:16px;background:var(--bg3);border-radius:14px;border-left:3px solid var(--main)}
+    .recipe-story .bp{margin:0 0 10px;padding:0}
+    .recipe-story .bp:last-child{margin-bottom:0}
+    .recipe-source{margin-top:14px;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .recipe-source-text{font-size:.78rem;color:var(--muted)}
+    .recipe-source-link{font-size:.78rem;color:var(--main);font-weight:600;text-decoration:none;white-space:nowrap}
+    .recipe-source-link:hover{text-decoration:underline}
+
+    /* Quick Food Summary */
+    .food-summary{background:var(--main-bg);border:1px solid var(--border-accent);border-radius:20px;padding:22px 20px;margin-bottom:16px}
+    .food-summary-title{font-weight:700;font-size:.95rem;color:var(--success);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+    .food-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .food-summary-item{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:16px 8px;text-align:center}
+    .food-summary-emoji{font-size:2.2rem;margin-bottom:8px;display:block}
+    .food-summary-name{font-size:.88rem;font-weight:700;color:var(--txt);margin-bottom:2px}
+    .food-summary-reason{font-size:.75rem;color:var(--muted)}
+    .food-summary-note{font-size:.82rem;color:var(--txt2);line-height:1.7}
 
     /* Avoid Foods */
-    .avoid-section{background:rgba(211,47,47,0.03);border:1px solid rgba(211,47,47,0.1);border-radius:16px;padding:18px;margin-bottom:16px}
-    .avoid-title{font-weight:700;font-size:.9rem;color:var(--warn);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+    .avoid-section{background:rgba(211,47,47,0.03);border:1px solid rgba(211,47,47,0.1);border-radius:20px;padding:22px 20px;margin-bottom:16px}
+    .avoid-title{font-weight:700;font-size:.95rem;color:var(--warn);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    .avoid-items{font-size:1rem;font-weight:700;color:var(--txt);margin-bottom:6px}
     .avoid-text{font-size:.85rem;color:var(--txt2);line-height:1.7}
 
     /* CTA */
     .cta-mini{text-align:center;padding:24px 20px;background:var(--card-bg);border:1px solid var(--border);border-radius:20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
-    .cta-mini h3{font-family:'Noto Serif KR',serif;font-size:1rem;font-weight:700;margin-bottom:8px;color:var(--txt)}
+    .cta-mini h3{font-family:'Noto Sans KR',sans-serif;font-size:1rem;font-weight:700;margin-bottom:8px;color:var(--txt)}
     .cta-mini p{font-size:.85rem;color:var(--txt2);margin-bottom:16px;line-height:1.6}
     .cta-link{display:inline-flex;align-items:center;gap:6px;padding:14px 32px;background:var(--main-gradient);color:#fff;border-radius:14px;font-weight:700;font-size:.95rem;text-decoration:none;transition:all .3s;box-shadow:0 4px 16px rgba(232,90,113,.25)}
     .cta-link:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,90,113,.35)}
@@ -161,11 +237,21 @@
 
     .footer-note{text-align:center;font-size:.75rem;color:var(--muted);padding:8px 0 32px}
 
+    /* Share Section */
+    .share-section{padding:28px 20px;margin-bottom:16px;text-align:center}
+    .share-btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+    .share-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;border:1.5px solid rgba(255,255,255,0.15);background:transparent;color:var(--txt);font-size:.88rem;font-weight:600;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:transform .15s,background .2s;-webkit-tap-highlight-color:transparent}
+    .share-btn:hover{transform:scale(1.04);background:rgba(255,255,255,0.06)}
+    .share-btn:active{transform:scale(0.96)}
+    .share-btn svg{width:18px;height:18px;flex-shrink:0}
+    .share-toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--txt);color:#fff;padding:12px 24px;border-radius:12px;font-size:.85rem;font-weight:600;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none}
+    .share-toast.show{opacity:1}
+
     /* Settings Modal */
     .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
     .modal-overlay.show{display:flex}
     .modal-box{background:var(--card-bg);border-radius:20px;padding:28px;max-width:380px;width:100%;box-shadow:0 16px 48px rgba(0,0,0,0.15)}
-    .modal-title{font-family:'Noto Serif KR',serif;font-size:1.1rem;font-weight:700;margin-bottom:16px;text-align:center}
+    .modal-title{font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:16px;text-align:center}
     .modal-close{display:block;width:100%;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:12px;color:var(--txt2);font-size:.9rem;cursor:pointer;font-family:inherit;margin-top:10px;transition:all .2s}
     .modal-close:hover{background:var(--main-bg);border-color:var(--main);color:var(--main)}
     .modal-danger{color:var(--warn);border-color:rgba(211,47,47,0.2)}
@@ -205,7 +291,7 @@
 </head>
 <body>
   <nav class="top-bar">
-    <div class="top-bar-brand">
+    <div class="top-bar-brand" onclick="goHome()" style="cursor:pointer">
       <div class="dot">🍽️</div>
       <span>날씬예약</span>
     </div>
@@ -243,7 +329,10 @@
           <div class="fg"><select id="bY" aria-label="년도"><option value="">년도</option></select></div>
           <div class="fg"><select id="bM" aria-label="월"><option value="">월</option></select></div>
           <div class="fg"><select id="bD" aria-label="일"><option value="">일</option></select></div>
+        </div>
+        <div class="form-grid3">
           <div class="fg"><select id="bH" aria-label="시"><option value="">시</option></select></div>
+          <div class="fg"><select id="bMin" aria-label="분"><option value="">분</option></select></div>
         </div>
         <label class="check-row">
           <input type="checkbox" id="noTime" onchange="toggleNoTime()">
@@ -267,6 +356,23 @@
     <div class="loading-progress"><div class="loading-bar" id="loadingBar"></div></div>
   </div>
 
+  <!-- Fortune Modal -->
+  <div class="fortune-modal-overlay" id="fortuneModalOverlay" onclick="closeFortuneModal(event)">
+    <div class="fortune-modal" onclick="event.stopPropagation()">
+      <div class="fortune-modal-close" onclick="closeFortuneModal()">&times;</div>
+      <div class="fortune-modal-header">
+        <div class="fortune-modal-icon" id="fmIcon"></div>
+        <div>
+          <div class="fortune-modal-title" id="fmTitle"></div>
+          <div class="fortune-modal-stars" id="fmStars"></div>
+        </div>
+      </div>
+      <div class="fortune-modal-msg" id="fmMsg"></div>
+      <div class="fortune-modal-detail" id="fmDetail"></div>
+      <div id="fmFood"></div>
+    </div>
+  </div>
+
   <!-- Settings Modal -->
   <div class="modal-overlay" id="settingsModal">
     <div class="modal-box">
@@ -277,7 +383,10 @@
     </div>
   </div>
 
-  <script src="saju-engine.js"></script>
+
+  <div class="share-toast" id="shareToast"></div>
+
+  <script src="saju-engine.js?v=20260310"></script>
   <script>
     let gender = 'male';
     const STORAGE_KEY = 'sajuDailyProfile';
@@ -285,7 +394,7 @@
     // === Form Helpers ===
     function sg(b){document.querySelectorAll('.gender-row .gbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');gender=b.dataset.g}
     function switchCal(btn){document.querySelectorAll('.cal-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
-    function toggleNoTime(){const on=document.getElementById('noTime').checked;document.getElementById('bH').disabled=on;if(on)document.getElementById('bH').value='12'}
+    function toggleNoTime(){const on=document.getElementById('noTime').checked;document.getElementById('bH').disabled=on;document.getElementById('bMin').disabled=on;if(on){document.getElementById('bH').value='12';document.getElementById('bMin').value='0'}}
     function ec(el){return{'목':'var(--wood)','화':'var(--fire)','토':'var(--earth)','금':'var(--metal)','수':'var(--water)'}[el]||'#888'}
 
     // === Init Form ===
@@ -294,6 +403,7 @@
       const m=document.getElementById('bM');for(let i=1;i<=12;i++)m.innerHTML+=`<option value="${i}">${i}월</option>`;
       const d=document.getElementById('bD');for(let i=1;i<=31;i++)d.innerHTML+=`<option value="${i}">${i}일</option>`;
       const h=document.getElementById('bH');for(let i=0;i<=23;i++)h.innerHTML+=`<option value="${i}">${String(i).padStart(2,'0')}시</option>`;
+      const min=document.getElementById('bMin');for(let i=0;i<=59;i++)min.innerHTML+=`<option value="${i}">${String(i).padStart(2,'0')}분</option>`;
     })();
 
     // === LocalStorage ===
@@ -306,6 +416,9 @@
       if(!profile.visits)profile.visits=[];
       if(profile.visits[profile.visits.length-1]!==today){profile.visits.push(today)}
       if(profile.visits.length>60)profile.visits=profile.visits.slice(-60);
+      // 당일 방문 횟수 추적
+      if(!profile.todayVisitCount||profile.lastVisitDate!==today){profile.todayVisitCount=1;profile.lastVisitDate=today}
+      else{profile.todayVisitCount++}
       saveProfile(profile);
     }
 
@@ -326,12 +439,13 @@
       const y=+document.getElementById('bY').value,m=+document.getElementById('bM').value,d=+document.getElementById('bD').value;
       const noTime=document.getElementById('noTime').checked;
       const h=noTime?12:+document.getElementById('bH').value;
-      if(!y||!m||!d||(!noTime&&!document.getElementById('bH').value)){alert('생년월일을 모두 선택해주세요.');return}
+      const mi=noTime?0:+document.getElementById('bMin').value;
+      if(!y||!m||!d||(!noTime&&(document.getElementById('bH').value===''||document.getElementById('bMin').value===''))){alert('생년월일과 시간을 모두 선택해주세요.');return}
       const name=document.getElementById('userName').value.trim()||'회원';
 
       showLoading(name);
 
-      const profile={name,birthYear:y,birthMonth:m,birthDay:d,birthHour:h,gender,noTime,visits:[new Date().toISOString().slice(0,10)]};
+      const profile={name,birthYear:y,birthMonth:m,birthDay:d,birthHour:h,birthMinute:mi,gender,noTime,visits:[new Date().toISOString().slice(0,10)]};
       saveProfile(profile);
 
       setTimeout(()=>{hideLoading();showDashboard(profile)},2500);
@@ -362,6 +476,27 @@
     // === Star Rating ===
     function stars(n){return '★'.repeat(n)+'☆'.repeat(5-n)}
 
+    // === Fortune Modal ===
+    function openFortuneModal(idx){
+      const item=window.__fortuneItems[idx];
+      if(!item)return;
+      const foodHTML=item.food?`<div class="fortune-food-tip"><div class="fortune-food-label">${item.food.label}</div><div class="fortune-food-text">${item.food.food}</div><div class="fortune-food-menu">추천 메뉴: ${item.food.menu}</div></div>`:'';
+      document.getElementById('fmIcon').innerHTML=item.icon;
+      document.getElementById('fmIcon').style.background=item.bg;
+      document.getElementById('fmTitle').textContent=item.title;
+      document.getElementById('fmStars').innerHTML=stars(item.score);
+      document.getElementById('fmMsg').innerHTML=item.msg;
+      document.getElementById('fmDetail').innerHTML=item.detail;
+      document.getElementById('fmFood').innerHTML=foodHTML;
+      document.getElementById('fortuneModalOverlay').classList.add('show');
+      document.body.style.overflow='hidden';
+    }
+    function closeFortuneModal(e){
+      if(e&&e.target&&e.target!==document.getElementById('fortuneModalOverlay'))return;
+      document.getElementById('fortuneModalOverlay').classList.remove('show');
+      document.body.style.overflow='';
+    }
+
     // === Main Dashboard Render ===
     function showDashboard(profile){
       document.getElementById('inputView').style.display='none';
@@ -369,29 +504,73 @@
       document.getElementById('settingsBtn').style.display='block';
 
       updateVisitHistory(profile);
-      const saju=calculateSaju(profile.birthYear,profile.birthMonth,profile.birthDay,profile.birthHour,0,profile.gender);
+      const saju=calculateSaju(profile.birthYear,profile.birthMonth,profile.birthDay,profile.birthHour,profile.birthMinute||0,profile.gender);
+      console.log('[사주] 입력값:', profile.birthYear+'년', profile.birthMonth+'월', profile.birthDay+'일', profile.birthHour+'시');
+      console.log('[사주] 일주:', CHEONGAN[saju.day.gan]+JIJI[saju.day.ji], '일간오행:', CHEONGAN_ELEMENT[saju.day.gan]);
       const inter=analyzeTodayInteraction(saju);
+      console.log('[사주] 체질:', inter.userEl, '오늘기운:', inter.todayEl, '관계:', inter.rel);
       const fortune=getTodayFortune(saju);
+      console.log('[사주] 운세:', {재물:fortune.wealth.score, 건강:fortune.health.score, 애정:fortune.love.score, 학업:fortune.study.score, 대인:fortune.relation.score});
       const ingredient=getTodayMainIngredient(saju);
       const recipe=getTodayRecipe(ingredient.name);
-      const foods=getTodayFoods(inter.userEl);
+      const yongsinEarly=findYongsin(saju);
+      const weakElEarly=yongsinEarly.burok;
+      const strongElEarly=yongsinEarly.byung;
+      const foods=getTodayFoods(weakElEarly, strongElEarly, inter.rel);
       const streak=getStreak(profile.visits);
       const hanjaMap={'목':'木','화':'火','토':'土','금':'金','수':'水'};
       const dayNames=['일','월','화','수','목','금','토'];
       const today=new Date();
       const dateStr=`${today.getFullYear()}년 ${today.getMonth()+1}월 ${today.getDate()}일 ${dayNames[today.getDay()]}요일`;
 
-      const totalScore=Math.round(((fortune.wealth.score+fortune.health.score+fortune.relation.score)/3)*20);
+      const totalScore=Math.round(((fortune.wealth.score+fortune.health.score+fortune.love.score+fortune.study.score+fortune.relation.score)/5)*20);
 
       // Fortune detail content
       const fortuneDetails={
+        overall:getFortuneDetailHTML('overall',fortune.overall,inter),
         wealth:getFortuneDetailHTML('wealth',fortune.wealth,inter),
         health:getFortuneDetailHTML('health',fortune.health,inter),
+        love:getFortuneDetailHTML('love',fortune.love,inter),
+        study:getFortuneDetailHTML('study',fortune.study,inter),
         relation:getFortuneDetailHTML('relation',fortune.relation,inter)
       };
 
+      // Fortune icons/titles used in template
+      const fortuneIcons={overall:'🔮',wealth:'💰',health:'💪',love:'💕',study:'📚',relation:'🤝'};
+      const fortuneTitles={overall:'총운',wealth:'재물운',health:'건강운',love:'애정운',study:'학업운',relation:'대인운'};
+
       // Build meal plan for today
-      const mealPlan=buildTodayMeals(saju,inter.userEl,ingredient);
+      const mealPlan=buildTodayMeals(saju,weakElEarly,ingredient,strongElEarly);
+
+      const visitCount=profile.todayVisitCount||1;
+      const revisitMsg=visitCount>=2?`오늘 ${visitCount}번째 방문이시네요! 운세가 궁금하셨군요 😊`:'';
+
+      // 오행 체질 데이터
+      const elemScores=getElementScores(saju);
+      const yongsin=findYongsin(saju);
+      const elemColors={'목':'var(--wood)','화':'var(--fire)','토':'var(--earth)','금':'var(--metal)','수':'var(--water)'};
+      const organMap={'목':'간·담','화':'심장·혈액순환','토':'비장·위장','금':'폐·대장','수':'신장·방광'};
+      const weakEl=yongsin.burok;
+      const strongEl=yongsin.byung;
+      console.log('[사주] 부족오행:', weakEl, '과잉오행:', strongEl, '용신:', yongsin.yongsin, '일간:', saju.day.gan, '시주:', saju.hour.ji);
+      const healthData=getHealthSymptoms(weakEl, strongEl, saju.day.gan);
+      const symptoms=healthData.symptoms.map(s=>({e:s.icon,n:s.title,d:s.desc}));
+
+      // 브리핑 텍스트 (다차원 개인화)
+      const briefing=getPersonalizedBriefing(saju,inter,weakEl,strongEl,organMap);
+
+      // 오행 차트 HTML
+      const elemOrder=['목','화','토','금','수'];
+      const elemChartHTML=elemOrder.map(el=>{
+        const s=elemScores[el];
+        const barW=Math.max(s.score,8);
+        const statusClass=s.isWeak?'weak':s.isStrong?'strong':'';
+        return `<div class="elem-bar-row">
+          <div class="elem-label" style="color:${elemColors[el]}">${el}(${hanjaMap[el]})</div>
+          <div class="elem-bar-bg"><div class="elem-bar-fill" style="background:${elemColors[el]}" data-width="${barW}%"></div></div>
+          <div class="elem-status ${statusClass}">${s.status}</div>
+        </div>`;
+      }).join('');
 
       let html=`
         <div class="greeting-section">
@@ -399,69 +578,101 @@
           <div class="greeting-date">${dateStr}</div>
           <span class="greeting-ilju">${inter.todayGanH}(${hanjaMap[inter.todayEl]}) · ${inter.todayEl}의 기운</span>
           ${streak>1?`<span class="streak-badge">🔥 ${streak}일 연속 방문</span>`:''}
+          ${revisitMsg?`<div class="revisit-msg">${revisitMsg}</div>`:''}
         </div>
 
         <div class="score-card">
-          <div class="score-label">오늘의 종합 운세</div>
+          <div class="score-label">오늘의 종합 컨디션</div>
           <div class="score-number">${totalScore}<span style="font-size:1.2rem;opacity:.7">점</span></div>
           <div class="score-msg">${getOverallMsg(totalScore,inter)}</div>
         </div>
 
+        <div class="today-energy-banner">
+          <div class="today-energy-date">${dateStr}</div>
+          <div class="today-energy-main">오늘의 기운은 <span class="today-energy-el" style="color:${elemColors[inter.todayEl]}">${inter.todayEl}(${hanjaMap[inter.todayEl]})</span>이 강한 날</div>
+          <div class="today-energy-sub">모든 사람에게 동일하게 적용되는 천기(天氣)입니다</div>
+        </div>
+
+        <div class="briefing-card">
+          <div class="briefing-title">📋 ${profile.name}님의 건강 브리핑</div>
+          <div class="briefing-text">${briefing}</div>
+        </div>
+
+        <div class="food-summary">
+          <div class="food-summary-title">✅ 오늘 꼭 먹어야 할 음식</div>
+          <div class="food-summary-grid">
+            ${foods.good.map(f=>`<div class="food-summary-item"><span class="food-summary-emoji">${f.emoji}</span><div class="food-summary-name">${f.name}</div><div class="food-summary-reason">${f.reason}</div></div>`).join('')}
+          </div>
+          <div class="food-summary-note">이유: 오늘처럼 ${inter.todayEl}기운이 강한 날은, 이 음식들로 균형을 맞추는 것이 건강에 좋습니다.</div>
+        </div>
+
+        <div class="avoid-section">
+          <div class="avoid-title">❌ 오늘 피해야 할 음식</div>
+          <div class="avoid-items">❌ ${foods.bad.split(' / ').join(' / ❌ ')}</div>
+          <div class="avoid-text">→ ${foods.badReason}</div>
+        </div>
+
         <div class="section-title">🔮 오늘의 운세</div>
-        <div class="fortune-card">
-          <div class="fortune-header" onclick="toggleFortune(this)">
-            <div class="fortune-icon" style="background:rgba(212,162,78,0.1)">💰</div>
-            <div class="fortune-info">
-              <div class="fortune-title">재물운</div>
-              <div class="fortune-stars">${stars(fortune.wealth.score)}</div>
-            </div>
-            <span class="fortune-arrow">▼</span>
-          </div>
-          <div class="fortune-body"><div class="fortune-detail">${fortuneDetails.wealth}</div></div>
+        <div class="fortune-grid">
+          ${(function(){
+            const items=[
+              {key:'overall',icon:'🔮',title:'총운',bg:'rgba(232,90,113,0.1)'},
+              {key:'wealth',icon:'💰',title:'재물운',bg:'rgba(212,162,78,0.1)'},
+              {key:'health',icon:'💪',title:'건강운',bg:'rgba(76,175,123,0.1)'},
+              {key:'love',icon:'💕',title:'애정운',bg:'rgba(255,105,135,0.1)'},
+              {key:'study',icon:'📚',title:'학업운',bg:'rgba(100,149,237,0.1)'},
+              {key:'relation',icon:'🤝',title:'대인운',bg:'rgba(90,133,181,0.1)'}
+            ];
+            window.__fortuneItems=items.map(f=>{
+              const fd=fortune[f.key];
+              return{icon:f.icon,title:f.title,bg:f.bg,score:fd.score,msg:fd.msg,detail:fortuneDetails[f.key],food:fd.food};
+            });
+            return window.__fortuneItems.map((item,i)=>`
+            <div class="fortune-card" onclick="openFortuneModal(${i})">
+              <div class="fortune-icon" style="background:${item.bg}">${item.icon}</div>
+              <div class="fortune-title">${item.title}</div>
+              <div class="fortune-stars">${stars(item.score)}</div>
+              <div class="fortune-chevron">▼</div>
+            </div>`).join('');
+          })()}
         </div>
-        <div class="fortune-card">
-          <div class="fortune-header" onclick="toggleFortune(this)">
-            <div class="fortune-icon" style="background:rgba(76,175,123,0.1)">💪</div>
-            <div class="fortune-info">
-              <div class="fortune-title">건강운</div>
-              <div class="fortune-stars">${stars(fortune.health.score)}</div>
-            </div>
-            <span class="fortune-arrow">▼</span>
+
+        <div style="height:8px"></div>
+        <div class="section-title">📊 나의 오행 체질 분석</div>
+        <div class="elem-chart-card">
+          ${elemChartHTML}
+          <div class="elem-summary">
+            <strong>강한 기운:</strong> ${yongsin.byung}(${hanjaMap[yongsin.byung]}) — ${organMap[yongsin.byung]} 기능 활발<br>
+            <strong style="color:var(--warn)">약한 기운:</strong> ${weakEl}(${hanjaMap[weakEl]}) — ${organMap[weakEl]} 기능 보강 필요
           </div>
-          <div class="fortune-body"><div class="fortune-detail">${fortuneDetails.health}</div></div>
         </div>
-        <div class="fortune-card">
-          <div class="fortune-header" onclick="toggleFortune(this)">
-            <div class="fortune-icon" style="background:rgba(90,133,181,0.1)">🤝</div>
-            <div class="fortune-info">
-              <div class="fortune-title">인간관계</div>
-              <div class="fortune-stars">${stars(fortune.relation.score)}</div>
-            </div>
-            <span class="fortune-arrow">▼</span>
+
+        <div class="section-title">⚠️ 체질 건강 체크</div>
+        <div class="symptom-card">
+          <div style="font-size:.9rem;font-weight:600;color:var(--txt);">${weakEl}(${hanjaMap[weakEl]}) 기운이 부족하고 ${strongEl}(${hanjaMap[strongEl]}) 기운이 과잉인 당신,<br>이런 증상이 있진 않으신가요?</div>
+          <div class="symptom-grid">
+            ${symptoms.map(s=>`<div class="symptom-item"><div class="symptom-emoji">${s.e}</div><div class="symptom-name">${s.n}</div><div class="symptom-desc">${s.d}</div></div>`).join('')}
           </div>
-          <div class="fortune-body"><div class="fortune-detail">${fortuneDetails.relation}</div></div>
+          <div class="symptom-note">💡 ${healthData.dayGanNote}<br>${weakEl} 기운 보충과 ${strongEl} 기운 조절이 필요합니다. 오늘의 식단으로 균형을 맞춰보세요.</div>
         </div>
 
         <div style="height:8px"></div>
         <div class="section-title">🥬 오늘의 핵심 식재료</div>
         <div class="ingredient-hero" style="background:linear-gradient(135deg,${ingredient.color}11,${ingredient.color}06)">
-          <span class="ingredient-emoji">${ingredient.emoji}</span>
+          ${ingredient.image?`<div class="ingredient-img-wrap" style="border-color:${ingredient.color}40"><img class="ingredient-img" src="${ingredient.image}" alt="${ingredient.name}" onerror="this.parentElement.outerHTML='<span class=\\'ingredient-emoji\\'>${ingredient.emoji}</span>'"></div>`:`<span class="ingredient-emoji">${ingredient.emoji}</span>`}
           <div class="ingredient-name" style="color:${ingredient.color}">${ingredient.name}</div>
           <div class="ingredient-benefit">${ingredient.benefit}</div>
-          <span class="ingredient-reason" style="background:${ingredient.color}">${inter.userEl}(${hanjaMap[inter.userEl]})형 체질 보충</span>
+          <div class="ingredient-benefit" style="font-size:.78rem;margin-top:4px;color:var(--txt2)">${ingredient.personalReason}</div>
+          <span class="ingredient-reason" style="background:${ingredient.color}">${weakEl}(${hanjaMap[weakEl]}) 보충 + ${strongEl}(${hanjaMap[strongEl]}) 조절</span>
         </div>
 
         <div class="section-title">🍽️ 오늘의 추천 식단</div>
         ${mealPlan}
 
-        <div class="avoid-section">
-          <div class="avoid-title">⚠️ 오늘 피해야 할 음식</div>
-          <div class="avoid-text">${foods.bad}<br><span style="font-size:.8rem;color:var(--muted)">${foods.badReason}</span></div>
-        </div>
-
         ${recipe?`
         <div class="section-title">👨‍🍳 오늘의 레시피: ${recipe.title}</div>
         <div class="card">
+          <div class="recipe-story">${getRecipeStory(inter,weakEl,hanjaMap,ingredient,recipe,organMap)}</div>
           <div class="recipe-title">📝 재료</div>
           <div class="recipe-ingredients">${recipe.ingredients.join(' · ')}</div>
           <div class="recipe-title">👨‍🍳 만드는 법</div>
@@ -471,18 +682,42 @@
             <span>🔥 ${recipe.kcal}</span>
             <span>📊 ${recipe.difficulty}</span>
           </div>
-          <div class="saju-tip">💡 사주 TIP: ${inter.userEl}(${hanjaMap[inter.userEl]}) 체질에게 ${ingredient.name}의 영양소가 부족한 ${inter.userEl} 기운을 보충해줍니다.</div>
         </div>`:''}
 
         <div class="cta-mini">
-          <h3 class="serif">체질에 맞는 전문 상담이 필요하세요?</h3>
-          <p>사주 분석 결과를 바탕으로 1:1 맞춤 상담을 받아보세요</p>
-          <a class="cta-link" href="https://날씬예약.com" target="_blank" rel="noopener">무료 상담 예약 →</a>
+          <h3>식단으로 시작했으니, 더 건강해져볼까요?</h3>
+          <p>오행 체질에 맞는 맞춤 다이어트로<br>더 효과적인 건강 관리를 시작해보세요</p>
+          <a class="cta-link" href="https://xn--i20br30b7ga7s.com/28" target="_blank" rel="noopener">체질 맞춤 다이어트 상담 →</a>
         </div>
 
-        <div class="footer-note">재미로 봐주세요 — 맹신은 금물! :)<br>© 2025 날씬예약</div>
+        <div class="share-section">
+          <div class="share-btns">
+            <button class="share-btn share-native" onclick="shareNative()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              공유하기
+            </button>
+            <button class="share-btn share-x" onclick="shareX()">
+              <svg viewBox="0 0 24 24"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              트위터
+            </button>
+            <button class="share-btn" onclick="saveAsImage()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              이미지 저장
+            </button>
+          </div>
+        </div>
+
+        <div class="footer-note" style="padding-bottom:80px">체질 분석은 참고용입니다 — 전문 상담과 함께하면 더 정확해요<br>© 2025 날씬예약</div>
       `;
       document.getElementById('dashContent').innerHTML=html;
+
+      // 오행 바 차트 애니메이션
+      setTimeout(()=>{
+        document.querySelectorAll('.elem-bar-fill').forEach(bar=>{bar.style.width=bar.dataset.width});
+      },200);
+
+      // 하단 고정 CTA 표시
+      document.getElementById('fixedCta').classList.add('show');
     }
 
     // === Fortune Detail HTML ===
@@ -513,6 +748,25 @@
           <div class="fortune-detail-item"><span class="fortune-detail-icon">🏥</span><span>주의 부위: ${bodyMap[inter.userEl]||'전반적 컨디션'}</span></div>
           <div class="fortune-detail-item"><span class="fortune-detail-icon">🏃</span><span>추천 활동: ${activities[inter.userEl]||'가벼운 산책'}</span></div>
           <div class="fortune-detail-item"><span class="fortune-detail-icon">${fortune.score>=4?'✅':'⚠️'}</span><span>${fortune.score>=4?'활동적인 하루를 보내기 좋아요':'과로를 피하고 충분히 쉬세요'}</span></div>`;
+      }else if(type==='overall'){
+        return `
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">💬</span><span>${fortune.msg}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">🌤️</span><span>오늘의 기운: ${inter.todayEl}(${hanjaMap[inter.todayEl]}) — ${inter.rel==='support'?'순풍':inter.rel==='conflict'?'역풍':'평온'}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">🎯</span><span>${fortune.score>=4?'적극적으로 행동하기 좋은 날':'차분하게 내면을 돌보는 하루를'}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">🧭</span><span>좋은 방위: ${directions[inter.userEl]||'동쪽'}</span></div>`;
+      }else if(type==='love'){
+        return `
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">💬</span><span>${fortune.msg}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">💗</span><span>${fortune.score>=4?'감정 표현에 적극적이면 좋은 결과가':'서로의 공간을 존중해주세요'}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">⏰</span><span>좋은 시간대: 오후 ${times[tIdx][0]>6?times[tIdx][0]-6:times[tIdx][0]}시~${times[tIdx][1]>6?times[tIdx][1]-6:times[tIdx][1]}시</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">🎨</span><span>데이트 색상: ${luckyColor[0]}, ${luckyColor[1]}</span></div>`;
+      }else if(type==='study'){
+        const studyTips={'목':'독서, 글쓰기','화':'발표, 토론','토':'복습, 정리','금':'분석, 계획 수립','수':'창의적 사고, 명상'};
+        return `
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">💬</span><span>${fortune.msg}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">📖</span><span>추천 학습: ${studyTips[inter.userEl]||'자유 독서'}</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">⏰</span><span>집중 시간대: 오전 ${times[tIdx][0]}시~${times[tIdx][1]}시</span></div>
+          <div class="fortune-detail-item"><span class="fortune-detail-icon">${fortune.score>=4?'🧠':'💤'}</span><span>${fortune.score>=4?'장시간 집중이 가능한 날':'짧은 시간 집중 후 휴식을 반복하세요'}</span></div>`;
       }else{
         return `
           <div class="fortune-detail-item"><span class="fortune-detail-icon">💬</span><span>${fortune.msg}</span></div>
@@ -520,6 +774,23 @@
           <div class="fortune-detail-item"><span class="fortune-detail-icon">🧭</span><span>좋은 방위: ${directions[inter.userEl]||'동쪽'}</span></div>
           <div class="fortune-detail-item"><span class="fortune-detail-icon">💡</span><span>${fortune.score>=3?'새로운 제안에 열린 마음으로':'중요한 결정은 내일로 미루세요'}</span></div>`;
       }
+    }
+
+    // === Briefing Text ===
+    function getBriefingText(inter,yongsin,score,weakEl,organMap){
+      const relMsg={'same':'체질과 같은 기운이 흐르는 날이라 컨디션이 최상입니다.','support':'내 기운을 충전해주는 좋은 날이에요.','conflict':'체질과 충돌하는 기운이니 무리하지 마세요.','drain':'에너지가 빠지기 쉬우니 충분한 휴식이 필요합니다.','control':'내가 주도할 수 있는 안정적인 날입니다.'};
+      const activityMap={'목':'가벼운 스트레칭이나 산책','화':'따뜻한 차 한 잔과 유산소 운동','토':'규칙적인 식사와 소화에 좋은 음식','금':'깊은 호흡 운동과 수분 섭취','수':'반신욕이나 가벼운 수영'};
+      const line1=`${relMsg[inter.rel]||relMsg['same']}`;
+      const line2=`<strong>${weakEl}</strong> 기운이 부족한 체질이라 <strong>${organMap[weakEl]}</strong>에 신경 써주세요.`;
+      const line3=`오늘 추천 활동은 <strong>${activityMap[weakEl]||'가벼운 산책'}</strong>입니다.`;
+      return `${line1}<br>${line2}<br>${line3}`;
+    }
+
+    // === Recipe Story ===
+    function getRecipeStory(inter,weakEl,hanjaMap,ingredient,recipe,organMap){
+      const relStory={'same':'체질과 같은 기운이 흐르는 오늘,','support':'기운이 충전되는 좋은 날,','conflict':'체질과 충돌하는 기운을 다스리기 위해,','drain':'빠져나가는 에너지를 보충하기 위해,','control':'안정적인 기운 속에서,'};
+      const benefitMap={'목':'간 해독과 스트레스 해소','화':'혈액순환 촉진과 체온 상승','토':'소화 기능 강화와 장 건강','금':'호흡기 보호와 면역력 강화','수':'신장 기능 회복과 부종 완화'};
+      return `<p class="bp">${relStory[inter.rel]||''}</p><p class="bp">${weakEl}(${hanjaMap[weakEl]}) 기운이 부족한 당신에게 <strong>${ingredient.name}</strong>이(가) 꼭 필요합니다.</p><p class="bp"><strong>${recipe.title}</strong>은(는) ${benefitMap[weakEl]||'전반적인 건강 관리'}에 도움을 주는 메뉴예요. ${organMap[weakEl]} 기능을 보강하면서 맛도 챙길 수 있습니다.</p>`;
     }
 
     // === Overall Message ===
@@ -531,45 +802,148 @@
     }
 
     // === Today's Meals ===
-    function buildTodayMeals(saju,userEl,ingredient){
-      const yongsin=findYongsin(saju);
-      const weakEl=yongsin.burok;
+    function buildTodayMeals(saju,weakEl,ingredient,strongEl){
+      strongEl=strongEl||weakEl;
       const hanjaMap={'목':'木','화':'火','토':'土','금':'金','수':'水'};
-      const mealData={
-        '목':{b:`${ingredient.name} 된장국 + 현미밥`,l:`두부 ${ingredient.name} 비빔밥`,d:`${ingredient.name} 닭가슴살 샐러드`},
-        '화':{b:`${ingredient.name} 요거트 볼 + 그래놀라`,l:`${ingredient.name} 포케 보울`,d:`${ingredient.name} 파스타`},
-        '토':{b:`${ingredient.name} 죽 + 달걀`,l:`${ingredient.name} 비빔밥 + 된장찌개`,d:`${ingredient.name} 찜 + 잡곡밥`},
-        '금':{b:`${ingredient.name} 스무디 + 토스트`,l:`${ingredient.name} 쌈밥 + 된장국`,d:`${ingredient.name} 조림 + 현미밥`},
-        '수':{b:`${ingredient.name} 두유 + 오트밀`,l:`${ingredient.name} 국밥`,d:`${ingredient.name} 미역국 + 잡곡밥`}
+      const allMeals={
+        '목':[
+          {b:'시금치 된장국 + 현미밥',l:'두부 채소 비빔밥',d:'브로콜리 닭가슴살 샐러드',kcal:['320kcal','480kcal','380kcal']},
+          {b:'아보카도 토스트 + 두유',l:'시금치 파스타 + 샐러드',d:'케일 두부 볶음 + 잡곡밥',kcal:['350kcal','520kcal','400kcal']},
+          {b:'녹차 오트밀 + 견과류',l:'셀러리 닭가슴살 랩',d:'두부 스테이크 + 현미밥',kcal:['300kcal','450kcal','420kcal']},
+          {b:'브로콜리 달걀 스크램블 + 통밀빵',l:'아보카도 포케 보울',d:'시금치 된장찌개 + 잡곡밥',kcal:['340kcal','500kcal','390kcal']},
+          {b:'두부 채소죽',l:'케일 퀴노아 샐러드 + 닭가슴살',d:'셀러리 볶음 + 현미밥 + 된장국',kcal:['280kcal','470kcal','410kcal']}
+        ],
+        '화':[
+          {b:'토마토 달걀 볶음 + 통밀빵',l:'연어 포케 보울',d:'파프리카 닭가슴살 구이 + 현미밥',kcal:['330kcal','510kcal','420kcal']},
+          {b:'석류 요거트 + 그래놀라',l:'토마토 파스타 + 샐러드',d:'연어 스테이크 + 채소 구이',kcal:['300kcal','530kcal','450kcal']},
+          {b:'비트 스무디 + 삶은 달걀',l:'파프리카 비빔밥',d:'토마토 치킨 스튜 + 잡곡밥',kcal:['310kcal','480kcal','430kcal']},
+          {b:'고구마 + 두유 + 견과류',l:'연어 샐러드 랩',d:'비트 리조또',kcal:['340kcal','460kcal','440kcal']},
+          {b:'토마토 오믈렛 + 통밀빵',l:'석류 드레싱 닭가슴살 샐러드',d:'파프리카 두부 볶음 + 현미밥',kcal:['350kcal','470kcal','400kcal']}
+        ],
+        '토':[
+          {b:'호박죽 + 달걀',l:'고구마 비빔밥 + 된장찌개',d:'버섯 찜 + 잡곡밥',kcal:['300kcal','500kcal','400kcal']},
+          {b:'당근 달걀 스크램블 + 현미밥',l:'감자 수프 + 통밀빵 + 샐러드',d:'호박전 + 잡곡밥 + 미역국',kcal:['330kcal','480kcal','420kcal']},
+          {b:'고구마 + 우유 + 삶은 달걀',l:'버섯 리조또',d:'당근 닭가슴살 조림 + 현미밥',kcal:['320kcal','510kcal','410kcal']},
+          {b:'감자 수프 + 통밀빵',l:'호박 비빔국수',d:'달걀찜 + 잡곡밥 + 된장국',kcal:['310kcal','470kcal','380kcal']},
+          {b:'현미 버섯죽',l:'고구마 치킨 샐러드',d:'감자조림 + 된장찌개 + 잡곡밥',kcal:['290kcal','490kcal','430kcal']}
+        ],
+        '금':[
+          {b:'배 스무디 + 통밀 토스트',l:'양배추 쌈밥 + 된장국',d:'도라지 무침 + 잡곡밥 + 배추된장국',kcal:['310kcal','480kcal','400kcal']},
+          {b:'연근조림 + 현미밥 + 달걀',l:'마늘 닭가슴살 구이 + 샐러드',d:'배숙 + 양배추 찜 + 잡곡밥',kcal:['340kcal','500kcal','380kcal']},
+          {b:'양배추 달걀 샌드위치',l:'무 갈비탕',d:'연근 볶음 + 현미밥 + 도라지차',kcal:['330kcal','520kcal','390kcal']},
+          {b:'배 + 요거트 + 견과류',l:'양배추 롤 + 무 된장국',d:'마늘 새우 볶음 + 잡곡밥',kcal:['300kcal','470kcal','420kcal']},
+          {b:'도라지차 + 통밀빵 + 삶은 달걀',l:'배추 두부 전골',d:'무생채 + 닭가슴살 구이 + 현미밥',kcal:['290kcal','490kcal','410kcal']}
+        ],
+        '수':[
+          {b:'검은콩 두유 + 오트밀 + 견과류',l:'미역국 + 잡곡밥 + 달걀말이',d:'굴전 + 흑미밥 + 된장국',kcal:['320kcal','490kcal','430kcal']},
+          {b:'블루베리 요거트 + 그래놀라',l:'다시마 국밥',d:'검은콩 조림 + 미역 샐러드 + 잡곡밥',kcal:['300kcal','480kcal','400kcal']},
+          {b:'흑미 죽 + 삶은 달걀',l:'굴밥 + 미역국',d:'검은깨 두부 + 해초 샐러드 + 잡곡밥',kcal:['310kcal','510kcal','390kcal']},
+          {b:'검은깨 라떼 + 통밀빵',l:'블루베리 닭가슴살 샐러드',d:'미역줄기 볶음 + 흑미밥 + 된장찌개',kcal:['290kcal','460kcal','420kcal']},
+          {b:'검은콩 + 바나나 스무디',l:'해초 비빔밥',d:'굴 미역국 + 잡곡밥 + 달걀찜',kcal:['330kcal','470kcal','440kcal']}
+        ]
       };
-      const meals=mealData[userEl]||mealData['목'];
-      const icons=['🌅','🌞','🌙'],labels=['아침','점심','저녁'],kcals=['350kcal','500kcal','420kcal'];
-      const keys=['b','l','d'];
-      return keys.map((k,i)=>`
+      const list=allMeals[weakEl]||allMeals['목'];
+      const dayOfYear=Math.floor((new Date()-new Date(new Date().getFullYear(),0,0))/(86400000));
+      const todayMeal=list[(dayOfYear+saju.day.gan+saju.hour.ji)%list.length];
+      const icons=['🌅','🌞','🌙'],labels=['아침','점심','저녁'];
+      const mealNames=[todayMeal.b,todayMeal.l,todayMeal.d];
+      // 음식별 효능 DB
+      const foodBenefits={
+        '시금치':'간 해독과 혈액 생성을 돕는 철분·엽산이 풍부',
+        '된장':'발효 식품으로 장 건강과 해독 기능 촉진',
+        '현미':'식이섬유가 풍부해 혈당 안정과 소화 촉진',
+        '두부':'식물성 단백질과 칼슘이 풍부해 근육·뼈 보강',
+        '브로콜리':'비타민C·K가 풍부해 면역력 강화와 간 해독',
+        '아보카도':'불포화지방산이 심혈관 건강과 피부 보습에 도움',
+        '토스트':'탄수화물 에너지원으로 아침 활력 공급',
+        '두유':'이소플라본과 단백질이 호르몬 균형에 도움',
+        '파스타':'에너지를 지속적으로 공급하는 복합 탄수화물',
+        '케일':'항산화 성분이 풍부해 세포 보호와 간 기능 지원',
+        '녹차':'카테킨이 항산화·지방분해에 효과적',
+        '오트밀':'베타글루칸이 콜레스테롤 저하와 포만감 유지에 도움',
+        '견과류':'오메가3와 비타민E가 뇌 건강과 혈관 보호',
+        '셀러리':'칼륨이 풍부해 혈압 조절과 이뇨 작용',
+        '닭가슴살':'고단백 저지방으로 근육 유지와 체중 관리',
+        '달걀':'완전 단백질 식품으로 근육과 뇌 기능 지원',
+        '통밀빵':'정제되지 않은 탄수화물로 혈당 안정에 도움',
+        '퀴노아':'필수 아미노산이 풍부한 슈퍼푸드',
+        '토마토':'라이코펜이 심장 건강과 항산화에 효과적',
+        '연어':'오메가3 지방산이 심혈관과 뇌 건강에 필수',
+        '파프리카':'비타민C가 레몬의 3배, 면역력과 피부 건강',
+        '석류':'폴리페놀이 혈액순환과 항산화에 도움',
+        '비트':'질산염이 혈압 조절과 운동 능력 향상',
+        '고구마':'베타카로틴과 식이섬유가 장 건강에 좋음',
+        '호박':'비타민A와 식이섬유가 소화 기능 보호',
+        '감자':'칼륨이 풍부해 부종 완화와 에너지 공급',
+        '버섯':'베타글루칸이 면역력 강화와 항암에 도움',
+        '당근':'베타카로틴이 눈 건강과 면역력 강화',
+        '배':'루테올린이 기관지 보호와 소화 촉진',
+        '양배추':'비타민U가 위벽 보호와 위장 건강에 효과적',
+        '도라지':'사포닌이 기관지 점막 보호와 가래 배출',
+        '연근':'탄닌과 식이섬유가 지혈·정장 작용에 도움',
+        '마늘':'알리신이 항균·항바이러스 및 면역력 강화',
+        '무':'디아스타제가 소화를 돕고 기침·가래 완화',
+        '검은콩':'안토시아닌이 신장 보호와 노화 방지',
+        '미역':'요오드와 칼슘이 갑상선·뼈 건강에 필수',
+        '굴':'아연이 면역력·생식 기능 강화에 효과적',
+        '블루베리':'안토시아닌이 눈 건강과 기억력 향상',
+        '다시마':'알긴산이 중금속 배출과 혈압 조절',
+        '흑미':'안토시아닌이 항산화와 신장 기능 보강',
+        '검은깨':'세사민이 간 보호와 혈관 건강에 도움',
+        '해초':'미네랄이 풍부해 신진대사 촉진',
+        '잡곡':'다양한 영양소가 골고루 에너지 공급',
+        '샐러드':'비타민과 식이섬유로 해독·소화 촉진',
+        '요거트':'유산균이 장 건강과 면역력 강화',
+        '수프':'소화 부담이 적어 위장 보호에 좋음',
+        '스무디':'비타민 흡수가 빠르고 포만감 유지',
+        '리조또':'부드러운 식감으로 위장에 부담 없는 에너지 공급',
+        '볶음':'고온 조리로 영양소가 응축되어 효율적 섭취'
+      };
+      // 음식명에서 핵심 재료 추출 후 효능 매칭
+      function getMealTip(mealName,weakEl,hanjaMap){
+        const benefits=[];
+        for(const[food,desc] of Object.entries(foodBenefits)){
+          if(mealName.includes(food))benefits.push(`<strong>${food}</strong> — ${desc}`);
+        }
+        if(benefits.length===0)return `${weakEl}(${hanjaMap[weakEl]}) 기운 보충을 위한 맞춤 메뉴입니다.`;
+        return benefits.join('<br>');
+      }
+      const organTip={'목':'간·담','화':'심장·소장','토':'비장·위장','금':'폐·대장','수':'신장·방광'};
+      return mealNames.map((name,i)=>`
         <div class="meal-card">
           <div class="meal-header" onclick="toggleMeal(this)">
             <div class="meal-time-icon">${icons[i]}</div>
             <div class="meal-info">
               <div class="meal-label">${labels[i]}</div>
-              <div class="meal-name">${meals[k]}</div>
+              <div class="meal-name">${name}</div>
             </div>
-            <div class="meal-kcal">${kcals[i]}</div>
+            <div class="meal-kcal">${todayMeal.kcal[i]}</div>
             <span class="meal-arrow">▼</span>
           </div>
           <div class="meal-body">
-            <div class="saju-tip">💡 ${weakEl}(${hanjaMap[weakEl]}) 기운이 부족한 체질에 ${ingredient.name}이(가) ${labels[i]} 에너지를 보충해줍니다.</div>
+            <div class="saju-tip">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--main)">📌 ${labels[i]} 식재료 효능</div>
+              ${getMealTip(name,weakEl,hanjaMap)}
+              <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border-accent);font-size:.78rem;color:var(--muted)">💡 ${organTip[weakEl]||'장기'} 보강을 위한 ${weakEl}(${hanjaMap[weakEl]}) 기운 맞춤 식단</div>
+            </div>
           </div>
         </div>`).join('');
     }
 
     // === Toggle Functions ===
-    function toggleFortune(header){header.classList.toggle('open');header.nextElementSibling.classList.toggle('open')}
+    // Fortune toggle is handled inline via classList.toggle('open')
     function toggleMeal(header){header.classList.toggle('open');header.nextElementSibling.classList.toggle('open')}
+
+    function goHome(){
+      document.getElementById('dashboardView').style.display='none';
+      document.getElementById('inputView').style.display='';
+      document.getElementById('settingsBtn').style.display='none';
+    }
 
     // === Settings ===
     function openSettings(){
       const p=loadProfile();
-      if(p){document.getElementById('settingsInfo').innerHTML=`<strong>${p.name}</strong>님<br>${p.birthYear}년 ${p.birthMonth}월 ${p.birthDay}일생`}
+      if(p){document.getElementById('settingsInfo').innerHTML=`<strong>${p.name}</strong>님<br>${p.birthYear}년 ${p.birthMonth}월 ${p.birthDay}일 ${p.noTime?'(시간 모름)':(String(p.birthHour).padStart(2,'0')+'시 '+String(p.birthMinute||0).padStart(2,'0')+'분')}생`}
       document.getElementById('settingsModal').classList.add('show');
     }
     function closeSettings(){document.getElementById('settingsModal').classList.remove('show')}
@@ -579,6 +953,68 @@
         document.getElementById('dashboardView').style.display='none';
         document.getElementById('inputView').style.display='block';
         document.getElementById('settingsBtn').style.display='none';
+        document.getElementById('fixedCta').classList.remove('show');
+      }
+    }
+
+    // === Share Functions ===
+    function showToast(msg){
+      const t=document.getElementById('shareToast');
+      t.textContent=msg;t.classList.add('show');
+      setTimeout(()=>t.classList.remove('show'),2500);
+    }
+
+    function saveAsImage(){
+      showToast('이미지 생성 중...');
+      const target=document.getElementById('dashContent');
+      html2canvas(target,{
+        scale:2,
+        backgroundColor:'#FFF5F3',
+        useCORS:true,
+        logging:false,
+        windowWidth:520
+      }).then(canvas=>{
+        const link=document.createElement('a');
+        link.download=`사주운세_${new Date().toISOString().slice(0,10)}.png`;
+        link.href=canvas.toDataURL('image/png');
+        link.click();
+        showToast('이미지가 저장되었습니다!');
+      }).catch(()=>showToast('이미지 저장에 실패했습니다'));
+    }
+
+    function shareNative(){
+      const profile=loadProfile();
+      const name=profile?profile.name:'회원';
+      const today=new Date();
+      const dateStr=`${today.getFullYear()}년 ${today.getMonth()+1}월 ${today.getDate()}일`;
+      if(navigator.share){
+        navigator.share({
+          title:`${name}님의 오늘의 사주 운세`,
+          text:`${dateStr} ${name}님의 사주 맞춤 운세와 식단을 확인해보세요!`,
+          url:window.location.href
+        }).catch(()=>{});
+      }else{
+        shareLink();
+      }
+    }
+
+    function shareX(){
+      const profile=loadProfile();
+      const name=profile?profile.name:'회원';
+      const text=encodeURIComponent(`${name}님의 오늘의 사주 맞춤 운세와 식단을 확인해보세요!`);
+      const url=encodeURIComponent(window.location.href);
+      window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`,'_blank');
+    }
+
+    function shareLink(){
+      const url=window.location.href;
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url).then(()=>showToast('링크가 복사되었습니다!'));
+      }else{
+        const ta=document.createElement('textarea');
+        ta.value=url;document.body.appendChild(ta);ta.select();
+        document.execCommand('copy');document.body.removeChild(ta);
+        showToast('링크가 복사되었습니다!');
       }
     }
 

@@ -498,6 +498,43 @@ function getYongsinAction(el) {
   return m[el] || '';
 }
 
+// ===== 사주 개인 해시 (8글자 전체 활용) =====
+function sajuHash(saju, salt) {
+  let h = salt || 5381;
+  const vals = [
+    saju.year.gan, saju.year.ji,
+    saju.month.gan, saju.month.ji,
+    saju.day.gan, saju.day.ji,
+    saju.hour.gan, saju.hour.ji
+  ];
+  for (const v of vals) {
+    h = ((h * 33) ^ v) >>> 0;
+  }
+  return h;
+}
+
+// ===== 십신 카테고리 (숫자 반환) =====
+// 0=비겁, 1=식상, 2=재성, 3=관성, 4=인성
+function getSipsinCategory(dayGanIdx, targetGanIdx) {
+  const order = ['목', '화', '토', '금', '수'];
+  const dayEl = CHEONGAN_ELEMENT[dayGanIdx];
+  const tEl = CHEONGAN_ELEMENT[targetGanIdx];
+  return ((order.indexOf(tEl) - order.indexOf(dayEl)) + 5) % 5;
+}
+
+// ===== 지지 관계 판별 =====
+function getJijiRelation(ji1, ji2) {
+  const yukHap = [[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]];
+  const chung = [[0,6],[1,7],[2,8],[3,9],[4,10],[5,11]];
+  for (const [a, b] of yukHap) {
+    if ((ji1 === a && ji2 === b) || (ji1 === b && ji2 === a)) return 'hap';
+  }
+  for (const [a, b] of chung) {
+    if ((ji1 === a && ji2 === b) || (ji1 === b && ji2 === a)) return 'chung';
+  }
+  return 'neutral';
+}
+
 // ===== 추천 식단 (1주 21끼니, 8종 식단 타입) =====
 function getDietPlan(saju, dietType) {
   const yongsin = findYongsin(saju);
@@ -614,59 +651,83 @@ function analyzeTodayInteraction(saju) {
   };
 }
 
-// ===== 오늘의 추천 음식 =====
-function getTodayFoods(userEl) {
+// ===== 오늘의 추천 음식 (다차원 개인화) =====
+function getTodayFoods(weakEl, strongEl, rel) {
+  // strongEl, rel이 없으면 기존 호환성 유지
+  strongEl = strongEl || weakEl;
+  rel = rel || 'same';
+
   const foods = {
     '목': [
-      { emoji:'🥬', name:'시금치', reason:'간 기능 강화' },
-      { emoji:'🥦', name:'브로콜리', reason:'해독 작용' },
-      { emoji:'🍵', name:'녹차', reason:'항산화 보호' }
+      { emoji:'🥬', name:'시금치', reason:'부족한 목 기운을 보충하여 간 기능을 강화합니다' },
+      { emoji:'🥦', name:'브로콜리', reason:'간 해독을 도와 목 기운의 순환을 원활하게 합니다' },
+      { emoji:'🍵', name:'녹차', reason:'카테킨이 간세포를 보호하고 항산화력을 높입니다' }
     ],
     '화': [
-      { emoji:'🍅', name:'토마토', reason:'심장 보호' },
-      { emoji:'🫐', name:'블루베리', reason:'항산화' },
-      { emoji:'🥬', name:'케일', reason:'혈액 정화' }
+      { emoji:'🍅', name:'토마토', reason:'부족한 화 기운을 보충하여 심장 기능을 보호합니다' },
+      { emoji:'🫑', name:'파프리카', reason:'비타민C가 혈관을 강화하여 화 기운을 살립니다' },
+      { emoji:'🍎', name:'석류', reason:'혈액순환을 개선하여 약해진 화 기운을 끌어올립니다' }
     ],
     '토': [
-      { emoji:'🎃', name:'호박', reason:'위장 보호' },
-      { emoji:'🍠', name:'고구마', reason:'소화 촉진' },
-      { emoji:'🌾', name:'현미', reason:'기력 보충' }
+      { emoji:'🎃', name:'호박', reason:'부족한 토 기운을 보충하여 위장을 따뜻하게 보호합니다' },
+      { emoji:'🍠', name:'고구마', reason:'비장의 소화력을 촉진하여 토 기운을 안정시킵니다' },
+      { emoji:'🌾', name:'현미', reason:'안정적 에너지를 공급하여 토 기운의 기반을 다집니다' }
     ],
     '금': [
-      { emoji:'🍐', name:'배', reason:'폐 보호' },
-      { emoji:'🌿', name:'도라지', reason:'호흡기 강화' },
-      { emoji:'🥬', name:'양배추', reason:'위 점막 보호' }
+      { emoji:'🍐', name:'배', reason:'부족한 금 기운을 보충하여 폐를 윤택하게 합니다' },
+      { emoji:'🌿', name:'도라지', reason:'기관지를 강화하여 약해진 금 기운을 보강합니다' },
+      { emoji:'🥬', name:'양배추', reason:'위·폐 점막을 보호하여 금 기운 회복을 돕습니다' }
     ],
     '수': [
-      { emoji:'🫘', name:'검은콩', reason:'신장 보강' },
-      { emoji:'🌊', name:'미역', reason:'수분 균형' },
-      { emoji:'🫐', name:'블루베리', reason:'부종 완화' }
+      { emoji:'🫘', name:'검은콩', reason:'부족한 수 기운을 보충하여 신장 기능을 보강합니다' },
+      { emoji:'🌊', name:'미역', reason:'체내 수분 균형을 조절하여 수 기운을 안정시킵니다' },
+      { emoji:'🫐', name:'블루베리', reason:'항산화 작용으로 신장을 보호하고 부종을 완화합니다' }
     ]
   };
-  const avoidFoods = {
-    '목': '기름진 음식 / 튀김류 / 과도한 육류',
-    '화': '찬 음료 / 날 음식 / 아이스크림',
+
+  // 과잉 오행에 따른 피해야 할 음식 (strongEl 기반)
+  const avoidByStrong = {
+    '목': '기름진 간식 / 과도한 육류 / 알코올',
+    '화': '매운 음식 / 뜨거운 국물 / 카페인 과다',
     '토': '밀가루 과다 / 단 음식 / 가공식품',
-    '금': '매운 음식 / 탄산음료 / 자극적 음식',
-    '수': '짠 음식 / 알코올 / 찬 음식'
+    '금': '자극적인 향신료 / 탄산음료 / 훈제식품',
+    '수': '짠 음식 / 찬 음료 / 날 음식'
   };
-  const avoidReasons = {
-    '목': '오늘은 간에 부담을 주는 음식을 피하세요',
-    '화': '오늘은 차가운 성질이 火기운을 더 억누릅니다',
-    '토': '위장에 부담되는 음식은 오늘 특히 주의하세요',
-    '금': '폐와 호흡기를 자극하는 음식을 피하세요',
-    '수': '오늘은 신장에 부담을 주는 짠 음식을 줄이세요'
+  const avoidReasonByStrong = {
+    '목': '목(木) 기운이 과잉되어 간에 부담이 됩니다. 간 자극 음식을 줄이세요',
+    '화': '화(火) 기운이 과잉되어 열이 오르기 쉽습니다. 열을 더하는 음식을 피하세요',
+    '토': '토(土) 기운이 과잉되어 소화기에 부담이 됩니다. 위장을 무겁게 하는 음식을 줄이세요',
+    '금': '금(金) 기운이 과잉되어 호흡기가 예민합니다. 폐를 자극하는 음식을 피하세요',
+    '수': '수(水) 기운이 과잉되어 수분 대사가 과부하입니다. 체내 냉기를 더하는 음식을 줄이세요'
   };
+
+  // 오늘과의 관계에 따른 보너스 음식
+  const bonusFoods = {
+    'support': { emoji:'⚡', name:'꿀물', reason:'기운이 충전되는 날, 에너지를 극대화하는 꿀물을 추천합니다' },
+    'conflict': { emoji:'🍵', name:'캐모마일차', reason:'충돌하는 기운을 달래기 위해 마음을 안정시키는 차를 추천합니다' },
+    'drain': { emoji:'🥜', name:'견과류 한 줌', reason:'빠져나가는 에너지를 보충하기 위해 회복력 높은 견과류를 추천합니다' },
+    'same': null,
+    'control': null
+  };
+
+  const goodFoods = foods[weakEl] || foods['목'];
+  const bonus = bonusFoods[rel];
+  if (bonus) goodFoods.push(bonus);
+
   return {
-    good: foods[userEl] || foods['목'],
-    bad: avoidFoods[userEl] || '',
-    badReason: avoidReasons[userEl] || ''
+    good: goodFoods,
+    bad: avoidByStrong[strongEl] || avoidByStrong['목'],
+    badReason: avoidReasonByStrong[strongEl] || avoidReasonByStrong['목']
   };
 }
 
-// ===== 건강 증상 (약한 오행) =====
-function getHealthSymptoms(weakEl) {
-  const data = {
+// ===== 건강 증상 (다차원: weakEl + strongEl + dayGan) =====
+function getHealthSymptoms(weakEl, strongEl, dayGan) {
+  // strongEl, dayGan이 없으면 기존 호환성 유지
+  strongEl = strongEl || weakEl;
+  dayGan = (dayGan !== undefined && dayGan !== null) ? dayGan : 0;
+
+  const baseData = {
     '목': [
       { icon:'😤', title:'잦은 짜증·분노', desc:'간 기능이 약하면 감정 조절이 어려워집니다' },
       { icon:'👁️', title:'눈의 피로·충혈', desc:'간은 눈과 직결됩니다' },
@@ -703,7 +764,56 @@ function getHealthSymptoms(weakEl) {
       { icon:'🔩', title:'허리 통증', desc:'신장은 허리와 직결됩니다' }
     ]
   };
-  return data[weakEl] || data['수'];
+
+  // 과잉 오행(strongEl)에 의한 추가 증상
+  const excessSymptoms = {
+    '목': [
+      { icon:'😠', title:'과도한 긴장·스트레스', desc:'목 기운 과잉으로 항상 긴장 상태가 됩니다' },
+      { icon:'🤯', title:'두통·편두통', desc:'간 기운 과다로 기가 위로 치솟습니다' }
+    ],
+    '화': [
+      { icon:'🔥', title:'안면 홍조·상열감', desc:'화 기운 과잉으로 열이 위로 몰립니다' },
+      { icon:'😤', title:'잇몸 출혈·구내염', desc:'심장 열이 과다하면 구강에 영향을 줍니다' }
+    ],
+    '토': [
+      { icon:'🤰', title:'체중 증가·부종', desc:'토 기운 과잉으로 습(濕)이 정체됩니다' },
+      { icon:'😪', title:'무거운 몸·나른함', desc:'과다한 토 기운이 기의 순환을 막습니다' }
+    ],
+    '금': [
+      { icon:'🌵', title:'지나친 건조함', desc:'금 기운 과잉으로 체내 수분이 부족합니다' },
+      { icon:'😶', title:'과도한 완벽주의·강박', desc:'금 기운 과다가 정신적 경직을 유발합니다' }
+    ],
+    '수': [
+      { icon:'🥶', title:'몸이 차고 냉함', desc:'수 기운 과잉으로 체온이 떨어집니다' },
+      { icon:'😨', title:'불안감·공포감', desc:'수 기운 과다가 두려움을 증폭시킵니다' }
+    ]
+  };
+
+  // dayGan별 취약점 추가 설명
+  const dayGanSusceptibility = {
+    0: '갑목 일간은 스트레스에 특히 취약합니다. 긴장을 풀어주는 습관이 중요합니다.',
+    1: '을목 일간은 감정 변화에 민감합니다. 정서적 안정이 건강의 열쇠입니다.',
+    2: '병화 일간은 열이 쉽게 오릅니다. 체온 관리에 신경 쓰세요.',
+    3: '정화 일간은 소화기가 예민합니다. 자극적인 음식을 피하세요.',
+    4: '무토 일간은 과식에 주의하세요. 식사량 조절이 핵심입니다.',
+    5: '기토 일간은 찬 음식에 약합니다. 따뜻한 음식을 위주로 드세요.',
+    6: '경금 일간은 호흡기가 예민합니다. 공기 질에 신경 쓰세요.',
+    7: '신금 일간은 피부가 민감합니다. 보습과 수분 섭취를 충분히 하세요.',
+    8: '임수 일간은 하체가 약해지기 쉽습니다. 하체 운동을 꾸준히 하세요.',
+    9: '계수 일간은 냉증에 주의하세요. 따뜻하게 지내는 것이 좋습니다.'
+  };
+
+  const result = baseData[weakEl] || baseData['수'];
+  // weakEl !== strongEl일 때만 과잉 증상 추가 (같으면 불필요)
+  if (weakEl !== strongEl && excessSymptoms[strongEl]) {
+    const extra = excessSymptoms[strongEl];
+    result.push(extra[dayGan % extra.length]);
+  }
+
+  return {
+    symptoms: result,
+    dayGanNote: dayGanSusceptibility[dayGan] || dayGanSusceptibility[0]
+  };
 }
 
 // ===== 장기 식단 (약한 오행 보충) =====
@@ -788,132 +898,440 @@ function getLongTermDiet(weakEl) {
   return data[weakEl] || data['수'];
 }
 
-// ===== 오늘의 운세 (재물운, 건강운, 인간관계운) =====
+// ===== 오늘의 운세 (8글자 전체 활용 · 십신·합충 반영) =====
 function getTodayFortune(saju) {
   const today = new Date();
   const todayP = getDayPillar(today.getFullYear(), today.getMonth() + 1, today.getDate());
-  const todayEl = CHEONGAN_ELEMENT[todayP.gan];
-  const userEl = CHEONGAN_ELEMENT[saju.day.gan];
-  const seed = today.getFullYear()*10000 + (today.getMonth()+1)*100 + today.getDate() + saju.day.gan*7 + saju.day.ji*3;
+  const todayGanEl = CHEONGAN_ELEMENT[todayP.gan];
+  const todayJiEl = JIJI_ELEMENT[todayP.ji];
 
-  const gen = { '목':'화', '화':'토', '토':'금', '금':'수', '수':'목' };
-  const ctrl = { '목':'토', '화':'금', '토':'수', '금':'목', '수':'화' };
+  // 사주 8글자 + 오늘 날짜 결합 해시 → 개인별 고유값
+  const dateNum = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+  const hash = sajuHash(saju, dateNum);
 
-  // 재물운
+  // 사주 분석 데이터
+  const yongsinData = findYongsin(saju);
+  const isStrong = yongsinData.strong;
+
+  // 오늘 천간 vs 일간 십신 관계 (0=비겁,1=식상,2=재성,3=관성,4=인성)
+  const sipsin = getSipsinCategory(saju.day.gan, todayP.gan);
+
+  // 지지 관계: 4개 기둥 모두 체크
+  const dayJiRel = getJijiRelation(saju.day.ji, todayP.ji);
+  const monthJiRel = getJijiRelation(saju.month.ji, todayP.ji);
+  const yearJiRel = getJijiRelation(saju.year.ji, todayP.ji);
+  const hourJiRel = getJijiRelation(saju.hour.ji, todayP.ji);
+
+  // 용신/기신 오행 체크
+  const isYongsinDay = todayGanEl === yongsinData.yongsin || todayJiEl === yongsinData.yongsin;
+  const isByungDay = todayGanEl === yongsinData.byung;
+
+  // 해시 기반 미세조정 (-0.5 ~ +0.5)
+  const microAdj = (cat) => ((hash + cat) % 5 - 2) * 0.3;
+
+  // ===== 재물운 =====
   let wealth = 3;
-  if (todayEl === gen[userEl]) wealth = 5;
-  else if (gen[todayEl] === userEl) wealth = 4;
-  else if (todayEl === userEl) wealth = 3;
-  else if (ctrl[todayEl] === userEl) wealth = 2;
-  else wealth = 3;
-  wealth = Math.max(1, Math.min(5, wealth + ((seed % 3) - 1)));
+  if (sipsin === 2) wealth += isStrong ? 2 : 0;  // 재성: 신강→재 감당, 신약→부담
+  if (sipsin === 1) wealth += 1;                   // 식상생재
+  if (sipsin === 0) wealth -= 1;                   // 비겁탈재
+  if (sipsin === 4) wealth -= 0.5;                 // 인성극식상
+  if (dayJiRel === 'hap') wealth += 1;
+  if (dayJiRel === 'chung') wealth -= 1;
+  if (monthJiRel === 'hap') wealth += 0.5;
+  if (monthJiRel === 'chung') wealth -= 0.5;
+  if (isYongsinDay) wealth += 1;
+  if (isByungDay) wealth -= 0.5;
+  wealth = Math.max(1, Math.min(5, Math.round(wealth + microAdj(1))));
 
   const wealthMsgs = {
-    5: '오늘은 재물운이 최고입니다! 기회가 보이면 과감하게 잡으세요.',
-    4: '재물운이 좋은 편입니다. 소비보다는 투자에 유리한 날이에요.',
-    3: '보통의 재물운입니다. 큰 지출은 내일로 미루세요.',
-    2: '재물운이 약합니다. 충동구매를 조심하세요.',
-    1: '재물운이 낮은 날입니다. 보수적인 재정 관리가 필요해요.'
+    5: ['재물운이 활짝 열린 날! 기회가 보이면 과감히 잡으세요.','금전적 행운이 따르는 하루. 투자나 거래에 유리해요.','재물의 기운이 최고조! 새로운 수입원이 열릴 수 있어요.'],
+    4: ['재물운이 좋은 편입니다. 소비보다 투자에 유리한 날이에요.','안정적인 재물 흐름이에요. 계획된 지출은 괜찮아요.','재물의 기운이 순탄합니다. 저축을 시작하기 좋은 날이에요.'],
+    3: ['보통의 재물운입니다. 큰 지출은 내일로 미루세요.','무난한 금전 흐름이에요. 일상적인 소비는 괜찮아요.','재물운이 평이합니다. 현상 유지가 가장 좋아요.'],
+    2: ['재물운이 약합니다. 충동구매를 조심하세요.','금전적으로 조심할 날이에요. 보증이나 대출을 피하세요.','재물 흐름이 약한 날. 꼭 필요한 것만 소비하세요.'],
+    1: ['재물운이 낮은 날입니다. 보수적 재정 관리가 필요해요.','금전 손실에 주의하세요. 중요한 금전 결정은 미루는 게 좋아요.','재물운이 바닥입니다. 오늘은 지갑을 닫아두세요.']
   };
 
-  // 건강운
+  // ===== 건강운 =====
   let health = 3;
-  if (todayEl === userEl) health = 5;
-  else if (gen[todayEl] === userEl) health = 4;
-  else if (todayEl === gen[userEl]) health = 3;
-  else if (ctrl[todayEl] === userEl) health = 2;
-  else health = 3;
-  health = Math.max(1, Math.min(5, health + (((seed+13) % 3) - 1)));
+  if (sipsin === 4) health += 1;                   // 인성: 보호
+  if (sipsin === 0) health += 1;                   // 비겁: 기운 충전
+  if (sipsin === 3) health += isStrong ? 0 : -1.5; // 관살: 신약이면 위험
+  if (sipsin === 1) health += isStrong ? 0.5 : -0.5; // 식상: 신강→설기 좋음, 신약→소모
+  if (dayJiRel === 'chung') health -= 1.5;
+  if (dayJiRel === 'hap') health += 1;
+  if (yearJiRel === 'chung') health -= 0.5;
+  if (isYongsinDay) health += 1;
+  if (isByungDay) health -= 0.5;
+  // 부족한 오행 보충 체크
+  if (todayGanEl === yongsinData.burok) health += 0.5;
+  health = Math.max(1, Math.min(5, Math.round(health + microAdj(2))));
 
   const healthMsgs = {
-    5: '컨디션 최상! 운동이나 활동적인 일을 하기에 좋은 날입니다.',
-    4: '건강운이 좋습니다. 가벼운 산책이나 스트레칭을 추천해요.',
-    3: '무난한 건강 컨디션입니다. 규칙적인 식사를 챙기세요.',
-    2: '피로가 쌓이기 쉬운 날입니다. 충분한 수면이 필요해요.',
-    1: '건강운이 낮습니다. 무리하지 말고 휴식을 취하세요.'
+    5: ['컨디션 최상! 운동이나 활동적인 일에 좋은 날입니다.','몸과 마음이 가벼운 날! 새로운 운동을 시작해보세요.','에너지가 넘치는 하루! 야외 활동이나 등산도 좋아요.'],
+    4: ['건강운이 좋습니다. 가벼운 산책이나 스트레칭을 추천해요.','컨디션이 양호한 날. 규칙적인 운동 루틴을 유지하세요.','몸의 기운이 좋은 날. 미뤄둔 건강 관리를 시작해보세요.'],
+    3: ['무난한 건강 컨디션이에요. 규칙적인 식사를 챙기세요.','평범한 컨디션입니다. 수분 섭취를 충분히 해주세요.','보통의 건강 상태에요. 무리하지 않는 선에서 활동하세요.'],
+    2: ['피로가 쌓이기 쉬운 날입니다. 충분한 수면이 필요해요.','컨디션 저하가 예상되는 날. 과로를 피하고 휴식하세요.','몸이 무거울 수 있어요. 따뜻한 차 한 잔이 도움됩니다.'],
+    1: ['건강운이 낮습니다. 무리하지 말고 휴식을 취하세요.','체력 저하에 주의하세요. 격한 운동이나 야근을 피하세요.','몸의 기운이 약한 날이에요. 일찍 쉬는 게 좋겠어요.']
   };
 
-  // 인간관계운
+  // ===== 애정운 =====
+  let love = 3;
+  if (dayJiRel === 'hap') love += 2;              // 일지합: 강한 인연
+  if (dayJiRel === 'chung') love -= 1;
+  if (monthJiRel === 'hap') love += 1;
+  if (sipsin === 2) love += 1;                     // 재성: 이성 인연
+  if (sipsin === 3) love += 0.5;                   // 관성: 이성
+  if (sipsin === 0) love -= 0.5;                   // 비겁: 경쟁자
+  if (isYongsinDay) love += 0.5;
+  if (hourJiRel === 'hap') love += 0.5;
+  love = Math.max(1, Math.min(5, Math.round(love + microAdj(3))));
+
+  const loveMsgs = {
+    5: ['로맨틱한 기운이 가득! 사랑하는 사람에게 마음을 표현하세요.','설레는 만남이 기다리는 날! 소개팅이나 데이트에 최적이에요.','이성운이 빛나는 하루! 적극적으로 다가가보세요.'],
+    4: ['애정운이 좋습니다. 데이트나 소개팅에 좋은 날이에요.','따뜻한 감정이 오가는 날. 소중한 사람에게 연락해보세요.','사랑의 기운이 순탄해요. 작은 선물이 큰 감동을 줄 거예요.'],
+    3: ['평온한 애정 흐름이에요. 작은 배려가 큰 감동을 줍니다.','무난한 이성 운입니다. 일상적인 대화가 관계를 깊게 해요.','애정운이 보통이에요. 상대방 이야기에 귀 기울여보세요.'],
+    2: ['연인과 사소한 다툼이 생길 수 있어요. 양보하는 마음을 가지세요.','감정 표현에 주의가 필요한 날. 오해가 생기기 쉬워요.','이성 관계에서 신중함이 필요합니다. 감정적 반응을 자제하세요.'],
+    1: ['애정운이 낮은 날이에요. 감정 표현에 신중해야 해요.','연애 문제로 스트레스를 받을 수 있어요. 거리를 두는 것도 방법이에요.','이성 관계에서 갈등이 예상됩니다. 혼자만의 시간을 가져보세요.']
+  };
+
+  // ===== 학업운 =====
+  let study = 3;
+  if (sipsin === 4) study += 2;                    // 인성: 학문의 별
+  if (sipsin === 1) study += 1;                    // 식상: 창의력, 표현
+  if (sipsin === 2) study -= 1;                    // 재성: 학업 방해 (인성극)
+  if (sipsin === 3) study += isStrong ? 0.5 : -0.5; // 관살: 신강→적당한 긴장, 신약→스트레스
+  if (dayJiRel === 'hap') study += 0.5;
+  if (dayJiRel === 'chung') study -= 1;
+  if (isYongsinDay) study += 1;
+  if (hourJiRel === 'chung') study -= 0.5;
+  study = Math.max(1, Math.min(5, Math.round(study + microAdj(4))));
+
+  const studyMsgs = {
+    5: ['집중력이 최고인 날! 공부나 자기계발에 최적의 타이밍입니다.','머리가 맑고 이해력이 빠른 날! 어려운 주제에 도전하세요.','학습 효율이 최상! 자격증이나 새로운 스킬 공부에 딱이에요.'],
+    4: ['학업운이 좋습니다. 새로운 것을 배우기에 좋은 날이에요.','집중력이 좋은 편이에요. 계획한 공부를 실행해보세요.','두뇌 활동이 활발한 날. 독서나 강의 듣기에 좋아요.'],
+    3: ['보통의 집중력입니다. 짧은 시간에 집중해서 공부하세요.','학업운이 무난해요. 복습 위주로 공부하면 효과적이에요.','평범한 학습 컨디션이에요. 가벼운 메모 정리부터 시작하세요.'],
+    2: ['산만해지기 쉬운 날이에요. 환경을 바꿔보세요.','집중이 잘 안 되는 날입니다. 짧은 휴식을 자주 가지세요.','학업 효율이 떨어지는 날. 핵심만 간추려 공부하세요.'],
+    1: ['집중이 어려운 날입니다. 가벼운 복습 정도가 적당해요.','두뇌가 피로한 날이에요. 무리한 학습보다 휴식이 우선이에요.','학업운이 약한 날입니다. 오늘은 쉬면서 내일을 준비하세요.']
+  };
+
+  // ===== 대인관계운 =====
   let relation = 3;
-  if (gen[userEl] === todayEl) relation = 5;
-  else if (todayEl === userEl) relation = 4;
-  else if (gen[todayEl] === userEl) relation = 3;
-  else if (ctrl[todayEl] === userEl) relation = 2;
-  else relation = 3;
-  relation = Math.max(1, Math.min(5, relation + (((seed+7) % 3) - 1)));
+  if (sipsin === 1) relation += 1.5;               // 식상: 소통·표현
+  if (sipsin === 0) relation += 1;                 // 비겁: 동료 인연
+  if (sipsin === 3) relation -= 1;                 // 관살: 압박·갈등
+  if (dayJiRel === 'hap') relation += 1;
+  if (dayJiRel === 'chung') relation -= 1;
+  if (hourJiRel === 'hap') relation += 1;          // 시주: 사회 관계
+  if (hourJiRel === 'chung') relation -= 0.5;
+  if (isYongsinDay) relation += 0.5;
+  if (monthJiRel === 'chung') relation -= 0.5;
+  relation = Math.max(1, Math.min(5, Math.round(relation + microAdj(5))));
 
   const relationMsgs = {
-    5: '인간관계가 빛나는 날! 모임이나 만남에 적극적으로 나서세요.',
-    4: '좋은 인연을 만날 수 있는 날입니다. 연락이 오면 반갑게 응하세요.',
-    3: '평온한 관계 흐름입니다. 가까운 사람에게 안부를 전해보세요.',
-    2: '오해가 생기기 쉬운 날입니다. 말을 아끼는 것이 좋아요.',
-    1: '갈등이 생길 수 있는 날입니다. 감정적 대응을 자제하세요.'
+    5: ['인간관계가 빛나는 날! 모임이나 만남에 적극적으로 나서세요.','사람들과의 교류가 즐거운 날! 네트워킹에 최적이에요.','소통의 기운이 최고! 중요한 미팅이나 발표에 좋은 날입니다.'],
+    4: ['좋은 인연을 만날 수 있는 날이에요. 연락이 오면 반갑게 응하세요.','대인관계가 원만한 날입니다. 팀 활동이나 협업에 유리해요.','사교 운이 좋습니다. 오래된 친구에게 연락해보세요.'],
+    3: ['평온한 관계 흐름이에요. 가까운 사람에게 안부를 전해보세요.','무난한 대인관계 흐름입니다. 경청하는 자세가 좋아요.','관계운이 보통이에요. 조용히 자기 일에 집중하는 것도 좋아요.'],
+    2: ['오해가 생기기 쉬운 날이에요. 말을 아끼는 것이 좋아요.','대인관계에서 마찰이 생길 수 있어요. 감정적 대화를 피하세요.','소통에 주의가 필요합니다. 문자보다 대면이 나아요.'],
+    1: ['갈등이 생길 수 있는 날입니다. 감정적 대응을 자제하세요.','인간관계 스트레스를 받기 쉬운 날. 혼자만의 시간이 필요해요.','대인관계가 꼬이기 쉬운 날이에요. 중요한 약속은 미루세요.']
+  };
+
+  // ===== 총운 =====
+  const overall = Math.max(1, Math.min(5, Math.round((wealth + health + love + study + relation) / 5)));
+  const overallMsgs = {
+    5: ['모든 기운이 조화를 이루는 최고의 날! 무엇이든 도전하세요.','오늘의 운세가 대길! 중요한 일을 시작하기에 최적입니다.','만사형통의 날! 계획한 모든 일이 순조롭게 풀릴 거예요.'],
+    4: ['전반적으로 좋은 흐름이에요. 계획한 일을 실행에 옮기기 좋아요.','기운이 상승하는 날입니다. 능동적으로 하루를 보내세요.','운세가 좋은 편이에요. 적극적인 자세가 행운을 부릅니다.'],
+    3: ['무난한 하루입니다. 평소 루틴을 지키는 것이 가장 좋아요.','평범하지만 안정적인 날이에요. 기본에 충실하세요.','큰 변동 없는 하루입니다. 꾸준함이 가장 큰 무기예요.'],
+    2: ['기운이 다소 약한 날입니다. 중요한 결정은 미루세요.','운세가 약한 편이에요. 보수적으로 행동하는 것이 좋습니다.','조심스러운 하루가 될 수 있어요. 무리한 도전은 자제하세요.'],
+    1: ['조심해야 할 하루입니다. 무리하지 말고 안정을 취하세요.','기운이 많이 약한 날이에요. 큰 일은 미루고 쉬어가세요.','운세가 낮은 날입니다. 안전하고 조용한 하루를 보내세요.']
+  };
+
+  // 해시 기반 메시지 선택 (카테고리별 다른 인덱스)
+  const pick = (msgs, score, salt) => msgs[score][(hash + salt) % 3];
+
+  // 운세별 음식 연결
+  const weakEl = yongsinData.burok;
+  const strongEl = yongsinData.byung;
+  const dayGan = saju.day.gan;
+  const userFoods = {
+    overall: getFortuneFood('overall', weakEl, strongEl, dayGan),
+    wealth: getFortuneFood('wealth', weakEl, strongEl, dayGan),
+    health: getFortuneFood('health', weakEl, strongEl, dayGan),
+    love: getFortuneFood('love', weakEl, strongEl, dayGan),
+    study: getFortuneFood('study', weakEl, strongEl, dayGan),
+    relation: getFortuneFood('relation', weakEl, strongEl, dayGan)
   };
 
   return {
-    wealth: { score: wealth, msg: wealthMsgs[wealth] },
-    health: { score: health, msg: healthMsgs[health] },
-    relation: { score: relation, msg: relationMsgs[relation] }
+    overall: { score: overall, msg: pick(overallMsgs, overall, 10), food: userFoods.overall },
+    wealth: { score: wealth, msg: pick(wealthMsgs, wealth, 20), food: userFoods.wealth },
+    health: { score: health, msg: pick(healthMsgs, health, 30), food: userFoods.health },
+    love: { score: love, msg: pick(loveMsgs, love, 40), food: userFoods.love },
+    study: { score: study, msg: pick(studyMsgs, study, 50), food: userFoods.study },
+    relation: { score: relation, msg: pick(relationMsgs, relation, 60), food: userFoods.relation }
   };
 }
 
-// ===== 오늘의 대표 식재료 1가지 =====
+// ===== 일간 성격 데이터 (10종) =====
+const dayGanPersonality = {
+  0: {name:'갑목', trait:'리더십이 강하고 진취적', health:'간 기능이 활발하나 스트레스에 취약', tip:'아침 스트레칭으로 기를 펴주세요'},
+  1: {name:'을목', trait:'유연하고 적응력이 뛰어남', health:'간이 섬세하여 감정 변화에 영향', tip:'명상이나 요가로 마음을 안정시키세요'},
+  2: {name:'병화', trait:'열정적이고 활동적', health:'심장에 열이 오르기 쉬움', tip:'따뜻한 차보다 미지근한 물이 좋아요'},
+  3: {name:'정화', trait:'섬세하고 감성적', health:'소화기가 예민할 수 있음', tip:'규칙적인 식사가 특히 중요해요'},
+  4: {name:'무토', trait:'안정적이고 포용력이 넓음', health:'위장이 튼튼하나 과식 주의', tip:'식사량 조절이 건강의 핵심이에요'},
+  5: {name:'기토', trait:'꼼꼼하고 실용적', health:'비장 기능에 신경 써야 함', tip:'따뜻한 음식 위주로 드세요'},
+  6: {name:'경금', trait:'결단력이 있고 원칙적', health:'폐·호흡기가 예민', tip:'깊은 호흡 운동을 생활화하세요'},
+  7: {name:'신금', trait:'섬세하고 예리함', health:'피부와 호흡기 관리 필요', tip:'수분 섭취를 충분히 하세요'},
+  8: {name:'임수', trait:'지혜롭고 창의적', health:'신장·방광 기능에 주의', tip:'하체 운동과 반신욕이 좋아요'},
+  9: {name:'계수', trait:'직관적이고 적응력 좋음', health:'수분 대사가 불안정할 수 있음', tip:'짠 음식을 줄이고 따뜻하게 지내세요'}
+};
+
+// ===== 개인화 브리핑 =====
+function getPersonalizedBriefing(saju, inter, weakEl, strongEl, organMap) {
+  const dayGan = saju.day.gan;
+  const personality = dayGanPersonality[dayGan] || dayGanPersonality[0];
+  const el = analyzeElements(saju);
+  const weakCount = el[weakEl] || 0;
+  const hourJi = saju.hour.ji;
+  const gender = saju.gender;
+
+  // 부족 오행 심각도
+  let severityMsg;
+  if (weakCount === 0) {
+    severityMsg = `<strong style="color:var(--warn)">${weakEl} 기운이 완전히 비어 있어</strong> ${organMap[weakEl]} 기능에 각별한 주의가 필요합니다!`;
+  } else if (weakCount === 1) {
+    severityMsg = `${weakEl} 기운이 약한 편이라 ${organMap[weakEl]} 기능이 저하되기 쉽습니다.`;
+  } else {
+    severityMsg = `${weakEl} 기운이 다소 부족하지만 심각한 수준은 아닙니다. 꾸준한 관리가 도움됩니다.`;
+  }
+
+  // 과잉 오행
+  let strongMsg = '';
+  if (strongEl !== weakEl) {
+    strongMsg = ` 반면 ${strongEl} 기운은 과잉되어 있으니 줄이는 노력도 병행하세요.`;
+  }
+
+  // 오늘과의 관계에 따른 톤
+  const relTone = {
+    'same': '오늘은 당신 체질의 기운이 강해지는 날이라 컨디션이 좋습니다.',
+    'support': '오늘 천기가 당신의 기운을 충전해주는 좋은 날이에요!',
+    'conflict': '오늘 기운이 체질과 충돌하니 무리하지 말고 조심하세요.',
+    'drain': '오늘은 에너지가 빠져나가기 쉬우니 충분한 영양 보충이 중요합니다.',
+    'control': '오늘은 당신이 주도할 수 있는 안정적인 날입니다.'
+  };
+  let line2 = relTone[inter.rel] || relTone['same'];
+
+  // 성별 기반 건강 팁
+  let genderTip = '';
+  if (gender === 'female') {
+    const femaleTips = {
+      '목': '여성은 간 기능이 생리 주기에 영향을 받습니다. 생리 전후 간 보호 식품을 섭취하세요.',
+      '화': '여성은 혈액순환이 중요합니다. 철분 보충에 신경 쓰세요.',
+      '토': '여성은 위장이 호르몬 변화에 민감합니다. 따뜻한 음식 위주로 드세요.',
+      '금': '여성은 피부와 호흡기가 건조해지기 쉽습니다. 보습과 수분 섭취가 중요합니다.',
+      '수': '여성은 신장 기능이 부종과 직결됩니다. 하체 스트레칭을 자주 하세요.'
+    };
+    genderTip = femaleTips[weakEl] || '';
+  } else {
+    const maleTips = {
+      '목': '남성은 간에 축적되는 피로 관리가 중요합니다. 음주를 줄이세요.',
+      '화': '남성은 심혈관 건강에 특히 주의하세요. 유산소 운동을 추천합니다.',
+      '토': '남성은 불규칙한 식사가 위장에 큰 타격을 줍니다. 규칙적 식사가 필수입니다.',
+      '금': '남성은 폐 기능이 면역력과 직결됩니다. 금연과 깊은 호흡 운동을 하세요.',
+      '수': '남성은 신장 기능이 체력과 연결됩니다. 과로를 피하고 충분히 쉬세요.'
+    };
+    genderTip = maleTips[weakEl] || '';
+  }
+
+  // 시주 기반 추천 (아침형/저녁형)
+  let hourTip = '';
+  if (hourJi >= 2 && hourJi <= 5) { // 인묘진사 (03~11시)
+    hourTip = '아침에 태어난 당신은 오전 시간대에 컨디션이 좋습니다. 중요한 일은 오전에 하세요.';
+  } else if (hourJi >= 6 && hourJi <= 8) { // 오미신 (11~17시)
+    hourTip = '한낮에 태어난 당신은 오후 시간대에 집중력이 높습니다. 오후에 핵심 업무를 배치하세요.';
+  } else { // 유술해자축 (17~03시)
+    hourTip = '밤에 태어난 당신은 저녁 시간대에 에너지가 살아납니다. 밤 루틴을 활용하세요.';
+  }
+
+  const parts = [];
+  parts.push(`<p class="bp"><strong>${personality.name}</strong> 일간인 당신은 ${personality.trait}인 성격입니다.<br>${personality.health}.</p>`);
+  parts.push(`<p class="bp">${line2}<br>${severityMsg}</p>`);
+  if (strongMsg) parts.push(`<p class="bp">${strongMsg.trim()}</p>`);
+  if (genderTip) parts.push(`<p class="bp">${genderTip}</p>`);
+  parts.push(`<p class="bp">${personality.tip}.<br>${hourTip}</p>`);
+  return parts.join('');
+}
+
+// ===== 운세별 음식 생성 함수 =====
+function getFortuneFood(category, weakEl, strongEl, dayGan) {
+  dayGan = (dayGan !== undefined && dayGan !== null) ? dayGan : 0;
+  // weakEl === strongEl 방어
+  const effectiveStrong = (strongEl && strongEl !== weakEl) ? strongEl : null;
+
+  const foodDB = {
+    '목': {name:['시금치','두부','브로콜리','아보카도','녹차','케일','셀러리'], organ:'간'},
+    '화': {name:['토마토','파프리카','석류','연어','비트','고구마','강황'], organ:'심장'},
+    '토': {name:['호박','현미','달걀','버섯','당근','감자','고구마'], organ:'위장'},
+    '금': {name:['배','도라지','양배추','연근','마늘','무','은행'], organ:'폐'},
+    '수': {name:['검은콩','미역','블루베리','다시마','검은깨','흑미','굴'], organ:'신장'}
+  };
+
+  const categoryThemes = {
+    overall: {label:'오늘의 밸런스 푸드'},
+    wealth: {label:'재물운 파워푸드'},
+    health: {label:'건강 보충 식재료'},
+    love: {label:'무드푸드'},
+    study: {label:'브레인푸드'},
+    relation: {label:'소통의 음식'}
+  };
+
+  // 실제 존재하는 메뉴 DB (식재료별)
+  const realMenus = {
+    '시금치':['시금치 된장국','시금치 나물 비빔밥','시금치 달걀볶음'],
+    '두부':['순두부찌개','두부 스테이크','마파두부'],
+    '브로콜리':['브로콜리 크림수프','브로콜리 달걀볶음','브로콜리 샐러드'],
+    '아보카도':['아보카도 토스트','아보카도 샐러드','아보카도 비빔밥'],
+    '녹차':['녹차 라떼','녹차 스무디','녹차 오트밀'],
+    '케일':['케일 스무디','케일 샐러드','케일 주스'],
+    '셀러리':['셀러리 사과 주스','셀러리 볶음','셀러리 샐러드'],
+    '토마토':['토마토 달걀볶음','토마토 파스타','토마토 수프'],
+    '파프리카':['파프리카 잡채','파프리카 볶음밥','파프리카 샐러드'],
+    '석류':['석류 주스','석류 요거트','석류 에이드'],
+    '연어':['연어 덮밥','연어 샐러드','연어 스테이크'],
+    '비트':['비트 주스','비트 샐러드','비트 수프'],
+    '고구마':['군고구마','고구마 샐러드','고구마죽'],
+    '강황':['강황 라떼','강황밥','강황 스무디'],
+    '호박':['호박죽','호박전','호박 된장찌개'],
+    '현미':['현미밥','현미 누룽지','현미 죽'],
+    '달걀':['달걀말이','달걀찜','스크램블 에그'],
+    '버섯':['버섯 볶음','버섯전골','버섯 리조또'],
+    '당근':['당근 라페','당근 주스','당근 볶음밥'],
+    '감자':['감자 수프','감자조림','감자전'],
+    '배':['배숙','배 주스','배 샐러드'],
+    '도라지':['도라지차','도라지 나물','도라지청'],
+    '양배추':['양배추 쌈밥','양배추 롤','양배추 주스'],
+    '연근':['연근조림','연근칩','연근전'],
+    '마늘':['마늘빵','마늘 볶음밥','흑마늘 진액'],
+    '무':['무생채','무국','깍두기'],
+    '은행':['은행 볶음','은행죽','은행 꼬치구이'],
+    '검은콩':['검은콩밥','검은콩 두유','검은콩 조림'],
+    '미역':['미역국','미역 샐러드','미역줄기 볶음'],
+    '블루베리':['블루베리 스무디','블루베리 요거트','블루베리 오트밀'],
+    '다시마':['다시마 국물','다시마 튀각','다시마 쌈'],
+    '검은깨':['검은깨 라떼','검은깨죽','검은깨 두유'],
+    '흑미':['흑미밥','흑미 떡','흑미 죽'],
+    '굴':['굴국밥','굴전','굴 미역국']
+  };
+
+  const weakDB = foodDB[weakEl] || foodDB['목'];
+  const theme = categoryThemes[category] || categoryThemes['overall'];
+
+  // 카테고리별 고유 오프셋으로 재료 분산
+  const catOffset = {overall:0, wealth:1, health:2, love:3, study:4, relation:5};
+  const idx1 = (dayGan + (catOffset[category]||0) * 11 + 3) % weakDB.name.length;
+  const food1 = weakDB.name[idx1];
+
+  // 실제 메뉴 선택
+  const menus = realMenus[food1] || [`${food1} 요리`];
+  const menuIdx = (dayGan + category.length) % menus.length;
+  const menu = menus[menuIdx];
+
+  // 효능 설명
+  const benefitNote = `${weakDB.organ} 기능을 보강하는 ${food1}`;
+
+  // strongEl 기반 부가 설명
+  let strongNote = '';
+  if (effectiveStrong) {
+    const strongOrgan = foodDB[effectiveStrong] ? foodDB[effectiveStrong].organ : '';
+    strongNote = `, ${effectiveStrong} 기운 과잉으로 인한 ${strongOrgan} 부담 완화`;
+  }
+
+  return {
+    label: theme.label,
+    food: `${benefitNote}${strongNote}`,
+    menu: menu
+  };
+}
+
+// ===== 오늘의 대표 식재료 1가지 (다차원 개인화) =====
 function getTodayMainIngredient(saju) {
   const today = new Date();
-  const userEl = CHEONGAN_ELEMENT[saju.day.gan];
+  const weakEl = findYongsin(saju).burok;
   const dayOfYear = Math.floor((today - new Date(today.getFullYear(),0,0)) / 86400000);
+  const dayGan = saju.day.gan;
+  const personality = dayGanPersonality[dayGan] || dayGanPersonality[0];
 
   const ingredients = {
     '목': [
-      { name:'시금치', emoji:'🥬', benefit:'간 기능 강화 & 해독', color:'#4CAF7B' },
-      { name:'브로콜리', emoji:'🥦', benefit:'항산화 & 비타민C 보충', color:'#4CAF7B' },
-      { name:'아보카도', emoji:'🥑', benefit:'좋은 지방으로 간 보호', color:'#4CAF7B' },
-      { name:'셀러리', emoji:'🌿', benefit:'혈압 조절 & 디톡스', color:'#4CAF7B' },
-      { name:'케일', emoji:'🥬', benefit:'엽록소 풍부 & 해독', color:'#4CAF7B' },
-      { name:'녹차', emoji:'🍵', benefit:'카테킨으로 지방 분해', color:'#4CAF7B' },
-      { name:'두부', emoji:'🧈', benefit:'식물성 단백질 보충', color:'#4CAF7B' }
+      { name:'시금치', emoji:'🥬', image:'https://images.pexels.com/photos/6083893/pexels-photo-6083893.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'간 기능 강화 & 해독', color:'#4CAF7B' },
+      { name:'브로콜리', emoji:'🥦', image:'https://images.pexels.com/photos/90893/pexels-photo-90893.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'항산화 & 비타민C 보충', color:'#4CAF7B' },
+      { name:'아보카도', emoji:'🥑', image:'https://images.pexels.com/photos/31833143/pexels-photo-31833143.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'좋은 지방으로 간 보호', color:'#4CAF7B' },
+      { name:'셀러리', emoji:'🌿', image:'https://images.pexels.com/photos/8580433/pexels-photo-8580433.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'혈압 조절 & 디톡스', color:'#4CAF7B' },
+      { name:'케일', emoji:'🥬', image:'https://images.pexels.com/photos/1346342/pexels-photo-1346342.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'엽록소 풍부 & 해독', color:'#4CAF7B' },
+      { name:'녹차', emoji:'🍵', image:'https://images.pexels.com/photos/31956301/pexels-photo-31956301.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'카테킨으로 지방 분해', color:'#4CAF7B' },
+      { name:'두부', emoji:'🧈', image:'https://images.pexels.com/photos/33356138/pexels-photo-33356138.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'식물성 단백질 보충', color:'#4CAF7B' }
     ],
     '화': [
-      { name:'토마토', emoji:'🍅', benefit:'심장 보호 리코펜 풍부', color:'#E85A71' },
-      { name:'파프리카', emoji:'🫑', benefit:'비타민C & 항산화', color:'#E85A71' },
-      { name:'석류', emoji:'🍎', benefit:'혈액순환 개선', color:'#E85A71' },
-      { name:'비트', emoji:'🫒', benefit:'혈액 생성 촉진', color:'#E85A71' },
-      { name:'고구마', emoji:'🍠', benefit:'베타카로틴 & 에너지', color:'#E85A71' },
-      { name:'연어', emoji:'🐟', benefit:'오메가3로 혈관 건강', color:'#E85A71' },
-      { name:'강황', emoji:'🌿', benefit:'항염증 & 혈액순환', color:'#E85A71' }
+      { name:'토마토', emoji:'🍅', image:'https://images.pexels.com/photos/14657386/pexels-photo-14657386.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'심장 보호 리코펜 풍부', color:'#E85A71' },
+      { name:'파프리카', emoji:'🫑', image:'https://images.pexels.com/photos/15820587/pexels-photo-15820587.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'비타민C & 항산화', color:'#E85A71' },
+      { name:'석류', emoji:'🍎', image:'https://images.pexels.com/photos/34704679/pexels-photo-34704679.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'혈액순환 개선', color:'#E85A71' },
+      { name:'비트', emoji:'🫒', image:'https://images.pexels.com/photos/6468551/pexels-photo-6468551.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'혈액 생성 촉진', color:'#E85A71' },
+      { name:'고구마', emoji:'🍠', image:'https://images.pexels.com/photos/10497774/pexels-photo-10497774.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'베타카로틴 & 에너지', color:'#E85A71' },
+      { name:'연어', emoji:'🐟', image:'https://images.pexels.com/photos/36292347/pexels-photo-36292347.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'오메가3로 혈관 건강', color:'#E85A71' },
+      { name:'강황', emoji:'🌿', image:'https://images.pexels.com/photos/7468415/pexels-photo-7468415.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'항염증 & 혈액순환', color:'#E85A71' }
     ],
     '토': [
-      { name:'호박', emoji:'🎃', benefit:'위장 보호 & 소화 촉진', color:'#D4A24E' },
-      { name:'고구마', emoji:'🍠', benefit:'소화 촉진 & 에너지', color:'#D4A24E' },
-      { name:'현미', emoji:'🌾', benefit:'안정적 에너지 공급', color:'#D4A24E' },
-      { name:'당근', emoji:'🥕', benefit:'비타민A & 위장 보호', color:'#D4A24E' },
-      { name:'버섯', emoji:'🍄', benefit:'면역력 & 소화효소', color:'#D4A24E' },
-      { name:'감자', emoji:'🥔', benefit:'포만감 & 칼륨 보충', color:'#D4A24E' },
-      { name:'달걀', emoji:'🥚', benefit:'완전 단백질 공급', color:'#D4A24E' }
+      { name:'호박', emoji:'🎃', image:'https://images.pexels.com/photos/13990684/pexels-photo-13990684.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'위장 보호 & 소화 촉진', color:'#D4A24E' },
+      { name:'고구마', emoji:'🍠', image:'https://images.pexels.com/photos/10497774/pexels-photo-10497774.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'소화 촉진 & 에너지', color:'#D4A24E' },
+      { name:'현미', emoji:'🌾', image:'https://images.pexels.com/photos/343871/pexels-photo-343871.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'안정적 에너지 공급', color:'#D4A24E' },
+      { name:'당근', emoji:'🥕', image:'https://images.pexels.com/photos/6955149/pexels-photo-6955149.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'비타민A & 위장 보호', color:'#D4A24E' },
+      { name:'버섯', emoji:'🍄', image:'https://images.pexels.com/photos/8588501/pexels-photo-8588501.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'면역력 & 소화효소', color:'#D4A24E' },
+      { name:'감자', emoji:'🥔', image:'https://images.pexels.com/photos/8839625/pexels-photo-8839625.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'포만감 & 칼륨 보충', color:'#D4A24E' },
+      { name:'달걀', emoji:'🥚', image:'https://images.pexels.com/photos/4394258/pexels-photo-4394258.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'완전 단백질 공급', color:'#D4A24E' }
     ],
     '금': [
-      { name:'배', emoji:'🍐', benefit:'폐를 윤택하게 보호', color:'#7B8DA5' },
-      { name:'도라지', emoji:'🌿', benefit:'기관지 & 호흡기 강화', color:'#7B8DA5' },
-      { name:'양배추', emoji:'🥬', benefit:'위·폐 점막 보호', color:'#7B8DA5' },
-      { name:'연근', emoji:'🌱', benefit:'폐 기능 개선', color:'#7B8DA5' },
-      { name:'마늘', emoji:'🧄', benefit:'면역력 & 살균 작용', color:'#7B8DA5' },
-      { name:'무', emoji:'🥕', benefit:'소화 촉진 & 폐 보호', color:'#7B8DA5' },
-      { name:'은행', emoji:'🟡', benefit:'폐 기능 강화', color:'#7B8DA5' }
+      { name:'배', emoji:'🍐', image:'https://images.pexels.com/photos/8086137/pexels-photo-8086137.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'폐를 윤택하게 보호', color:'#7B8DA5' },
+      { name:'도라지', emoji:'🌿', image:'https://images.pexels.com/photos/11144010/pexels-photo-11144010.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'기관지 & 호흡기 강화', color:'#7B8DA5' },
+      { name:'양배추', emoji:'🥬', image:'https://images.pexels.com/photos/23221031/pexels-photo-23221031.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'위·폐 점막 보호', color:'#7B8DA5' },
+      { name:'연근', emoji:'🌱', image:'https://images.pexels.com/photos/22391699/pexels-photo-22391699.png?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'폐 기능 개선', color:'#7B8DA5' },
+      { name:'마늘', emoji:'🧄', image:'https://images.pexels.com/photos/6638901/pexels-photo-6638901.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'면역력 & 살균 작용', color:'#7B8DA5' },
+      { name:'무', emoji:'🥕', image:'https://images.pexels.com/photos/8992924/pexels-photo-8992924.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'소화 촉진 & 폐 보호', color:'#7B8DA5' },
+      { name:'은행', emoji:'🟡', image:'https://images.pexels.com/photos/29503018/pexels-photo-29503018.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'폐 기능 강화', color:'#7B8DA5' }
     ],
     '수': [
-      { name:'검은콩', emoji:'🫘', benefit:'신장 보강 대표 식품', color:'#5A85B5' },
-      { name:'미역', emoji:'🌊', benefit:'수분 균형 & 독소 배출', color:'#5A85B5' },
-      { name:'블루베리', emoji:'🫐', benefit:'항산화 & 부종 완화', color:'#5A85B5' },
-      { name:'다시마', emoji:'🌿', benefit:'미네랄 & 요오드 보충', color:'#5A85B5' },
-      { name:'검은깨', emoji:'⚫', benefit:'신장·모발 영양 공급', color:'#5A85B5' },
-      { name:'흑미', emoji:'🍚', benefit:'항산화 & 신장 보강', color:'#5A85B5' },
-      { name:'굴', emoji:'🦪', benefit:'아연 풍부 & 면역력', color:'#5A85B5' }
+      { name:'검은콩', emoji:'🫘', image:'https://images.pexels.com/photos/10839568/pexels-photo-10839568.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'신장 보강 대표 식품', color:'#5A85B5' },
+      { name:'미역', emoji:'🌊', image:'https://images.pexels.com/photos/2781540/pexels-photo-2781540.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'수분 균형 & 독소 배출', color:'#5A85B5' },
+      { name:'블루베리', emoji:'🫐', image:'https://images.pexels.com/photos/12571099/pexels-photo-12571099.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'항산화 & 부종 완화', color:'#5A85B5' },
+      { name:'다시마', emoji:'🌿', image:'https://images.pexels.com/photos/9957266/pexels-photo-9957266.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'미네랄 & 요오드 보충', color:'#5A85B5' },
+      { name:'검은깨', emoji:'⚫', image:'https://images.pexels.com/photos/28959314/pexels-photo-28959314.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'신장·모발 영양 공급', color:'#5A85B5' },
+      { name:'흑미', emoji:'🍚', image:'https://images.pexels.com/photos/24334865/pexels-photo-24334865.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'항산화 & 신장 보강', color:'#5A85B5' },
+      { name:'굴', emoji:'🦪', image:'https://images.pexels.com/photos/29058866/pexels-photo-29058866.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'아연 풍부 & 면역력', color:'#5A85B5' }
     ]
   };
 
-  const list = ingredients[userEl] || ingredients['목'];
-  const idx = dayOfYear % list.length;
-  return list[idx];
+  const list = ingredients[weakEl] || ingredients['목'];
+  const personalHash = sajuHash(saju, 77);
+  const idx = (dayOfYear + personalHash) % list.length;
+  const item = list[idx];
+
+  // 개인화된 이유 생성
+  const organMap = {'목':'간','화':'심장','토':'비장·위장','금':'폐','수':'신장'};
+  const personalReasons = {
+    0: `갑목(甲木) 일간인 당신은 ${organMap[weakEl]} 기능이 예민합니다. ${item.name}의 영양소가 ${organMap[weakEl]}을(를) 보호합니다.`,
+    1: `을목(乙木) 일간인 당신은 섬세한 체질입니다. ${item.name}이(가) ${organMap[weakEl]} 기능을 부드럽게 보강합니다.`,
+    2: `병화(丙火) 일간인 당신은 열이 쉽게 오릅니다. ${item.name}이(가) 체내 균형을 잡아주며 ${organMap[weakEl]}을(를) 돕습니다.`,
+    3: `정화(丁火) 일간인 당신은 소화기가 예민합니다. ${item.name}의 순한 성질이 ${organMap[weakEl]}에 좋습니다.`,
+    4: `무토(戊土) 일간인 당신은 포용력이 넓지만 과부하에 주의하세요. ${item.name}이(가) ${organMap[weakEl]} 부담을 줄입니다.`,
+    5: `기토(己土) 일간인 당신에겐 따뜻한 성질의 음식이 좋습니다. ${item.name}이(가) ${organMap[weakEl]}을(를) 따뜻하게 합니다.`,
+    6: `경금(庚金) 일간인 당신은 호흡기가 예민합니다. ${item.name}이(가) ${organMap[weakEl]} 기능을 강화합니다.`,
+    7: `신금(辛金) 일간인 당신은 피부와 점막이 민감합니다. ${item.name}이(가) ${organMap[weakEl]}을(를) 윤택하게 합니다.`,
+    8: `임수(壬水) 일간인 당신은 수분 대사가 중요합니다. ${item.name}이(가) ${organMap[weakEl]} 기능을 활성화합니다.`,
+    9: `계수(癸水) 일간인 당신은 냉증에 주의해야 합니다. ${item.name}이(가) ${organMap[weakEl]}의 기운을 보충합니다.`
+  };
+
+  return {
+    ...item,
+    personalReason: personalReasons[dayGan] || personalReasons[0]
+  };
 }
 
 // ===== 오늘의 대표 식재료 레시피 =====
