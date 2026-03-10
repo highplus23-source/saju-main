@@ -104,17 +104,17 @@
     .score-sparkle:nth-child(7){top:45%;left:8%;animation-delay:2s;width:3px;height:3px;background:var(--water)}
     @keyframes sparkle{0%,100%{opacity:0;transform:scale(0) translateY(0)}50%{opacity:.8;transform:scale(1) translateY(-8px)}}
     /* Ring - thick donut style */
-    .score-ring-wrap{position:relative;width:220px;height:220px;margin:0 auto 14px;z-index:2}
-    .score-ring-svg{width:220px;height:220px;transform:rotate(-90deg)}
-    .score-ring-bg{fill:none;stroke:rgba(232,90,113,.12);stroke-width:22}
-    .score-ring-fill{fill:none;stroke-width:22;stroke-linecap:round;transition:stroke-dashoffset 1.2s ease-out;filter:drop-shadow(0 3px 8px rgba(232,90,113,0.35))}
+    .score-ring-wrap{position:relative;width:280px;height:280px;margin:0 auto 14px;z-index:2}
+    .score-ring-svg{width:280px;height:280px;transform:rotate(-90deg)}
+    .score-ring-bg{fill:none;stroke:rgba(232,90,113,.10);stroke-width:26}
+    .score-ring-fill{fill:none;stroke-width:26;stroke-linecap:round;transition:stroke-dashoffset 1.2s ease-out;filter:drop-shadow(0 3px 10px rgba(232,90,113,0.35))}
     .score-ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
     /* Mascot bounce */
-    .score-mascot{width:72px;height:72px;margin-bottom:4px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(232,90,113,0.25));animation:mascotBounce 2s ease-in-out infinite}
+    .score-mascot{width:96px;height:96px;margin-bottom:6px;object-fit:contain;filter:drop-shadow(0 4px 14px rgba(232,90,113,0.25));animation:mascotBounce 2s ease-in-out infinite}
     @keyframes mascotBounce{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-6px) rotate(-2deg)}50%{transform:translateY(0) rotate(0deg)}75%{transform:translateY(-4px) rotate(2deg)}}
-    .score-label{font-size:.92rem;color:var(--txt2);font-weight:600;margin-bottom:2px;margin-top:2px}
-    .score-number{font-size:3rem;font-weight:900;font-family:'Noto Sans KR',sans-serif;line-height:1;color:var(--txt)}
-    .score-number span{font-size:1.1rem;font-weight:700;color:var(--muted)}
+    .score-label{font-size:1rem;color:var(--txt2);font-weight:600;margin-bottom:4px;margin-top:4px}
+    .score-number{font-size:3.6rem;font-weight:900;font-family:'Noto Sans KR',sans-serif;line-height:1;color:var(--txt)}
+    .score-number span{font-size:1.2rem;font-weight:700;color:var(--muted)}
     .score-msg{font-size:.95rem;color:var(--txt2);line-height:1.7;font-weight:500;padding:14px 16px;background:rgba(232,90,113,0.06);border-radius:14px;margin-top:12px;position:relative;z-index:2}
     /* Ground decoration */
     .score-ground{position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(180deg,transparent,rgba(232,90,113,0.04));z-index:1;pointer-events:none}
@@ -792,18 +792,18 @@
               <span class="score-sparkle"></span>
               <span class="score-sparkle"></span>
               <div class="score-ring-wrap">
-                <svg class="score-ring-svg" viewBox="0 0 220 220">
+                <svg class="score-ring-svg" viewBox="0 0 280 280">
                   <defs>
                     <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                       <stop offset="0%" stop-color="#E85A71"/>
                       <stop offset="100%" stop-color="#FF8A9B"/>
                     </linearGradient>
                   </defs>
-                  <circle class="score-ring-bg" cx="110" cy="110" r="88"/>
-                  <circle class="score-ring-fill" cx="110" cy="110" r="88"
+                  <circle class="score-ring-bg" cx="140" cy="140" r="114"/>
+                  <circle class="score-ring-fill" cx="140" cy="140" r="114"
                     stroke="url(#ringGrad)"
-                    stroke-dasharray="553"
-                    stroke-dashoffset="${Math.round(553 - (553 * totalScore / 100))}"
+                    stroke-dasharray="716"
+                    stroke-dashoffset="${Math.round(716 - (716 * totalScore / 100))}"
                   />
                 </svg>
                 <div class="score-ring-center">
