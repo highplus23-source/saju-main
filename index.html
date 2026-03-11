@@ -31,6 +31,9 @@
     .top-bar-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.17rem;color:var(--main)}
     .top-bar-brand .dot{width:34px;height:34px;background:var(--main-gradient);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;box-shadow:0 2px 8px rgba(232,90,113,0.25)}
     .top-bar-brand span{letter-spacing:1px;font-family:'Noto Sans KR',sans-serif}
+    .top-bar-right{display:flex;align-items:center;gap:8px}
+    .top-bar-link{font-size:.75rem;font-weight:700;color:var(--main);text-decoration:none;padding:6px 14px;border:1.5px solid var(--main);border-radius:20px;transition:all .2s;white-space:nowrap}
+    .top-bar-link:hover{background:var(--main);color:#fff}
     .settings-btn{background:none;border:none;font-size:1.2rem;cursor:pointer;padding:8px;border-radius:50%;transition:background .2s}
     .settings-btn:hover{background:var(--main-bg)}
 
@@ -275,18 +278,9 @@
     .footer-note{text-align:center;font-size:.75rem;color:var(--muted);padding:8px 0 32px}
     .disclaimer-banner{margin:24px 0;padding:32px 24px;border-radius:20px;background:linear-gradient(135deg,#f55 0%,#d946a8 50%,#7c3aed 100%);text-align:center;border:none}
     .disclaimer-banner .disclaimer-title{font-size:1rem;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:-.02em;text-shadow:0 1px 3px rgba(0,0,0,.15)}
-    .disclaimer-banner .disclaimer-desc{font-size:.8rem;color:rgba(255,255,255,.9);line-height:1.7;text-shadow:0 1px 2px rgba(0,0,0,.1)}
-    /* Disclaimer Popup */
-    .disclaimer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;transition:opacity .3s;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
-    .disclaimer-overlay.show{opacity:1}
-    .disclaimer-popup{background:#fff;border-radius:20px;padding:32px 24px 24px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);transform:translateY(20px);transition:transform .3s}
-    .disclaimer-overlay.show .disclaimer-popup{transform:translateY(0)}
-    .disclaimer-icon{font-size:2.4rem;margin-bottom:12px}
-    .disclaimer-title{font-size:1.1rem;font-weight:800;color:var(--txt);margin-bottom:12px}
-    .disclaimer-msg{font-size:.85rem;color:var(--txt2);line-height:1.7;margin-bottom:20px}
-    .disclaimer-msg strong{color:var(--main);font-weight:700}
-    .disclaimer-btn{width:100%;padding:14px;background:var(--main-gradient);border:none;border-radius:12px;color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 16px rgba(232,90,113,0.3);transition:all .2s}
-    .disclaimer-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(232,90,113,0.4)}
+    .disclaimer-banner .disclaimer-desc{font-size:.8rem;color:rgba(255,255,255,.9);line-height:1.7;text-shadow:0 1px 2px rgba(0,0,0,.1);margin-bottom:16px}
+    .banner-cta-btn{display:inline-block;padding:12px 28px;background:#fff;color:#7c3aed;font-size:.88rem;font-weight:800;border-radius:12px;text-decoration:none;transition:all .2s;box-shadow:0 4px 16px rgba(0,0,0,0.15)}
+    .banner-cta-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,0.2)}
 
     .site-footer{color:var(--muted);padding:16px 20px 18px;text-align:center;font-size:.72rem;line-height:2;margin-top:10px}
     .site-footer strong{color:var(--txt2);font-weight:600}
@@ -470,7 +464,10 @@
       <div class="dot">🍽️</div>
       <img src="날씬예약.png" alt="날씬예약" style="height:22px;object-fit:contain">
     </div>
-    <button class="settings-btn" id="settingsBtn" onclick="openSettings()" aria-label="설정" style="display:none">⚙️</button>
+    <div class="top-bar-right">
+      <a class="top-bar-link" href="https://날씬예약.com" target="_blank" rel="noopener">전문 상담 바로가기</a>
+      <button class="settings-btn" id="settingsBtn" onclick="openSettings()" aria-label="설정" style="display:none">⚙️</button>
+    </div>
   </nav>
 
   <div class="wrap">
@@ -1051,9 +1048,9 @@
 
         <!-- ===== 공통 하단 ===== -->
         <div class="cta-mini">
-          <h3>식단으로 시작했으니, 더 건강해져볼까요?</h3>
-
-          <a class="cta-link" href="https://날씬예약.com" target="_blank" rel="noopener">체질 맞춤 다이어트 상담 →</a>
+          <h3>재미는 재미! 진짜 건강은 전문가와 함께</h3>
+          <p>나에게 맞는 체질 관리, 전문가 상담으로 시작해보세요</p>
+          <a class="cta-link" href="https://날씬예약.com" target="_blank" rel="noopener">날씬예약 전문 상담 바로가기 →</a>
         </div>
 
         <div class="share-section">
@@ -1074,8 +1071,9 @@
         </div>
 
         <div class="disclaimer-banner">
-          <div class="disclaimer-title">사주로 보는 오늘의 운세, 재미로 봐주세요 :)</div>
-          <div class="disclaimer-desc">운세·식단 추천은 참고용이며 전문 상담을 대체하지 않습니다.</div>
+          <div class="disclaimer-title">재미는 재미! 진짜 건강은 전문가와 함께</div>
+          <div class="disclaimer-desc">나에게 맞는 체질 관리, 전문가와 시작해보세요</div>
+          <a class="banner-cta-btn" href="https://날씬예약.com" target="_blank" rel="noopener">날씬예약 전문 상담 알아보기 →</a>
         </div>
 
         <footer class="site-footer">
@@ -1429,34 +1427,6 @@
       } else {
         }
     })();
-  </script>
-  <div class="disclaimer-overlay" id="disclaimerPopup">
-    <div class="disclaimer-popup">
-      <div class="disclaimer-icon">🔮</div>
-      <div class="disclaimer-title">안내사항</div>
-      <div class="disclaimer-msg">
-        본 서비스의 <strong>체질 분석 및 운세 정보</strong>는<br>
-        재미와 참고 목적으로 제공됩니다.<br><br>
-        건강·재물 등 중요한 결정은<br>
-        <strong>반드시 전문가와 상담</strong>하시기 바랍니다.
-      </div>
-      <button class="disclaimer-btn" onclick="closeDisclaimer()">확인했습니다</button>
-    </div>
-  </div>
-  <script>
-    function closeDisclaimer(){
-      const el=document.getElementById('disclaimerPopup');
-      el.classList.remove('show');
-      setTimeout(()=>el.style.display='none',300);
-      sessionStorage.setItem('disclaimerSeen','1');
-    }
-    if(!sessionStorage.getItem('disclaimerSeen')){
-      const el=document.getElementById('disclaimerPopup');
-      el.style.display='flex';
-      requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('show')));
-    } else {
-      document.getElementById('disclaimerPopup').style.display='none';
-    }
   </script>
 </body>
 </html>
