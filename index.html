@@ -316,11 +316,11 @@
 
     /* Share Section */
     .share-section{padding:20px 20px;margin-bottom:10px;text-align:center}
-    .share-btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
-    .share-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;border:2px solid #d946a8;background:transparent;color:var(--txt);font-size:.88rem;font-weight:600;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:transform .15s,background .2s,border-color .2s;-webkit-tap-highlight-color:transparent}
+    .share-btns{display:flex;flex-wrap:nowrap;gap:8px;justify-content:center;align-items:center}
+    .share-btn{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border-radius:999px;border:1.5px solid #d946a8;background:transparent;color:var(--txt);font-size:.75rem;font-weight:600;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:transform .15s,background .2s,border-color .2s;-webkit-tap-highlight-color:transparent;white-space:nowrap}
     .share-btn:hover{transform:scale(1.04);background:rgba(217,70,168,.06);border-color:#c026d3}
     .share-btn:active{transform:scale(0.96)}
-    .share-btn svg{width:18px;height:18px;flex-shrink:0}
+    .share-btn svg{width:14px;height:14px;flex-shrink:0}
     .share-toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--txt);color:#fff;padding:12px 24px;border-radius:12px;font-size:.85rem;font-weight:600;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none}
     .share-toast.show{opacity:1}
 
@@ -490,7 +490,6 @@
       <img src="날씬예약.png" alt="날씬예약" style="height:22px;object-fit:contain">
     </div>
     <div class="top-bar-right">
-      <a href="https://www.instagram.com/slimhigh_/" target="_blank" rel="noopener" aria-label="인스타그램" style="display:flex;align-items:center;color:var(--main);font-size:1.2rem;transition:opacity .2s"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
       <a class="top-bar-link" href="https://날씬예약.com" target="_blank" rel="noopener">전문 상담 바로가기</a>
       <button class="settings-btn" id="settingsBtn" onclick="openSettings()" aria-label="설정" style="display:none">⚙️</button>
     </div>
@@ -969,10 +968,10 @@
 
           <div class="consult-cta" style="margin-top:20px">
             <div class="consult-cta-text">
-              <div class="consult-cta-title">나의 체질, 더 깊이 알고 싶다면?</div>
-              <div class="consult-cta-desc">전문가와 함께 나에게 맞는 관리를 시작해보세요</div>
+              <div class="consult-cta-title">나의 체질이 더 궁금하다면?</div>
+              <div class="consult-cta-desc">날씬예약 백과사전에서 체질별 관리법을 확인해보세요</div>
             </div>
-            <a class="consult-cta-btn" href="https://날씬예약.com" target="_blank" rel="noopener">날씬예약 상담 알아보기 →</a>
+            <a class="consult-cta-btn" href="https://xn--i20br30b7ga7s.com/about" target="_blank" rel="noopener">백과사전 보러가기 →</a>
           </div>
 
         </div>
@@ -1081,7 +1080,7 @@
 
           <div class="disclaimer-banner" style="margin-top:24px">
             <div class="disclaimer-title">재미로 본 나의 사주 식단, 어떠셨나요?</div>
-            <div class="disclaimer-desc">이제 전문가와 함께 나에게 딱 맞는 다이어트를 제대로 시작해보세요</div>
+            <div class="disclaimer-desc">매일 바뀌는 식단, 꾸준히 관리하고 싶다면 전문가와 함께하세요</div>
             <a class="banner-cta-btn" href="https://날씬예약.com" target="_blank" rel="noopener">날씬예약 전문 상담 받으러 가기 →</a>
           </div>
         </div>
