@@ -28,22 +28,26 @@
 
     /* Top Bar */
     .top-bar{position:fixed;top:0;left:0;right:0;height:56px;z-index:100;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px}
-    .top-bar-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:.9rem;color:var(--main)}
+    .top-bar-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.17rem;color:var(--main)}
     .top-bar-brand .dot{width:34px;height:34px;background:var(--main-gradient);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;box-shadow:0 2px 8px rgba(232,90,113,0.25)}
     .top-bar-brand span{letter-spacing:1px;font-family:'Noto Sans KR',sans-serif}
     .settings-btn{background:none;border:none;font-size:1.2rem;cursor:pointer;padding:8px;border-radius:50%;transition:background .2s}
     .settings-btn:hover{background:var(--main-bg)}
 
-    .wrap{max-width:640px;margin:0 auto;padding:68px 16px 40px;position:relative;z-index:1}
+    .wrap{max-width:640px;margin:0 auto;padding:68px 16px 40px;position:relative;z-index:1;overflow-x:hidden;box-sizing:border-box}
 
     /* Card */
     .card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;box-shadow:var(--card-shadow)}
 
     /* === INPUT VIEW === */
-    #inputView header{text-align:center;padding:28px 0 32px}
-    #inputView header h1{font-family:'Noto Sans KR',sans-serif;font-size:1.9rem;font-weight:900;line-height:1.35;letter-spacing:-0.5px}
-    .sub-title{color:var(--txt2);font-size:.95rem;margin-top:12px;line-height:1.8}
-    .hr{width:48px;height:3px;background:var(--main-gradient);border-radius:2px;margin:20px auto}
+    #inputView header{display:flex;align-items:center;justify-content:space-between;padding:28px 0 32px;gap:12px}
+    .header-text{flex:1;padding-left:40px}
+    #inputView header h1{font-family:'Noto Sans KR',sans-serif;font-size:1.9rem;font-weight:900;line-height:1.35;letter-spacing:-0.5px;text-align:left}
+    .sub-title{color:var(--txt2);font-size:.95rem;margin-top:12px;line-height:1.8;text-align:left}
+    .hr{width:48px;height:3px;background:var(--main-gradient);border-radius:2px;margin:20px 0 0}
+    .header-mascot{flex-shrink:0;width:130px;margin-right:50px}
+    .header-mascot img{width:100%;height:auto;object-fit:contain;filter:drop-shadow(0 6px 20px rgba(232,90,113,0.2));animation:mascotBob 3s ease-in-out infinite}
+    @keyframes mascotBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
     .fg{display:flex;flex-direction:column;gap:6px}
     .fg label{font-size:.85rem;color:var(--txt2);font-weight:600}
     .fg input,.fg select{background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:14px;color:var(--txt);font-size:1rem;font-family:inherit;outline:none;transition:border .3s,box-shadow .3s;appearance:none}
@@ -88,14 +92,18 @@
 
     /* Score Card */
     .score-card{border-radius:24px;padding:0;text-align:center;color:var(--txt);margin-bottom:16px;position:relative;overflow:hidden;border:none;box-shadow:none;background:transparent}
-    .score-scene{position:relative;background:linear-gradient(180deg,#FFE8E4 0%,#FFF5F3 60%,#FFFFFF 100%);border-radius:24px;padding:32px 24px 24px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--card-shadow)}
-    /* 3D Clouds */
-    .score-cloud{position:absolute;pointer-events:none;animation:cloudFloat 16s ease-in-out infinite;filter:drop-shadow(0 4px 8px rgba(232,90,113,0.1))}
+    .score-scene{position:relative;background:linear-gradient(180deg,#FFE8E4 0%,#FFF0EE 40%,#FFF8F6 70%,#FFFFFF 100%);border-radius:24px;padding:36px 24px 24px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--card-shadow);min-height:360px}
+    /* 3D Clouds - large floating */
+    .score-cloud{position:absolute;pointer-events:none;filter:drop-shadow(0 6px 16px rgba(232,90,113,0.08));z-index:1}
     .score-cloud svg{display:block}
-    .score-cloud:nth-child(1){top:12%;left:4%;width:72px;animation-duration:14s;opacity:.85}
-    .score-cloud:nth-child(2){top:6%;right:6%;left:auto;width:56px;animation-duration:18s;animation-delay:-4s;opacity:.7}
-    .score-cloud:nth-child(3){bottom:22%;left:8%;width:48px;animation-duration:12s;animation-delay:-8s;opacity:.6}
-    @keyframes cloudFloat{0%,100%{transform:translateY(0) translateX(0)}25%{transform:translateY(-8px) translateX(6px)}50%{transform:translateY(-2px) translateX(12px)}75%{transform:translateY(-10px) translateX(4px)}}
+    .score-cloud:nth-child(1){top:4%;left:-4%;width:140px;opacity:.9;animation:cloudDrift1 8s linear infinite}
+    .score-cloud:nth-child(2){top:0%;right:-6%;left:auto;width:120px;opacity:.75;animation:cloudDrift2 10s linear infinite}
+    .score-cloud:nth-child(3){bottom:14%;left:-2%;width:110px;opacity:.7;animation:cloudDrift3 7s linear infinite}
+    .score-cloud:nth-child(8){bottom:8%;right:-4%;left:auto;width:100px;opacity:.6;animation:cloudDrift4 9s linear infinite}
+    @keyframes cloudDrift1{0%{transform:translateX(-20px) translateY(0)}50%{transform:translateX(50px) translateY(-10px)}100%{transform:translateX(-20px) translateY(0)}}
+    @keyframes cloudDrift2{0%{transform:translateX(20px) translateY(0)}50%{transform:translateX(-40px) translateY(-8px)}100%{transform:translateX(20px) translateY(0)}}
+    @keyframes cloudDrift3{0%{transform:translateX(-15px) translateY(0)}50%{transform:translateX(45px) translateY(-12px)}100%{transform:translateX(-15px) translateY(0)}}
+    @keyframes cloudDrift4{0%{transform:translateX(15px) translateY(0)}50%{transform:translateX(-40px) translateY(-6px)}100%{transform:translateX(15px) translateY(0)}}
     /* Sparkle particles */
     .score-sparkle{position:absolute;width:6px;height:6px;background:var(--main-light);border-radius:50%;opacity:0;animation:sparkle 2.5s ease-in-out infinite;pointer-events:none}
     .score-sparkle:nth-child(4){top:20%;left:15%;animation-delay:0s}
@@ -104,17 +112,17 @@
     .score-sparkle:nth-child(7){top:45%;left:8%;animation-delay:2s;width:3px;height:3px;background:var(--water)}
     @keyframes sparkle{0%,100%{opacity:0;transform:scale(0) translateY(0)}50%{opacity:.8;transform:scale(1) translateY(-8px)}}
     /* Ring - thick donut style */
-    .score-ring-wrap{position:relative;width:280px;height:280px;margin:0 auto 14px;z-index:2}
-    .score-ring-svg{width:280px;height:280px;transform:rotate(-90deg)}
-    .score-ring-bg{fill:none;stroke:rgba(232,90,113,.10);stroke-width:26}
-    .score-ring-fill{fill:none;stroke-width:26;stroke-linecap:round;transition:stroke-dashoffset 1.2s ease-out;filter:drop-shadow(0 3px 10px rgba(232,90,113,0.35))}
+    .score-ring-wrap{position:relative;width:300px;height:300px;margin:0 auto 14px;z-index:2}
+    .score-ring-svg{width:300px;height:300px;transform:rotate(-90deg)}
+    .score-ring-bg{fill:none;stroke:rgba(232,90,113,.08);stroke-width:30}
+    .score-ring-fill{fill:none;stroke-width:30;stroke-linecap:round;transition:stroke-dashoffset 1.2s ease-out;filter:drop-shadow(0 3px 10px rgba(232,90,113,0.35))}
     .score-ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
     /* Mascot bounce */
     .score-mascot{width:96px;height:96px;margin-bottom:6px;object-fit:contain;filter:drop-shadow(0 4px 14px rgba(232,90,113,0.25));animation:mascotBounce 2s ease-in-out infinite}
     @keyframes mascotBounce{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-6px) rotate(-2deg)}50%{transform:translateY(0) rotate(0deg)}75%{transform:translateY(-4px) rotate(2deg)}}
-    .score-label{font-size:1rem;color:var(--txt2);font-weight:600;margin-bottom:4px;margin-top:4px}
-    .score-number{font-size:3.6rem;font-weight:900;font-family:'Noto Sans KR',sans-serif;line-height:1;color:var(--txt)}
-    .score-number span{font-size:1.2rem;font-weight:700;color:var(--muted)}
+    .score-label{font-size:.92rem;color:var(--txt2);font-weight:600;margin-bottom:2px;margin-top:4px}
+    .score-number{font-size:2.8rem;font-weight:900;font-family:'Noto Sans KR',sans-serif;line-height:1;color:var(--txt)}
+    .score-number span{font-size:1rem;font-weight:700;color:var(--muted)}
     .score-msg{font-size:.95rem;color:var(--txt2);line-height:1.7;font-weight:500;padding:14px 16px;background:rgba(232,90,113,0.06);border-radius:14px;margin-top:12px;position:relative;z-index:2}
     /* Ground decoration */
     .score-ground{position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(180deg,transparent,rgba(232,90,113,0.04));z-index:1;pointer-events:none}
@@ -194,14 +202,17 @@
     /* Section Title */
     .section-title{font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--txt)}
 
-    /* Ingredient Hero */
-    .ingredient-hero{border-radius:20px;padding:28px 24px;text-align:center;margin-bottom:16px;border:1px solid var(--border);position:relative;overflow:hidden}
-    .ingredient-img-wrap{width:120px;height:120px;margin:0 auto 16px;border-radius:50%;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);border:3px solid #fff}
+    /* Ingredient Hero - Glassmorphism */
+    .ingredient-hero-wrap{position:relative;margin-bottom:16px;padding:28px 16px 20px;border-radius:28px;background:linear-gradient(160deg,rgba(232,90,113,0.08),rgba(255,138,155,0.06),rgba(200,180,220,0.08),rgba(180,210,240,0.06));overflow:hidden}
+    .ingredient-hero-wrap::before{content:'';position:absolute;top:-60px;right:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(232,90,113,0.12),transparent 70%);pointer-events:none}
+    .ingredient-hero-wrap::after{content:'';position:absolute;bottom:-50px;left:-30px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(180,160,230,0.10),transparent 70%);pointer-events:none}
+    .ingredient-hero{border-radius:24px;padding:36px 24px 30px;text-align:center;position:relative;overflow:hidden;background:rgba(255,255,255,0.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.6);box-shadow:0 8px 32px rgba(232,90,113,0.06),0 2px 8px rgba(0,0,0,0.03)}
+    .ingredient-img-wrap{width:160px;height:160px;margin:0 auto 24px;border-radius:50%;overflow:hidden;box-shadow:0 12px 40px rgba(232,90,113,0.12),0 4px 12px rgba(0,0,0,0.06);border:4px solid rgba(255,255,255,0.8);position:relative;z-index:1;background:#fff}
     .ingredient-img{width:100%;height:100%;object-fit:cover;display:block}
-    .ingredient-emoji{font-size:3.5rem;margin-bottom:12px;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.1))}
-    .ingredient-name{font-family:'Noto Sans KR',sans-serif;font-size:1.4rem;font-weight:900;margin-bottom:6px}
-    .ingredient-benefit{font-size:.92rem;color:var(--txt2);margin-bottom:12px}
-    .ingredient-reason{font-size:.85rem;color:#fff;padding:8px 16px;border-radius:20px;display:inline-block;font-weight:600}
+    .ingredient-emoji{font-size:4.5rem;margin-bottom:16px;display:block;filter:drop-shadow(0 6px 12px rgba(0,0,0,0.08))}
+    .ingredient-name{font-family:'Noto Sans KR',sans-serif;font-size:1.6rem;font-weight:900;margin-bottom:6px;letter-spacing:-0.02em}
+    .ingredient-benefit{font-size:.95rem;color:var(--txt2);margin-bottom:6px;font-weight:600}
+    .ingredient-reason{font-size:.82rem;color:#fff;padding:11px 22px;border-radius:28px;display:inline-block;font-weight:700;letter-spacing:0.02em;box-shadow:0 6px 20px rgba(232,90,113,0.25);margin-top:6px}
 
     /* Meal Cards */
     .meal-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;margin-bottom:10px;overflow:hidden;transition:box-shadow .2s}
@@ -262,12 +273,33 @@
     .reset-btn:hover{border-color:var(--warn);color:var(--warn)}
 
     .footer-note{text-align:center;font-size:.75rem;color:var(--muted);padding:8px 0 32px}
+    .disclaimer-banner{margin:24px 0;padding:32px 24px;border-radius:20px;background:linear-gradient(135deg,#f55 0%,#d946a8 50%,#7c3aed 100%);text-align:center;border:none}
+    .disclaimer-banner .disclaimer-title{font-size:1rem;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:-.02em;text-shadow:0 1px 3px rgba(0,0,0,.15)}
+    .disclaimer-banner .disclaimer-desc{font-size:.8rem;color:rgba(255,255,255,.9);line-height:1.7;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+    /* Disclaimer Popup */
+    .disclaimer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;transition:opacity .3s;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+    .disclaimer-overlay.show{opacity:1}
+    .disclaimer-popup{background:#fff;border-radius:20px;padding:32px 24px 24px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);transform:translateY(20px);transition:transform .3s}
+    .disclaimer-overlay.show .disclaimer-popup{transform:translateY(0)}
+    .disclaimer-icon{font-size:2.4rem;margin-bottom:12px}
+    .disclaimer-title{font-size:1.1rem;font-weight:800;color:var(--txt);margin-bottom:12px}
+    .disclaimer-msg{font-size:.85rem;color:var(--txt2);line-height:1.7;margin-bottom:20px}
+    .disclaimer-msg strong{color:var(--main);font-weight:700}
+    .disclaimer-btn{width:100%;padding:14px;background:var(--main-gradient);border:none;border-radius:12px;color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 16px rgba(232,90,113,0.3);transition:all .2s}
+    .disclaimer-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(232,90,113,0.4)}
+
+    .site-footer{color:var(--muted);padding:16px 20px 18px;text-align:center;font-size:.72rem;line-height:2;margin-top:10px}
+    .site-footer strong{color:var(--txt2);font-weight:600}
+    .site-footer a{color:var(--txt2);text-decoration:none}
+    .site-footer a:hover{text-decoration:underline}
+    .site-footer .footer-links{margin:12px 0;font-size:.75rem;display:flex;justify-content:center;gap:16px}
+    .site-footer .footer-copy{margin-top:10px;color:var(--muted);font-size:.7rem}
 
     /* Share Section */
     .share-section{padding:28px 20px;margin-bottom:16px;text-align:center}
     .share-btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
-    .share-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;border:1.5px solid rgba(255,255,255,0.15);background:transparent;color:var(--txt);font-size:.88rem;font-weight:600;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:transform .15s,background .2s;-webkit-tap-highlight-color:transparent}
-    .share-btn:hover{transform:scale(1.04);background:rgba(255,255,255,0.06)}
+    .share-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;border:2px solid #d946a8;background:transparent;color:var(--txt);font-size:.88rem;font-weight:600;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:transform .15s,background .2s,border-color .2s;-webkit-tap-highlight-color:transparent}
+    .share-btn:hover{transform:scale(1.04);background:rgba(217,70,168,.06);border-color:#c026d3}
     .share-btn:active{transform:scale(0.96)}
     .share-btn svg{width:18px;height:18px;flex-shrink:0}
     .share-toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--txt);color:#fff;padding:12px 24px;border-radius:12px;font-size:.85rem;font-weight:600;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none}
@@ -301,13 +333,38 @@
     @keyframes revealUp{to{opacity:1;transform:translateY(0)}}
 
     /* Responsive */
+    /* Mobile responsive - general */
+    @media(max-width:480px){
+      .saju-pillar-grid{gap:6px}
+      .saju-pillar-item{padding:10px 4px 10px}
+      .saju-pillar-label{font-size:.68rem;margin-bottom:4px}
+      .saju-pillar-gan{font-size:1.6rem}
+      .saju-pillar-ji{font-size:1.2rem;margin-top:2px}
+      .saju-pillar-el{font-size:.72rem;margin-top:4px}
+      .saju-pillar-sipsin{font-size:.58rem;margin-top:4px}
+      .saju-pillar-card{padding:14px 10px}
+      .saju-pillar-title{font-size:.92rem}
+      .wonkuk-card,.byungyak-card,.bottleneck-card{padding:16px 12px}
+      .wonkuk-title,.byungyak-title,.bottleneck-title{font-size:.95rem}
+      .byungyak-bars{gap:8px;padding:0 4px}
+      .bottleneck-grid{gap:8px}
+      .bottleneck-item{padding:12px 8px}
+      .bottleneck-item-el{font-size:1.1rem}
+    }
     @media(max-width:380px){
       #inputView header h1{font-size:1.5rem}
       .score-ring-wrap{width:180px;height:180px}
       .score-ring-svg{width:180px;height:180px}
-      .score-mascot{width:68px;height:68px}
-      .score-number{font-size:2.2rem}
-      .score-scene{padding:24px 16px 20px}
+      .score-mascot{width:56px;height:56px}
+      .score-number{font-size:2rem}
+      .score-scene{padding:20px 12px 16px}
+      .saju-pillar-grid{gap:4px}
+      .saju-pillar-item{padding:8px 3px 8px}
+      .saju-pillar-label{font-size:.62rem}
+      .saju-pillar-gan{font-size:1.35rem}
+      .saju-pillar-ji{font-size:1rem}
+      .saju-pillar-el{font-size:.65rem}
+      .saju-pillar-sipsin{font-size:.52rem}
     }
     @media(min-width:768px){
       .wrap{max-width:680px;padding:72px 24px 40px}
@@ -316,9 +373,9 @@
     /* Saju Pillar Card */
     .saju-pillar-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:20px 16px;margin-bottom:16px;box-shadow:var(--card-shadow)}
     .saju-pillar-title{font-family:'Noto Sans KR',sans-serif;font-size:1.05rem;font-weight:800;color:var(--txt);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-    .saju-pillar-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:14px}
-    .saju-pillar-item{text-align:center;padding:16px 8px 14px;background:var(--bg3);border:1.5px solid var(--border);border-radius:16px;position:relative}
-    .saju-pillar-item.day-pillar{border-color:var(--main);border-width:2px;background:var(--main-bg)}
+    .saju-pillar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;overflow:hidden}
+    .saju-pillar-item{text-align:center;padding:14px 6px 12px;background:var(--bg3);border:1.5px solid var(--border);border-radius:16px;position:relative;min-width:0;overflow:hidden}
+    .saju-pillar-item.day-pillar{border-color:var(--border);border-width:1.5px;background:var(--bg3)}
     .saju-pillar-label{font-size:.78rem;color:var(--muted);font-weight:600;margin-bottom:8px;letter-spacing:0.5px}
     .saju-pillar-gan{font-size:2.2rem;font-weight:900;line-height:1.15;font-family:'Noto Sans KR',sans-serif}
     .saju-pillar-ji{font-size:1.7rem;font-weight:700;line-height:1.25;margin-top:4px}
@@ -411,7 +468,7 @@
   <nav class="top-bar">
     <div class="top-bar-brand" onclick="goHome()" style="cursor:pointer">
       <div class="dot">🍽️</div>
-      <span>날씬예약</span>
+      <img src="날씬예약.png" alt="날씬예약" style="height:22px;object-fit:contain">
     </div>
     <button class="settings-btn" id="settingsBtn" onclick="openSettings()" aria-label="설정" style="display:none">⚙️</button>
   </nav>
@@ -420,9 +477,14 @@
     <!-- ===== INPUT VIEW ===== -->
     <div id="inputView">
       <header>
-        <h1 class="serif">매일 확인하는<br>나만의 사주 식단</h1>
-        <p class="sub-title">한 번 입력하면 매일 달라지는<br>운세와 맞춤 식단을 받아보세요</p>
-        <div class="hr"></div>
+        <div class="header-text">
+          <h1 class="serif">매일 확인하는<br>나만의 사주 식단</h1>
+          <p class="sub-title">한 번 입력하면 매일 달라지는<br>운세와 맞춤 식단을 받아보세요</p>
+          <div class="hr"></div>
+        </div>
+        <div class="header-mascot">
+          <img src="물방울2.png" alt="물방울 캐릭터">
+        </div>
       </header>
 
       <section class="card">
@@ -791,6 +853,7 @@
               <span class="score-sparkle"></span>
               <span class="score-sparkle"></span>
               <span class="score-sparkle"></span>
+              <span class="score-cloud"><svg viewBox="0 0 100 50" fill="none"><ellipse cx="50" cy="32" rx="42" ry="15" fill="#fff" opacity=".85"/><ellipse cx="38" cy="24" rx="24" ry="18" fill="#fff"/><ellipse cx="62" cy="22" rx="20" ry="16" fill="#fff"/><ellipse cx="50" cy="18" rx="18" ry="15" fill="#fff"/><ellipse cx="50" cy="32" rx="42" ry="15" fill="url(#cg4)"/><defs><linearGradient id="cg4" x1="8" y1="17" x2="92" y2="47" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE8E4"/><stop offset="1" stop-color="#fff"/></linearGradient></defs></svg></span>
               <div class="score-ring-wrap">
                 <svg class="score-ring-svg" viewBox="0 0 280 280">
                   <defs>
@@ -824,7 +887,6 @@
               ${pillarHTML}
             </div>
             <div class="wonkuk-landscape">
-              <span class="landscape-icon">⛰️</span>
               <strong>▸ 원국의 풍경:</strong> ${landscape.landscape}
             </div>
             <div class="wonkuk-personality">
@@ -882,6 +944,10 @@
             </div>
           </div>
 
+        </div>
+
+        <!-- ===== 오늘 하루 탭 ===== -->
+        <div id="tabDaily" class="tab-content">
           <div class="section-title">🔮 ${profile.name}님의 오늘 운세</div>
           <div class="fortune-grid">
             ${(function(){
@@ -936,10 +1002,8 @@
             <div class="briefing-title">📋 ${profile.name}님의 건강 브리핑(맞춤 분석)</div>
             <div class="briefing-text">${briefing}</div>
           </div>
-        </div>
 
-        <!-- ===== 오늘 하루 탭 ===== -->
-        <div id="tabDaily" class="tab-content">
+          <div style="height:8px"></div>
           <div class="food-summary">
             <div class="food-summary-title">✅ ${profile.name}님이 오늘 꼭 먹어야 할 음식</div>
             <div class="food-summary-grid">
@@ -956,12 +1020,14 @@
 
           <div style="height:8px"></div>
           <div class="section-title">🥬 ${profile.name}님을 위한 오늘의 식재료</div>
-          <div class="ingredient-hero" style="background:linear-gradient(135deg,${ingredient.color}11,${ingredient.color}06)">
-            ${ingredient.image?`<div class="ingredient-img-wrap" style="border-color:${ingredient.color}40"><img class="ingredient-img" src="${ingredient.image}" alt="${ingredient.name}" onerror="this.parentElement.outerHTML='<span class=\\'ingredient-emoji\\'>${ingredient.emoji}</span>'"></div>`:`<span class="ingredient-emoji">${ingredient.emoji}</span>`}
-            <div class="ingredient-name" style="color:${ingredient.color}">${ingredient.name}</div>
-            <div class="ingredient-benefit">${ingredient.benefit}</div>
-            <div class="ingredient-benefit" style="font-size:.78rem;margin-top:4px;color:var(--txt2)">${ingredient.personalReason}</div>
-            <span class="ingredient-reason" style="background:${ingredient.color}">${weakEl}(${hanjaMap[weakEl]}) 보충 + ${strongEl}(${hanjaMap[strongEl]}) 조절</span>
+          <div class="ingredient-hero-wrap">
+            <div class="ingredient-hero">
+              ${ingredient.image?`<div class="ingredient-img-wrap"><img class="ingredient-img" src="${ingredient.image}" alt="${ingredient.name}" onerror="this.parentElement.outerHTML='<span class=\\'ingredient-emoji\\'>${ingredient.emoji}</span>'"></div>`:`<span class="ingredient-emoji">${ingredient.emoji}</span>`}
+              <div class="ingredient-name" style="color:${ingredient.color}">${ingredient.name}</div>
+              <div class="ingredient-benefit">${ingredient.benefit}</div>
+              <div style="font-size:.82rem;color:var(--txt2);line-height:1.7;margin:6px 0 18px;padding:0 12px">${ingredient.personalReason}</div>
+              <span class="ingredient-reason" style="background:linear-gradient(135deg,${ingredient.color},${ingredient.color}cc)">${weakEl}(${hanjaMap[weakEl]}) 보충 + ${strongEl}(${hanjaMap[strongEl]}) 조절</span>
+            </div>
           </div>
 
           <div class="section-title">🍽️ ${profile.name}님의 오늘 추천 식단</div>
@@ -986,8 +1052,8 @@
         <!-- ===== 공통 하단 ===== -->
         <div class="cta-mini">
           <h3>식단으로 시작했으니, 더 건강해져볼까요?</h3>
-          <p>오행(五行) 체질에 맞는 맞춤 다이어트로<br>더 효과적인 건강 관리를 시작해보세요</p>
-          <a class="cta-link" href="https://xn--i20br30b7ga7s.com/28" target="_blank" rel="noopener">체질 맞춤 다이어트 상담 →</a>
+
+          <a class="cta-link" href="https://날씬예약.com" target="_blank" rel="noopener">체질 맞춤 다이어트 상담 →</a>
         </div>
 
         <div class="share-section">
@@ -1007,7 +1073,24 @@
           </div>
         </div>
 
-        <div class="footer-note" style="padding-bottom:80px">체질 분석은 참고용입니다 — 전문 상담과 함께하면 더 정확해요<br>© 2025 날씬예약</div>
+        <div class="disclaimer-banner">
+          <div class="disclaimer-title">사주로 보는 오늘의 운세, 재미로 봐주세요 :)</div>
+          <div class="disclaimer-desc">운세·식단 추천은 참고용이며 전문 상담을 대체하지 않습니다.</div>
+        </div>
+
+        <footer class="site-footer">
+          <strong>상호명 :</strong> 주식회사 하이플러스컴퍼니<br>
+          <strong>서비스명 :</strong> 날씬예약<br>
+          <strong>대표자 :</strong> 김태헌<br>
+          <strong>주소 :</strong> 인천광역시 연수구 송도문화로 28번길 28<br>
+          <strong>이메일 :</strong> highplus23@gmail.com
+          <div class="footer-links">
+            <a href="http://날씬예약.com/29" target="_blank">이용약관</a>
+            <span style="color:var(--border)">|</span>
+            <a href="http://날씬예약.com/30" target="_blank"><strong>개인정보처리방침</strong></a>
+          </div>
+          <div class="footer-copy">Copyright &copy; 2026 날씬예약 All rights reserved.</div>
+        </footer>
       `;
       document.getElementById('dashContent').innerHTML=html;
 
@@ -1096,10 +1179,10 @@
     // === Overall Message ===
     function getOverallMsg(score,inter,name){
       name=name||'';
-      if(score>=80)return `${name}님, 오늘은 ${inter.userEl}의 기운이 빛나는 최고의 하루예요! 🎉✨`;
-      if(score>=60)return `${name}님에게 좋은 기운이 흐르고 있어요! 긍정적으로 보내세요 💫🌟`;
-      if(score>=40)return `${name}님, 무난한 하루예요 😊 기본에 충실하면 좋은 결과가 있을 거예요 🍀`;
-      return `${name}님, 오늘은 차분하게 보내는 게 좋아요 🧘‍♀️ 내면에 집중하는 하루로! 🌙`;
+      if(score>=80)return `${name}님, 오늘은 ${inter.userEl}의 기운이 빛나는<br>최고의 하루예요! 🎉✨`;
+      if(score>=60)return `${name}님에게 좋은 기운이 흐르고 있어요!<br>긍정적으로 보내세요 💫🌟`;
+      if(score>=40)return `${name}님, 무난한 하루예요 😊<br>기본에 충실하면 좋은 결과가 있을 거예요 🍀`;
+      return `${name}님, 오늘은 차분하게 보내는 게 좋아요 🧘‍♀️<br>내면에 집중하는 하루로! 🌙`;
     }
 
     // === Today's Meals ===
@@ -1343,8 +1426,37 @@
       const profile=loadProfile();
       if(profile&&profile.birthYear){
         showDashboard(profile);
-      }
+      } else {
+        }
     })();
+  </script>
+  <div class="disclaimer-overlay" id="disclaimerPopup">
+    <div class="disclaimer-popup">
+      <div class="disclaimer-icon">🔮</div>
+      <div class="disclaimer-title">안내사항</div>
+      <div class="disclaimer-msg">
+        본 서비스의 <strong>체질 분석 및 운세 정보</strong>는<br>
+        재미와 참고 목적으로 제공됩니다.<br><br>
+        건강·재물 등 중요한 결정은<br>
+        <strong>반드시 전문가와 상담</strong>하시기 바랍니다.
+      </div>
+      <button class="disclaimer-btn" onclick="closeDisclaimer()">확인했습니다</button>
+    </div>
+  </div>
+  <script>
+    function closeDisclaimer(){
+      const el=document.getElementById('disclaimerPopup');
+      el.classList.remove('show');
+      setTimeout(()=>el.style.display='none',300);
+      sessionStorage.setItem('disclaimerSeen','1');
+    }
+    if(!sessionStorage.getItem('disclaimerSeen')){
+      const el=document.getElementById('disclaimerPopup');
+      el.style.display='flex';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('show')));
+    } else {
+      document.getElementById('disclaimerPopup').style.display='none';
+    }
   </script>
 </body>
 </html>
