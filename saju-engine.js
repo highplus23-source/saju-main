@@ -305,10 +305,14 @@ function getNatureLandscape(saju) {
     ? `다만, ${missing.join(', ')}의 아쉬움이 있습니다.`
     : '모든 기운이 고루 갖추어진 조화로운 풍경입니다.';
 
+  const nature = dayNature[dayGan];
+  // 마지막 글자 추출하여 조사 결정
+  const lastChar = nature.charAt(nature.length - 1);
+  const particle = josa이가(lastChar);
   return {
-    main: dayNature[dayGan],
+    main: nature,
     background: bg,
-    landscape: `${bg} ${dayNature[dayGan]}이(가) 자리하고 있습니다. ${missingText}`,
+    landscape: `${bg} ${nature}${particle} 자리하고 있습니다. ${missingText}`,
   };
 }
 
@@ -744,12 +748,12 @@ function getTodayFoods(weakEl, strongEl, rel) {
     'control': null
   };
 
-  const goodFoods = foods[weakEl] || foods['목'];
+  const goodFoods = [...(foods[weakEl] || foods['목'])];
   const bonus = bonusFoods[rel];
   if (bonus) goodFoods.push(bonus);
 
   return {
-    good: goodFoods,
+    good: goodFoods.slice(0, 4),
     bad: avoidByStrong[strongEl] || avoidByStrong['목'],
     badReason: avoidReasonByStrong[strongEl] || avoidReasonByStrong['목']
   };
@@ -1111,7 +1115,7 @@ const dayGanPersonality = {
   1: {name:'을목', trait:'유연하고 적응력이 뛰어남', health:'간이 섬세하여 감정 변화에 영향', tip:'명상이나 요가로 마음을 안정시키세요'},
   2: {name:'병화', trait:'열정적이고 활동적', health:'심장에 열이 오르기 쉬움', tip:'따뜻한 차보다 미지근한 물이 좋아요'},
   3: {name:'정화', trait:'섬세하고 감성적', health:'소화기가 예민할 수 있음', tip:'규칙적인 식사가 특히 중요해요'},
-  4: {name:'무토', trait:'안정적이고 포용력이 넓음', health:'위장이 튼튼하나 과식 주의', tip:'식사량 조절이 건강의 핵심이에요'},
+  4: {name:'무토', trait:'안정적이고 포용력이 넓은', health:'위장이 튼튼하나 과식 주의', tip:'식사량 조절이 건강의 핵심이에요'},
   5: {name:'기토', trait:'꼼꼼하고 실용적', health:'비장 기능에 신경 써야 함', tip:'따뜻한 음식 위주로 드세요'},
   6: {name:'경금', trait:'결단력이 있고 원칙적', health:'폐·호흡기가 예민', tip:'깊은 호흡 운동을 생활화하세요'},
   7: {name:'신금', trait:'섬세하고 예리함', health:'피부와 호흡기 관리 필요', tip:'수분 섭취를 충분히 하세요'},
@@ -1187,7 +1191,7 @@ function getPersonalizedBriefing(saju, inter, weakEl, strongEl, organMap) {
   }
 
   const parts = [];
-  parts.push(`<p class="bp"><strong>${personality.name}</strong> 일간인 당신은 ${personality.trait}인 성격입니다.<br>${personality.health}.</p>`);
+  parts.push(`<p class="bp"><strong>${personality.name}</strong> 일간인 당신은 ${personality.trait} 성격입니다.<br>${personality.health}.</p>`);
   parts.push(`<p class="bp">${line2}<br>${severityMsg}</p>`);
   if (strongMsg) parts.push(`<p class="bp">${strongMsg.trim()}</p>`);
   if (genderTip) parts.push(`<p class="bp">${genderTip}</p>`);

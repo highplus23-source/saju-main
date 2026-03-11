@@ -270,6 +270,18 @@
     .cta-link{display:inline-flex;align-items:center;gap:6px;padding:14px 32px;background:var(--main-gradient);color:#fff;border-radius:14px;font-weight:700;font-size:.95rem;text-decoration:none;transition:all .3s;box-shadow:0 4px 16px rgba(232,90,113,.25)}
     .cta-link:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,90,113,.35)}
 
+    /* Consult CTA */
+    .consult-cta{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 22px;background:var(--card-bg);border:1.5px solid var(--border-accent);border-radius:18px;margin:20px 0 8px;box-shadow:0 2px 16px rgba(232,90,113,0.06)}
+    .consult-cta-text{flex:1}
+    .consult-cta-title{font-size:.92rem;font-weight:800;color:var(--txt);margin-bottom:4px}
+    .consult-cta-desc{font-size:.78rem;color:var(--txt2);line-height:1.6}
+    .consult-cta-btn{flex-shrink:0;padding:12px 20px;background:var(--main-gradient);color:#fff;font-size:.82rem;font-weight:700;border-radius:12px;text-decoration:none;transition:all .2s;box-shadow:0 3px 12px rgba(232,90,113,0.25);white-space:nowrap}
+    .consult-cta-btn:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(232,90,113,0.35)}
+    @media(max-width:480px){
+      .consult-cta{flex-direction:column;text-align:center}
+      .consult-cta-btn{width:100%}
+    }
+
     /* Reset Profile */
     .reset-section{text-align:center;padding:16px 0 32px}
     .reset-btn{background:none;border:1px solid var(--border);border-radius:12px;padding:10px 20px;color:var(--muted);font-size:.82rem;cursor:pointer;font-family:inherit;transition:all .2s}
@@ -281,6 +293,19 @@
     .disclaimer-banner .disclaimer-desc{font-size:.8rem;color:rgba(255,255,255,.9);line-height:1.7;text-shadow:0 1px 2px rgba(0,0,0,.1);margin-bottom:16px}
     .banner-cta-btn{display:inline-block;padding:12px 28px;background:#fff;color:#7c3aed;font-size:.88rem;font-weight:800;border-radius:12px;text-decoration:none;transition:all .2s;box-shadow:0 4px 16px rgba(0,0,0,0.15)}
     .banner-cta-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,0.2)}
+
+    /* Legal Modal */
+    .legal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:none;align-items:flex-end;justify-content:center;padding:0;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;transition:opacity .3s}
+    .legal-overlay.show{display:flex;opacity:1}
+    .legal-modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;max-height:85vh;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s}
+    .legal-overlay.show .legal-modal{transform:translateY(0)}
+    .legal-modal-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--border);flex-shrink:0}
+    .legal-modal-title{font-size:1rem;font-weight:800;color:var(--txt)}
+    .legal-modal-close{background:none;border:none;font-size:1.3rem;color:var(--muted);cursor:pointer;padding:4px 8px}
+    .legal-modal-body{overflow-y:auto;padding:20px;font-size:.78rem;color:var(--txt2);line-height:1.9;-webkit-overflow-scrolling:touch}
+    .legal-modal-body h3{font-size:.85rem;font-weight:700;color:var(--txt);margin:16px 0 6px}
+    .legal-modal-body h3:first-child{margin-top:0}
+    .legal-modal-body p{margin-bottom:10px}
 
     .site-footer{color:var(--muted);padding:16px 20px 18px;text-align:center;font-size:.72rem;line-height:2;margin-top:10px}
     .site-footer strong{color:var(--txt2);font-weight:600}
@@ -1015,6 +1040,14 @@
             <div class="avoid-text">→ ${foods.badReason}</div>
           </div>
 
+          <div class="consult-cta">
+            <div class="consult-cta-text">
+              <div class="consult-cta-title">나의 체질에 딱 맞는 식단, 전문가와 더 정확하게</div>
+              <div class="consult-cta-desc">사주 오행 분석을 기반으로 전문가가 직접 설계하는 맞춤 다이어트를 경험해보세요</div>
+            </div>
+            <a class="consult-cta-btn" href="https://날씬예약.com" target="_blank" rel="noopener">전문 상담 알아보기 →</a>
+          </div>
+
           <div style="height:8px"></div>
           <div class="section-title">🥬 ${profile.name}님을 위한 오늘의 식재료</div>
           <div class="ingredient-hero-wrap">
@@ -1048,9 +1081,9 @@
 
         <!-- ===== 공통 하단 ===== -->
         <div class="cta-mini">
-          <h3>재미는 재미! 진짜 건강은 전문가와 함께</h3>
-          <p>나에게 맞는 체질 관리, 전문가 상담으로 시작해보세요</p>
-          <a class="cta-link" href="https://날씬예약.com" target="_blank" rel="noopener">날씬예약 전문 상담 바로가기 →</a>
+          <h3>나의 체질에 맞는 다이어트, 전문가와 시작하세요</h3>
+          <p>사주 오행 분석을 기반으로 전문가가 설계하는 맞춤 식단 상담</p>
+          <a class="cta-link" href="https://날씬예약.com" target="_blank" rel="noopener">날씬예약 전문 상담 예약하기 →</a>
         </div>
 
         <div class="share-section">
@@ -1071,9 +1104,9 @@
         </div>
 
         <div class="disclaimer-banner">
-          <div class="disclaimer-title">재미는 재미! 진짜 건강은 전문가와 함께</div>
-          <div class="disclaimer-desc">나에게 맞는 체질 관리, 전문가와 시작해보세요</div>
-          <a class="banner-cta-btn" href="https://날씬예약.com" target="_blank" rel="noopener">날씬예약 전문 상담 알아보기 →</a>
+          <div class="disclaimer-title">체질 맞춤 식단, 전문가와 더 정확하게</div>
+          <div class="disclaimer-desc">사주 분석으로 본 나의 체질, 전문가 상담으로 제대로 된 다이어트를 시작하세요</div>
+          <a class="banner-cta-btn" href="https://날씬예약.com" target="_blank" rel="noopener">날씬예약 전문 상담 예약하기 →</a>
         </div>
 
         <footer class="site-footer">
@@ -1083,9 +1116,9 @@
           <strong>주소 :</strong> 인천광역시 연수구 송도문화로 28번길 28<br>
           <strong>이메일 :</strong> highplus23@gmail.com
           <div class="footer-links">
-            <a href="http://날씬예약.com/29" target="_blank">이용약관</a>
+            <a href="#" onclick="openLegalModal('terms');return false"><strong>이용약관</strong></a>
             <span style="color:var(--border)">|</span>
-            <a href="http://날씬예약.com/30" target="_blank"><strong>개인정보처리방침</strong></a>
+            <a href="#" onclick="openLegalModal('privacy');return false"><strong>개인정보처리방침</strong></a>
           </div>
           <div class="footer-copy">Copyright &copy; 2026 날씬예약 All rights reserved.</div>
         </footer>
@@ -1427,6 +1460,65 @@
       } else {
         }
     })();
+  </script>
+
+  <!-- Legal Modals -->
+  <div class="legal-overlay" id="legalOverlay" onclick="if(event.target===this)closeLegalModal()">
+    <div class="legal-modal">
+      <div class="legal-modal-header">
+        <div class="legal-modal-title" id="legalTitle"></div>
+        <button class="legal-modal-close" onclick="closeLegalModal()">&times;</button>
+      </div>
+      <div class="legal-modal-body" id="legalBody"></div>
+    </div>
+  </div>
+
+  <script>
+  const legalContent={
+    terms:`<h3>제1조 (목적)</h3><p>본 이용약관은 하이플러스컴퍼니(이하 "회사")가 운영하는 날씬예약(이하 "사이트")이 제공하는 다이어트 한약 상담 및 관련 서비스의 이용조건과 운영에 관한 제반 사항을 규정함을 목적으로 합니다.</p>
+<h3>제2조 (용어의 정의)</h3><p>본 약관에서 사용되는 주요 용어의 정의는 다음과 같습니다.<br>① "사이트"란 회사가 다이어트 한약 상담 예약 및 관련 서비스를 제공하기 위해 운영하는 웹사이트(https://날씬예약.com)를 말합니다.<br>② "이용자"란 본 사이트에 접속하여 본 약관에 따라 사이트가 제공하는 서비스를 이용하는 자를 말합니다.<br>③ "서비스"란 사이트를 통해 제공되는 다이어트 한약 상담 예약, 정보 제공 및 이에 부수하는 제반 서비스를 말합니다.</p>
+<h3>제3조 (약관의 효력 및 변경)</h3><p>① 본 약관은 사이트를 통해 공시함으로써 효력이 발생합니다.<br>② 회사는 합리적인 사유가 발생할 경우 관련 법령에 위배되지 않는 범위 내에서 본 약관을 변경할 수 있으며, 변경된 약관은 사이트에 공지함으로써 효력이 발생합니다.<br>③ 이용자는 변경된 약관에 동의하지 않을 경우 서비스 이용을 중단할 수 있으며, 변경된 약관 시행 후 서비스를 계속 이용할 경우 약관 변경에 동의한 것으로 간주합니다.</p>
+<h3>제4조 (서비스의 내용)</h3><p>사이트는 다음과 같은 서비스를 제공합니다.<br>① 다이어트 한약 상담 예약 서비스<br>② 체질 분석 및 맞춤 한약 정보 제공<br>③ 다이어트 관련 건강 정보 제공<br>④ 기타 회사가 정하는 서비스</p>
+<h3>제5조 (서비스 이용)</h3><p>① 이용자는 사이트에서 요청하는 정보(성명, 연락처, 상담 희망 내용 등)를 정확하게 제공하여야 합니다.<br>② 이용자가 허위 정보를 제공하여 발생하는 불이익에 대해 회사는 책임을 지지 않습니다.<br>③ 서비스 이용은 사이트의 업무상 또는 기술상 특별한 지장이 없는 한 연중무휴 24시간 가능합니다. 단, 시스템 점검 등의 사유로 일시 중단될 수 있습니다.</p>
+<h3>제6조 (예약 및 상담)</h3><p>① 이용자는 사이트를 통해 다이어트 한약 상담을 예약할 수 있습니다.<br>② 예약 완료 후 변경 또는 취소가 필요한 경우, 사이트에서 안내하는 방법에 따라 처리할 수 있습니다.<br>③ 이용자의 무단 불참 또는 연락 두절 시 추후 서비스 이용이 제한될 수 있습니다.</p>
+<h3>제7조 (결제 및 환불)</h3><p>① 유료 서비스의 결제는 사이트에서 제공하는 결제 수단을 통해 이루어집니다.<br>② 이용자는 결제 완료 후 7일 이내에 청약철회를 요청할 수 있습니다. 단, 이미 상담이 진행된 경우, 한약이 조제 또는 배송된 경우, 이용자의 요청에 따라 개별 맞춤 제작된 상품인 경우에는 청약철회가 제한됩니다.<br>③ 환불은 「전자상거래 등에서의 소비자보호에 관한 법률」에 따라 처리됩니다.<br>④ 이용자의 단순 변심에 의한 환불 시, 이미 제공된 서비스 비용 및 결제 수수료가 공제될 수 있습니다.</p>
+<h3>제8조 (개인정보 보호)</h3><p>① 회사는 이용자의 개인정보를 「개인정보 보호법」 등 관련 법령에 따라 보호합니다.<br>② 개인정보의 수집, 이용, 제공 등에 관한 사항은 사이트의 개인정보처리방침에 따릅니다.<br>③ 회사는 이용자의 귀책 사유로 인해 노출된 개인정보에 대해 책임을 지지 않습니다.</p>
+<h3>제9조 (이용자의 의무)</h3><p>이용자는 다음 각 호의 행위를 하여서는 안 됩니다.<br>① 상담 예약 시 허위 정보를 제공하는 행위<br>② 타인의 정보를 도용하는 행위<br>③ 사이트의 운영을 방해하는 행위<br>④ 회사 또는 제3자의 명예를 손상시키거나 권리를 침해하는 행위<br>⑤ 기타 관련 법령에 위배되는 행위</p>
+<h3>제10조 (회사의 의무)</h3><p>① 회사는 이용자에게 안정적인 서비스를 제공하기 위해 노력합니다.<br>② 회사는 이용자의 문의 및 불만사항을 신속하게 처리하기 위해 최선을 다합니다.<br>③ 회사는 서비스 제공과 관련하여 알게 된 이용자의 개인정보를 본인의 동의 없이 제3자에게 제공하지 않습니다.</p>
+<h3>제11조 (건강 및 의료 관련 고지)</h3><p>① 본 사이트에서 제공하는 다이어트 한약 관련 정보는 일반적인 건강 정보 제공을 목적으로 하며, 의료적 진단이나 치료를 대체하지 않습니다.<br>② 한약 복용의 효과는 개인의 체질, 건강 상태, 생활 습관 등에 따라 다를 수 있으며, 특정 효과를 보장하지 않습니다.<br>③ 이용자는 한약 복용 전 반드시 전문 한의사와 상담하여야 하며, 기저질환이 있거나 임신 중인 경우 반드시 이를 고지하여야 합니다.<br>④ 이용자가 상담 시 허위 정보를 제공하거나 전문가의 지시를 따르지 않아 발생한 건강상의 문제에 대해 회사는 책임을 지지 않습니다.<br>⑤ 한약 복용 중 이상 반응이 발생한 경우, 이용자는 즉시 복용을 중단하고 전문 한의사 또는 의료기관과 상담하여야 합니다.</p>
+<h3>제12조 (면책조항)</h3><p>① 회사는 천재지변, 시스템 장애 등 불가항력적인 사유로 인해 서비스를 제공할 수 없는 경우 책임을 지지 않습니다.<br>② 회사는 이용자의 귀책 사유로 인한 서비스 이용 장애에 대해 책임을 지지 않습니다.<br>③ 회사는 이용자가 사이트를 통해 기대하는 효과를 얻지 못하거나 서비스 이용으로 발생하는 손해에 대해 책임을 지지 않습니다.<br>④ 회사는 이용자 간 또는 이용자와 제3자 간에 발생한 분쟁에 대해 개입하거나 책임을 지지 않습니다.</p>
+<h3>제13조 (분쟁 해결)</h3><p>① 회사와 이용자 간에 발생한 분쟁은 상호 협의하여 해결합니다.<br>② 협의가 이루어지지 않을 경우, 관할 법원은 회사의 소재지를 관할하는 법원으로 합니다.</p>
+<p style="margin-top:16px;color:var(--muted)">부칙: 본 약관은 2026년 1월 19일부터 시행합니다.</p>`,
+
+    privacy:`<h3>제1조 (개인정보의 수집 항목)</h3><p>회사는 비대면 상담 예약 및 서비스 제공을 위해 다음의 개인정보를 수집합니다.<br><br><strong>[필수 항목]</strong> 성명, 연락처(휴대폰 번호)<br><strong>[선택 항목]</strong> 성별, 나이, 키, 체중, 목표 체중, 건강 관련 정보(기저질환, 복용 중인 약물, 알레르기 여부), 다이어트 이력, 상담 희망 내용<br><strong>[자동 수집 항목]</strong> 접속 IP, 방문 일시, 서비스 이용 기록, 기기 정보</p>
+<h3>제2조 (개인정보의 수집 및 이용 목적)</h3><p>회사는 수집한 개인정보를 다음의 목적을 위해 이용합니다.<br>① 비대면 다이어트 한약 상담 예약 접수 및 상담 진행<br>② 이용자 본인 확인 및 상담 연락<br>③ 체질 분석 및 맞춤형 상담 서비스 제공<br>④ 서비스 관련 공지사항 및 상담 일정 안내<br>⑤ 서비스 개선 및 통계 분석<br>⑥ 마케팅 및 이벤트 정보 제공 (별도 동의 시)</p>
+<h3>제3조 (개인정보의 보유 및 이용 기간)</h3><p>회사는 개인정보 수집 및 이용 목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다. 단, 관계 법령에 따라 보존할 필요가 있는 경우 아래와 같이 보관합니다.<br>① 계약 또는 청약철회 등에 관한 기록: 5년<br>② 대금결제 및 재화 등의 공급에 관한 기록: 5년<br>③ 소비자 불만 또는 분쟁처리에 관한 기록: 3년<br>④ 표시·광고에 관한 기록: 6개월<br>⑤ 웹사이트 방문 기록: 3개월</p>
+<h3>제4조 (개인정보의 제3자 제공)</h3><p>회사는 이용자의 개인정보를 원칙적으로 외부에 제공하지 않습니다. 다만, 아래의 경우에는 예외로 합니다.<br>① 이용자가 사전에 동의한 경우<br>② 상담 및 한약 처방을 위해 제휴 한의원에 제공하는 경우 (별도 동의 시)<br>③ 법령의 규정에 의거하거나, 수사 목적으로 법령에 정해진 절차와 방법에 따라 수사기관의 요구가 있는 경우</p>
+<h3>제5조 (개인정보 처리의 위탁)</h3><p>회사는 원활한 서비스 제공을 위해 다음과 같이 개인정보 처리 업무를 위탁하고 있습니다.<br>· 아임웹: 웹사이트 호스팅 및 운영<br>· 결제대행사(PG사): 결제 처리<br>· 문자 발송 업체: 상담 일정 안내 문자 발송</p>
+<h3>제6조 (이용자의 권리 및 행사 방법)</h3><p>이용자는 언제든지 다음의 권리를 행사할 수 있습니다.<br>① 개인정보 열람 요구<br>② 오류 등이 있을 경우 정정 요구<br>③ 삭제 요구<br>④ 처리 정지 요구<br><br>권리 행사는 회사에 전화, 이메일 등으로 요청하실 수 있으며, 회사는 이에 대해 지체 없이 조치하겠습니다.</p>
+<h3>제7조 (개인정보의 파기)</h3><p>① 전자적 파일 형태: 복구 및 재생이 불가능한 방법으로 영구 삭제<br>② 종이 문서: 분쇄기로 분쇄하거나 소각</p>
+<h3>제8조 (개인정보의 안전성 확보 조치)</h3><p>① 개인정보 취급 직원의 최소화 및 교육<br>② 개인정보에 대한 접근 제한<br>③ 개인정보의 암호화<br>④ 보안프로그램 설치 및 주기적 점검</p>
+<h3>제9조 (쿠키의 사용)</h3><p>① 쿠키란 웹사이트 방문 시 이용자의 브라우저에 저장되는 작은 텍스트 파일입니다.<br>② 이용자는 브라우저 설정을 통해 쿠키 저장을 거부할 수 있습니다. 단, 거부 시 일부 서비스 이용에 제한이 있을 수 있습니다.</p>
+<h3>제10조 (개인정보 보호책임자)</h3><p><strong>[개인정보 보호책임자]</strong><br>성명: 강태은<br>연락처: 0504-2533-4856<br>이메일: highplus23@gmail.com</p>
+<h3>제11조 (권익침해 구제방법)</h3><p>이용자는 개인정보 침해로 인한 구제를 받기 위하여 아래의 기관에 분쟁 해결이나 상담 등을 신청할 수 있습니다.<br>① 개인정보분쟁조정위원회: 1833-6972<br>② 개인정보침해신고센터: 118<br>③ 대검찰청 사이버수사과: 1301<br>④ 경찰청 사이버수사국: 182</p>
+<h3>제12조 (개인정보처리방침의 변경)</h3><p>본 개인정보처리방침은 법령, 정책 또는 보안기술의 변경에 따라 내용이 추가, 삭제 및 수정될 수 있으며, 변경 시 시행 최소 7일 전에 사이트를 통해 공지합니다.</p>
+<p style="margin-top:16px;color:var(--muted)">부칙: 본 개인정보처리방침은 2026년 1월 19일부터 시행합니다.</p>`
+  };
+
+  function openLegalModal(type){
+    document.getElementById('legalTitle').textContent=type==='terms'?'이용약관':'개인정보처리방침';
+    document.getElementById('legalBody').innerHTML=legalContent[type];
+    const el=document.getElementById('legalOverlay');
+    el.style.display='flex';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('show')));
+    document.body.style.overflow='hidden';
+  }
+  function closeLegalModal(){
+    const el=document.getElementById('legalOverlay');
+    el.classList.remove('show');
+    setTimeout(()=>{el.style.display='none'},300);
+    document.body.style.overflow='';
+  }
   </script>
 </body>
 </html>
