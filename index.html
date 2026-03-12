@@ -1077,7 +1077,7 @@
 
           <div class="disclaimer-banner" style="margin-top:24px">
             <div class="disclaimer-title">재미로 본 나의 사주 식단, 어떠셨나요?</div>
-            <div class="disclaimer-desc">다이어트 전문 브랜드 날씬예약과 함께 나만의 맞춤 다이어트를 시작해보세요</div>
+            <div class="disclaimer-desc">나에게 맞는 다이어트 프로그램, 날씬예약에서 시작해보세요</div>
             <a class="banner-cta-btn" href="https://날씬예약.com" target="_blank" rel="noopener">날씬예약 전문 상담 받으러 가기 →</a>
           </div>
         </div>
@@ -1323,8 +1323,20 @@
       // 음식명에서 핵심 재료 추출 후 효능 매칭
       function getMealTip(mealName,weakEl,hanjaMap){
         const benefits=[];
+        // 메뉴명을 공백·+··로 분리하여 토큰화
+        const tokens = mealName.split(/[\s\+·]+/);
         for(const[food,desc] of Object.entries(foodBenefits)){
-          if(mealName.includes(food))benefits.push(`<strong>${food}</strong> — ${desc}`);
+          // 각 토큰이 식재료 키워드를 정확히 포함하는지 체크
+          // (단, 토큰 내에서 식재료 앞뒤가 한글/숫자가 아닐 때만 매칭)
+          const regex = new RegExp('(^|[^가-힣])' + food + '([^가-힣]|$)');
+          const matched = tokens.some(token => {
+            // 토큰 자체가 식재료와 정확히 일치하거나, 토큰 안에서 경계 매칭
+            if(token === food) return true;
+            if(token.startsWith(food) && (token.length === food.length || !/[가-힣]/.test(token[food.length]))) return true;
+            if(token.endsWith(food) && (token.length === food.length || !/[가-힣]/.test(token[token.length - food.length - 1]))) return true;
+            return false;
+          });
+          if(matched) benefits.push(`<strong>${food}</strong> — ${desc}`);
         }
         if(benefits.length===0)return `${weakEl}(${hanjaMap[weakEl]}) 기운 보충을 위한 맞춤 메뉴입니다.`;
         return benefits.join('<br>');
