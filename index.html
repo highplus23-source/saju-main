@@ -27,15 +27,8 @@
     .serif{font-family:'Noto Sans KR',sans-serif}
 
     /* Top Bar */
-    .top-bar{position:fixed;top:0;left:0;right:0;height:56px;z-index:100;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px}
-    .top-bar-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.17rem;color:var(--main)}
-    .top-bar-brand .dot{width:34px;height:34px;background:var(--main-gradient);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;box-shadow:0 2px 8px rgba(232,90,113,0.25)}
-    .top-bar-brand span{letter-spacing:1px;font-family:'Noto Sans KR',sans-serif}
-    .top-bar-right{display:flex;align-items:center;gap:8px}
-    .top-bar-link{font-size:.75rem;font-weight:700;color:var(--main);text-decoration:none;padding:6px 14px;border:1.5px solid var(--main);border-radius:20px;transition:all .2s;white-space:nowrap}
-    .top-bar-link:hover{background:var(--main);color:#fff}
-    .settings-btn{background:none;border:none;font-size:1.2rem;cursor:pointer;padding:8px;border-radius:50%;transition:background .2s}
-    .settings-btn:hover{background:var(--main-bg)}
+    .top-bar{position:fixed;top:0;left:0;right:0;height:56px;z-index:100;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;padding:0 20px}
+    .top-bar-title{font-family:'Noto Sans KR',sans-serif;font-size:1.05rem;font-weight:800;color:var(--main);letter-spacing:-0.3px}
 
     .wrap{max-width:640px;margin:0 auto;padding:68px 16px 40px;position:relative;z-index:1;overflow-x:hidden;box-sizing:border-box}
 
@@ -275,10 +268,14 @@
     .consult-cta-text{flex:1}
     .consult-cta-title{font-size:.92rem;font-weight:800;color:var(--txt);margin-bottom:4px}
     .consult-cta-desc{font-size:.78rem;color:var(--txt2);line-height:1.6}
-    .consult-cta-btn{flex-shrink:0;padding:12px 20px;background:var(--main-gradient);color:#fff;font-size:.82rem;font-weight:700;border-radius:12px;text-decoration:none;transition:all .2s;box-shadow:0 3px 12px rgba(232,90,113,0.25);white-space:nowrap}
+    .consult-cta-btns{display:flex;flex-direction:column;gap:8px;flex-shrink:0}
+    .consult-cta-btn{display:block;padding:12px 20px;background:var(--main-gradient);color:#fff;font-size:.82rem;font-weight:700;border-radius:12px;text-decoration:none;transition:all .2s;box-shadow:0 3px 12px rgba(232,90,113,0.25);white-space:nowrap;text-align:center}
     .consult-cta-btn:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(232,90,113,0.35)}
+    .consult-cta-btn.outline{background:transparent;color:var(--main);border:1.5px solid var(--main);box-shadow:none}
+    .consult-cta-btn.outline:hover{background:var(--main-bg);transform:translateY(-1px);box-shadow:0 3px 12px rgba(232,90,113,0.12)}
     @media(max-width:480px){
       .consult-cta{flex-direction:column;text-align:center}
+      .consult-cta-btns{width:100%}
       .consult-cta-btn{width:100%}
     }
 
@@ -485,14 +482,7 @@
 </head>
 <body>
   <nav class="top-bar">
-    <div class="top-bar-brand" onclick="goHome()" style="cursor:pointer">
-      <div class="dot">🍽️</div>
-      <img src="날씬예약.png" alt="날씬예약" style="height:29px;object-fit:contain">
-    </div>
-    <div class="top-bar-right">
-      <a class="top-bar-link" href="https://날씬예약.com" target="_blank" rel="noopener">다이어트 전문 브랜드</a>
-      <button class="settings-btn" id="settingsBtn" onclick="openSettings()" aria-label="설정" style="display:none">⚙️</button>
-    </div>
+    <div class="top-bar-title" onclick="goHome()" style="cursor:pointer">정확한 사주 그리고 맞춤 식단</div>
   </nav>
 
   <div class="wrap">
@@ -971,7 +961,10 @@
               <div class="consult-cta-title">건강한 다이어트에 관심이 있다면?</div>
               <div class="consult-cta-desc">날씬예약에서 나에게 맞는 다이어트를 시작해보세요</div>
             </div>
-            <a class="consult-cta-btn" href="https://xn--i20br30b7ga7s.com/about" target="_blank" rel="noopener">백과사전 보러가기 →</a>
+            <div class="consult-cta-btns">
+              <a class="consult-cta-btn" href="https://xn--i20br30b7ga7s.com/about" target="_blank" rel="noopener">백과사전 보러가기 →</a>
+              <a class="consult-cta-btn outline" href="https://날씬예약.com" target="_blank" rel="noopener">날씬예약 홈페이지 방문하기 →</a>
+            </div>
           </div>
 
         </div>
