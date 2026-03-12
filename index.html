@@ -697,7 +697,7 @@
       if(profile.fullName.length>=2 && profile.name===profile.fullName) profile.name=profile.fullName.slice(1);
       document.getElementById('inputView').style.display='none';
       document.getElementById('dashboardView').style.display='block';
-      document.getElementById('settingsBtn').style.display='block';
+      if(document.getElementById('settingsBtn'))document.getElementById('settingsBtn').style.display='block';
 
       updateVisitHistory(profile);
       const saju=calculateSaju(profile.birthYear,profile.birthMonth,profile.birthDay,profile.birthHour,profile.birthMinute||0,profile.gender);
@@ -1373,7 +1373,7 @@
     function goHome(){
       document.getElementById('dashboardView').style.display='none';
       document.getElementById('inputView').style.display='';
-      document.getElementById('settingsBtn').style.display='none';
+      if(document.getElementById('settingsBtn'))document.getElementById('settingsBtn').style.display='none';
     }
 
     // === Settings ===
@@ -1388,7 +1388,7 @@
         clearProfile();closeSettings();
         document.getElementById('dashboardView').style.display='none';
         document.getElementById('inputView').style.display='block';
-        document.getElementById('settingsBtn').style.display='none';
+        if(document.getElementById('settingsBtn'))document.getElementById('settingsBtn').style.display='none';
         document.getElementById('fixedCta')?.classList.remove('show');
       }
     }
