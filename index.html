@@ -28,7 +28,7 @@
 
     /* Top Bar */
     .top-bar{position:fixed;top:0;left:0;right:0;height:56px;z-index:100;background:var(--main);border-bottom:none;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
-    .top-bar-title{font-family:'Noto Sans KR',sans-serif;font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:-0.3px;flex:1;text-align:center}
+    .top-bar-title{font-family:'Noto Sans KR',sans-serif;font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:-0.3px;position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;pointer-events:auto}
     .settings-btn{background:none;border:none;font-size:1.2rem;cursor:pointer;padding:8px;border-radius:50%;transition:background .2s;color:#fff}
     .settings-btn:hover{background:rgba(255,255,255,0.2)}
 
@@ -484,9 +484,9 @@
 </head>
 <body>
   <nav class="top-bar">
-    <div style="width:40px"></div>
+    <div style="width:40px;flex-shrink:0"></div>
     <div class="top-bar-title" onclick="goHome()" style="cursor:pointer">정확한 사주 그리고 맞춤 식단</div>
-    <button class="settings-btn" id="settingsBtn" onclick="openSettings()" aria-label="설정" style="display:none">⚙️</button>
+    <button class="settings-btn" id="settingsBtn" onclick="openSettings()" aria-label="설정" style="visibility:hidden;width:40px;flex-shrink:0;margin-left:auto">⚙️</button>
   </nav>
 
   <div class="wrap">
@@ -701,7 +701,7 @@
       if(profile.fullName.length>=2 && profile.name===profile.fullName) profile.name=profile.fullName.slice(1);
       document.getElementById('inputView').style.display='none';
       document.getElementById('dashboardView').style.display='block';
-      document.getElementById('settingsBtn').style.display='block';
+      document.getElementById('settingsBtn').style.visibility='visible';
 
       updateVisitHistory(profile);
       const saju=calculateSaju(profile.birthYear,profile.birthMonth,profile.birthDay,profile.birthHour,profile.birthMinute||0,profile.gender);
@@ -1389,7 +1389,7 @@
     function goHome(){
       document.getElementById('dashboardView').style.display='none';
       document.getElementById('inputView').style.display='';
-      document.getElementById('settingsBtn').style.display='none';
+      document.getElementById('settingsBtn').style.visibility='hidden';
     }
 
     // === Settings ===
@@ -1404,7 +1404,7 @@
         clearProfile();closeSettings();
         document.getElementById('dashboardView').style.display='none';
         document.getElementById('inputView').style.display='block';
-        document.getElementById('settingsBtn').style.display='none';
+        document.getElementById('settingsBtn').style.visibility='hidden';
         document.getElementById('fixedCta')?.classList.remove('show');
       }
     }

@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/higplus/Desktop/날씬사주웹사이트/**)",
+      "WebFetch(domain:blog.naver.com)",
+      "WebFetch(domain:commons.wikimedia.org)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:upload.wikimedia.org)",
+      "Bash(python3 -m json.tool)",
+      "Bash(python3 -c \"import sys,json;d=json.load\\(sys.stdin\\);[print\\(p[''id''],p[''src''][''medium'']\\) for p in d.get\\(''photos'',[]\\)]\")",
+      "Bash(node -e \":*)",
+      "Bash(git push origin master)",
+      "Bash(gh api repos/highplus23-source/saju-main2/pages -X POST -f \"build_type=workflow\" -f \"source[branch]=master\" -f \"source[path]=/\")",
+      "Bash(git remote add main1 https://github.com/highplus23-source/saju-main.git)",
+      "Bash(git push main1 master --force)",
+      "Bash(gh repo delete highplus23-source/saju-main2 --yes)",
+      "Bash(git remote set-url origin https://github.com/highplus23-source/saju-main.git)",
+      "Bash(git remote remove main1)",
+      "Bash(gh api repos/highplus23-source/saju-main/pages -X POST -f \"source[branch]=master\" -f \"source[path]=/\")",
+      "WebFetch(domain:highplus23-source.github.io)",
+      "Bash(git commit:*)",
+      "Bash(ls /Users/higplus/Downloads/saju-main2/*.png /Users/higplus/Downloads/saju-main2/*.jpeg /Users/higplus/Downloads/saju-main2/*.jpg)",
+      "Bash(ls -la /Users/higplus/Downloads/saju-main2/*.png /Users/higplus/Downloads/saju-main2/*.jpeg)"
+    ],
+    "additionalDirectories": [
+      "/Users/higplus/Downloads/saju-main2"
+    ]
+  }
+}
