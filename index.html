@@ -582,7 +582,9 @@
 
   <div class="share-toast" id="shareToast"></div>
 
-  <script src="saju-engine.js?v=20260310"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="supabase-data.js?v=20260316"></script>
+  <script src="saju-engine.js?v=20260316"></script>
   <script>
     let gender = 'male';
     const STORAGE_KEY = 'sajuDailyProfile';
@@ -601,6 +603,13 @@
       const h=document.getElementById('bH');for(let i=0;i<=23;i++)h.innerHTML+=`<option value="${i}">${String(i).padStart(2,'0')}시</option>`;
       const min=document.getElementById('bMin');for(let i=0;i<=59;i++)min.innerHTML+=`<option value="${i}">${String(i).padStart(2,'0')}분</option>`;
     })();
+
+    // === Supabase 데이터 사전 로드 ===
+    if (typeof loadAllRecipeData === 'function') {
+      loadAllRecipeData().catch(function(e) {
+        console.log('[Supabase] 사전 로드 스킵:', e.message);
+      });
+    }
 
     // === LocalStorage ===
     function saveProfile(data){localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}

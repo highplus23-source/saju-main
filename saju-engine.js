@@ -690,7 +690,10 @@ function getTodayFoods(weakEl, strongEl, rel) {
   strongEl = strongEl || weakEl;
   rel = rel || 'same';
 
-  const foods = {
+  // Supabase 데이터 우선, 없으면 하드코딩 폴백
+  const _sbFoods = (typeof window !== 'undefined' && window._supabaseRecipeData) ? window._supabaseRecipeData : null;
+
+  const foods = (_sbFoods && _sbFoods.recommendedFoods) ? _sbFoods.recommendedFoods : {
     '목': [
       { emoji:'🥬', name:'시금치', reason:'부족한 목 기운을 보충하여 간 기능을 강화합니다' },
       { emoji:'🥦', name:'브로콜리', reason:'간 해독을 도와 목 기운의 순환을 원활하게 합니다' },
@@ -1205,7 +1208,10 @@ function getFortuneFood(category, weakEl, strongEl, dayGan) {
   // weakEl === strongEl 방어
   const effectiveStrong = (strongEl && strongEl !== weakEl) ? strongEl : null;
 
-  const foodDB = {
+  // Supabase 데이터 우선, 없으면 하드코딩 폴백
+  const _sb = (typeof window !== 'undefined' && window._supabaseRecipeData) ? window._supabaseRecipeData : null;
+
+  const foodDB = (_sb && _sb.foodDB) ? _sb.foodDB : {
     '목': {name:['시금치','두부','브로콜리','아보카도','녹차','케일','셀러리'], organ:'간'},
     '화': {name:['토마토','파프리카','석류','연어','비트','고구마','강황'], organ:'심장'},
     '토': {name:['호박','현미','달걀','버섯','당근','감자','고구마'], organ:'위장'},
@@ -1222,8 +1228,8 @@ function getFortuneFood(category, weakEl, strongEl, dayGan) {
     relation: {label:'소통의 음식'}
   };
 
-  // 실제 존재하는 메뉴 DB (식재료별)
-  const realMenus = {
+  // 실제 존재하는 메뉴 DB (식재료별) — Supabase 우선
+  const realMenus = (_sb && _sb.realMenus) ? _sb.realMenus : {
     '시금치':['시금치 된장국','시금치 나물 비빔밥','시금치 달걀볶음'],
     '두부':['순두부찌개','두부 스테이크','마파두부'],
     '브로콜리':['브로콜리 크림수프','브로콜리 달걀볶음','브로콜리 샐러드'],
@@ -1298,7 +1304,10 @@ function getTodayMainIngredient(saju) {
   const dayGan = saju.day.gan;
   const personality = dayGanPersonality[dayGan] || dayGanPersonality[0];
 
-  const ingredients = {
+  // Supabase 데이터 우선, 없으면 하드코딩 폴백
+  const _sbIng = (typeof window !== 'undefined' && window._supabaseRecipeData && window._supabaseRecipeData.ingredientsByElement) ? window._supabaseRecipeData.ingredientsByElement : null;
+
+  const ingredients = _sbIng || {
     '목': [
       { name:'시금치', emoji:'🥬', image:'https://images.pexels.com/photos/750952/pexels-photo-750952.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'간 기능 강화 & 해독', color:'#4CAF7B' },
       { name:'브로콜리', emoji:'🥦', image:'https://images.pexels.com/photos/161514/brocoli-vegetables-salad-green-161514.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', benefit:'항산화 & 비타민C 보충', color:'#4CAF7B' },
@@ -1374,6 +1383,13 @@ function getTodayMainIngredient(saju) {
 
 // ===== 오늘의 대표 식재료 레시피 =====
 function getTodayRecipe(ingredientName) {
+  // Supabase 데이터 우선 확인
+  const _sbRecipes = (typeof window !== 'undefined' && window._supabaseRecipeData && window._supabaseRecipeData.recipes) ? window._supabaseRecipeData.recipes : null;
+  if (_sbRecipes && _sbRecipes[ingredientName]) {
+    return _sbRecipes[ingredientName];
+  }
+
+  // 하드코딩 폴백
   const recipes = {
     '시금치': {
       title: '시금치 된장국',
