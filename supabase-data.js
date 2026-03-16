@@ -6,7 +6,7 @@
 // =============================================
 
 const SUPABASE_URL = 'https://nephivxgltsihjldssmr.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // 예: eyJhbGciOiJIUzI1NiIs...
+const SUPABASE_ANON_KEY = 'sb_publishable_uTkJeNAGncCACe_39a4L4w_KK1tGgVF';
 
 let _supabase = null;
 let _cache = {};
