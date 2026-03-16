@@ -90,7 +90,7 @@
 
     /* Score Card */
     .score-card{border-radius:24px;padding:0;text-align:center;color:var(--txt);margin-bottom:16px;position:relative;overflow:hidden;border:none;box-shadow:none;background:transparent}
-    .score-scene{position:relative;background:linear-gradient(180deg,#FFE8E4 0%,#FFF0EE 40%,#FFF8F6 70%,#FFFFFF 100%);border-radius:24px;padding:36px 24px 24px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--card-shadow);min-height:360px}
+    .score-scene{position:relative;background:linear-gradient(180deg,#FFE8E4 0%,#FFF0EE 40%,#FFF8F6 70%,#FFFFFF 100%);border-radius:24px;padding:36px 16px 24px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--card-shadow);min-height:360px}
     /* 3D Clouds - large floating */
     .score-cloud{position:absolute;pointer-events:none;filter:drop-shadow(0 6px 16px rgba(232,90,113,0.08));z-index:1}
     .score-cloud svg{display:block}
@@ -121,7 +121,7 @@
     .score-label{font-size:.92rem;color:var(--txt2);font-weight:600;margin-bottom:2px;margin-top:4px}
     .score-number{font-size:2.8rem;font-weight:900;font-family:'Noto Sans KR',sans-serif;line-height:1;color:var(--txt)}
     .score-number span{font-size:1rem;font-weight:700;color:var(--muted)}
-    .score-msg{font-size:.95rem;color:var(--txt2);line-height:1.7;font-weight:500;padding:14px 16px;background:rgba(232,90,113,0.06);border-radius:14px;margin-top:12px;position:relative;z-index:2}
+    .score-msg{font-size:.84rem;color:var(--txt2);line-height:1.7;font-weight:500;padding:14px 16px;background:rgba(232,90,113,0.06);border-radius:14px;margin-top:12px;position:relative;z-index:2}
     /* Ground decoration */
     .score-ground{position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(180deg,transparent,rgba(232,90,113,0.04));z-index:1;pointer-events:none}
 
@@ -164,7 +164,7 @@
 
     /* Briefing */
     .briefing-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:22px 20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
-    .briefing-title{font-size:.9rem;font-weight:700;color:var(--main);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    .briefing-title{font-size:.9rem;font-weight:700;color:var(--main);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:6px}
     .briefing-text{font-size:.9rem;color:var(--txt2);line-height:1.85}
     .briefing-text .bp{margin:0 0 12px;padding:0}
     .briefing-text .bp:last-child{margin-bottom:0}
@@ -198,7 +198,7 @@
     .fixed-cta-sub{font-size:.72rem;color:var(--muted);margin-top:4px}
 
     /* Section Title */
-    .section-title{font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--txt)}
+    .section-title{font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--txt)}
 
     /* Ingredient Hero - Glassmorphism */
     .ingredient-hero-wrap{position:relative;margin-bottom:16px;padding:28px 16px 20px;border-radius:28px;background:linear-gradient(160deg,rgba(232,90,113,0.08),rgba(255,138,155,0.06),rgba(200,180,220,0.08),rgba(180,210,240,0.06));overflow:hidden}
@@ -226,7 +226,7 @@
     .meal-body{display:none;padding:0 18px 18px}
     .meal-body.open{display:block;animation:slideDown .3s ease}
     .recipe-section{border-top:1px solid var(--border);padding-top:16px}
-    .recipe-title{font-weight:700;font-size:.9rem;color:var(--main);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    .recipe-title{font-weight:700;font-size:.9rem;color:var(--main);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:6px}
     .recipe-ingredients{font-size:.85rem;color:var(--txt2);line-height:1.8;margin-bottom:14px;padding:12px 14px;background:var(--bg3);border-radius:12px}
     .recipe-steps{list-style:none;counter-reset:step}
     .recipe-steps li{counter-increment:step;font-size:.85rem;color:var(--txt2);line-height:1.7;padding:6px 0 6px 28px;position:relative}
@@ -244,7 +244,7 @@
 
     /* Quick Food Summary */
     .food-summary{background:var(--main-bg);border:1px solid var(--border-accent);border-radius:20px;padding:22px 20px;margin-bottom:16px}
-    .food-summary-title{font-weight:700;font-size:.95rem;color:var(--success);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+    .food-summary-title{font-weight:700;font-size:.95rem;color:var(--success);margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:6px}
     .food-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
     .food-summary-item{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:16px 8px;text-align:center}
     .food-summary-emoji{font-size:2.2rem;margin-bottom:8px;display:block}
@@ -253,8 +253,8 @@
     .food-summary-note{font-size:.82rem;color:var(--txt2);line-height:1.7}
 
     /* Avoid Foods */
-    .avoid-section{background:rgba(211,47,47,0.03);border:1px solid rgba(211,47,47,0.1);border-radius:20px;padding:22px 20px;margin-bottom:16px}
-    .avoid-title{font-weight:700;font-size:.95rem;color:var(--warn);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    .avoid-section{background:rgba(211,47,47,0.03);border:1px solid rgba(211,47,47,0.1);border-radius:20px;padding:22px 20px;margin-bottom:16px;text-align:center}
+    .avoid-title{font-weight:700;font-size:.95rem;color:var(--warn);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:6px}
     .avoid-items{font-size:1rem;font-weight:700;color:var(--txt);margin-bottom:6px}
     .avoid-text{font-size:.85rem;color:var(--txt2);line-height:1.7}
 
@@ -353,15 +353,16 @@
     /* Responsive */
     /* Mobile responsive - general */
     @media(max-width:480px){
-      .saju-pillar-grid{gap:6px}
-      .saju-pillar-item{padding:10px 4px 10px}
-      .saju-pillar-label{font-size:.68rem;margin-bottom:4px}
-      .saju-pillar-gan{font-size:1.6rem}
-      .saju-pillar-ji{font-size:1.2rem;margin-top:2px}
-      .saju-pillar-el{font-size:.72rem;margin-top:4px}
-      .saju-pillar-sipsin{font-size:.58rem;margin-top:4px}
       .saju-pillar-card{padding:14px 10px}
       .saju-pillar-title{font-size:.92rem}
+      .saju-pillar-grid{gap:10px}
+      .saju-pillar-item{padding:16px 10px;border-radius:16px}
+      .saju-pillar-label{font-size:.7rem}
+      .saju-tile{width:56px;height:56px;border-radius:14px}
+      .saju-tile-hanja{font-size:1.6rem}
+      .saju-tile-kr{font-size:.58rem}
+      .saju-pillar-tiles{gap:8px}
+      .saju-pillar-sipsin{font-size:.62rem;padding:3px 8px}
       .wonkuk-card,.byungyak-card,.bottleneck-card{padding:16px 12px}
       .wonkuk-title,.byungyak-title,.bottleneck-title{font-size:.95rem}
       .byungyak-bars{gap:8px;padding:0 4px}
@@ -376,13 +377,11 @@
       .score-mascot{width:56px;height:56px}
       .score-number{font-size:2rem}
       .score-scene{padding:20px 12px 16px}
-      .saju-pillar-grid{gap:4px}
-      .saju-pillar-item{padding:8px 3px 8px}
-      .saju-pillar-label{font-size:.62rem}
-      .saju-pillar-gan{font-size:1.35rem}
-      .saju-pillar-ji{font-size:1rem}
-      .saju-pillar-el{font-size:.65rem}
-      .saju-pillar-sipsin{font-size:.52rem}
+      .saju-pillar-grid{gap:8px}
+      .saju-tile{width:48px;height:48px;border-radius:12px}
+      .saju-tile-hanja{font-size:1.35rem}
+      .saju-tile-kr{font-size:.52rem}
+      .saju-pillar-sipsin{font-size:.55rem;padding:2px 6px}
     }
     @media(min-width:768px){
       .wrap{max-width:680px;padding:72px 24px 40px}
@@ -390,22 +389,31 @@
 
     /* Saju Pillar Card */
     .saju-pillar-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:20px 16px;margin-bottom:16px;box-shadow:var(--card-shadow)}
-    .saju-pillar-title{font-family:'Noto Sans KR',sans-serif;font-size:1.05rem;font-weight:800;color:var(--txt);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-    .saju-pillar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;overflow:hidden}
-    .saju-pillar-item{text-align:center;padding:14px 6px 12px;background:var(--bg3);border:1.5px solid var(--border);border-radius:16px;position:relative;min-width:0;overflow:hidden}
-    .saju-pillar-item.day-pillar{border-color:var(--border);border-width:1.5px;background:var(--bg3)}
-    .saju-pillar-label{font-size:.78rem;color:var(--muted);font-weight:600;margin-bottom:8px;letter-spacing:0.5px}
-    .saju-pillar-gan{font-size:2.2rem;font-weight:900;line-height:1.15;font-family:'Noto Sans KR',sans-serif}
-    .saju-pillar-ji{font-size:1.7rem;font-weight:700;line-height:1.25;margin-top:4px}
-    .saju-pillar-el{font-size:.92rem;margin-top:8px;font-weight:700;letter-spacing:0.5px}
-    .saju-pillar-sipsin{font-size:.68rem;color:var(--muted);margin-top:6px;line-height:1.4;font-weight:500;word-break:keep-all}
+    .saju-pillar-title{font-family:'Noto Sans KR',sans-serif;font-size:1.05rem;font-weight:800;color:var(--txt);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px}
+    .saju-pillar-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px;overflow:hidden}
+    .saju-pillar-item{text-align:center;background:#fff;border-radius:20px;position:relative;min-width:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;padding:20px 14px;gap:10px;box-shadow:0 2px 16px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.04)}
+    .saju-pillar-label{font-size:.78rem;color:var(--main);font-weight:700;letter-spacing:0.3px;background:var(--main-bg);padding:4px 14px;border-radius:20px}
+    .saju-pillar-self-badge{font-size:.58rem;font-weight:700;color:#fff;background:var(--main);padding:2px 8px;border-radius:6px;position:absolute;top:10px;right:10px}
+    .saju-pillar-tiles{display:flex;align-items:center;justify-content:center;gap:10px;margin:4px 0}
+    .saju-tile{width:64px;height:64px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform .2s;box-shadow:0 3px 10px rgba(0,0,0,0.1)}
+    .saju-tile:hover{transform:scale(1.05)}
+    .saju-tile-hanja{font-size:1.85rem;font-weight:900;line-height:1;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.1)}
+    .saju-tile-kr{font-size:.62rem;font-weight:600;color:rgba(255,255,255,0.9);line-height:1}
+    .saju-pillar-el{font-size:.78rem;font-weight:600;color:var(--txt2)}
+    .saju-pillar-sipsin{font-size:.72rem;color:var(--txt2);line-height:1.4;font-weight:500;word-break:keep-all;background:var(--bg);padding:5px 14px;border-radius:10px}
     .saju-pillar-info{font-size:.78rem;color:var(--txt2);line-height:1.7;padding:12px 14px;background:var(--bg);border-radius:12px;margin-top:4px}
     .saju-pillar-info strong{color:var(--main);font-weight:700}
     .saju-yajasi-note{font-size:.72rem;color:var(--main);margin-top:8px;font-weight:500}
+    /* Element tile colors */
+    .saju-tile-wood{background:linear-gradient(135deg,#56c08a,#3d9e6b)}
+    .saju-tile-fire{background:linear-gradient(135deg,#f47a8f,#e85a71)}
+    .saju-tile-earth{background:linear-gradient(135deg,#ffc164,#f0a030)}
+    .saju-tile-metal{background:linear-gradient(135deg,#a8a8b0,#808088)}
+    .saju-tile-water{background:linear-gradient(135deg,#5bb8f5,#2196f3)}
 
     /* Wonkuk Landscape */
     .wonkuk-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:22px 16px;margin-bottom:16px;box-shadow:var(--card-shadow)}
-    .wonkuk-title{font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;font-weight:800;color:var(--txt);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .wonkuk-title{font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;font-weight:800;color:var(--txt);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px}
     .wonkuk-landscape{font-size:.85rem;color:var(--txt2);line-height:1.8;padding:14px;background:var(--bg3);border:1px solid var(--border);border-radius:14px;margin-top:12px;position:relative}
     .wonkuk-landscape .landscape-icon{position:absolute;right:12px;top:10px;font-size:1.5rem;opacity:.5}
     .wonkuk-personality{margin-top:10px;font-size:.85rem;color:var(--txt2);line-height:1.7;padding:10px 14px;background:var(--bg);border-radius:12px}
@@ -413,7 +421,7 @@
 
     /* Oheng Byungyak Section */
     .byungyak-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:22px 16px;margin-bottom:16px;box-shadow:var(--card-shadow)}
-    .byungyak-title{font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;font-weight:800;color:var(--txt);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+    .byungyak-title{font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;font-weight:800;color:var(--txt);margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px}
     .byungyak-bars{display:flex;align-items:flex-end;justify-content:center;gap:16px;margin-bottom:18px;padding:0 10px}
     .byungyak-bar-item{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
     .byungyak-bar-count{font-size:.88rem;font-weight:700;color:var(--txt2)}
@@ -425,13 +433,13 @@
 
     /* Bottleneck Section */
     .bottleneck-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:22px 16px;margin-bottom:16px;box-shadow:var(--card-shadow)}
-    .bottleneck-title{font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;font-weight:800;color:var(--txt);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .bottleneck-title{font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;font-weight:800;color:var(--txt);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px}
     .bottleneck-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
     .bottleneck-item{padding:16px 12px;border-radius:14px;border-left:4px solid;position:relative}
     .bottleneck-item.excess{background:rgba(232,90,113,0.04);border-left-color:var(--main)}
     .bottleneck-item.deficit{background:rgba(90,133,181,0.04);border-left-color:var(--water)}
-    .bottleneck-item-label{font-size:.72rem;color:var(--muted);font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:4px}
-    .bottleneck-item-el{font-size:1.5rem;font-weight:900;margin-bottom:4px}
+    .bottleneck-item-label{font-size:.82rem;color:var(--txt2);font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:4px}
+    .bottleneck-item-el{font-size:1.1rem;font-weight:800;margin-bottom:4px}
     .bottleneck-item-count{font-size:.85rem;font-weight:700;color:var(--txt2)}
     .bottleneck-item-desc{font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.5}
     .bottleneck-rx{padding:14px;background:linear-gradient(135deg,rgba(232,90,113,0.04),rgba(255,138,155,0.04));border:1px solid var(--border-accent);border-radius:14px;font-size:.85rem;color:var(--txt2);line-height:1.7}
@@ -441,7 +449,7 @@
     .daeun-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:0;margin-bottom:16px;box-shadow:var(--card-shadow);overflow:hidden}
     .daeun-toggle{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .2s}
     .daeun-toggle:hover{background:var(--bg3)}
-    .daeun-toggle-left{display:flex;align-items:center;gap:8px}
+    .daeun-toggle-left{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
     .daeun-toggle-title{font-family:'Noto Sans KR',sans-serif;font-size:1.05rem;font-weight:800;color:var(--txt)}
     .daeun-toggle-arrow{font-size:.75rem;color:var(--muted);transition:transform .3s}
     .daeun-toggle.open .daeun-toggle-arrow{transform:rotate(180deg)}
@@ -458,19 +466,56 @@
     .daeun-item-age-range{font-size:.88rem;font-weight:700;color:var(--txt)}
     .daeun-item-age-year{font-size:.7rem;color:var(--muted)}
     .daeun-item-pillar{min-width:36px;text-align:center}
-    .daeun-item-gan{font-size:1.15rem;font-weight:900;line-height:1.2}
-    .daeun-item-ji{font-size:.95rem;font-weight:700;line-height:1.3}
+    .daeun-item-gan{font-size:.92rem;font-weight:900;line-height:1.2}
+    .daeun-item-ji{font-size:.85rem;font-weight:700;line-height:1.3}
     .daeun-item-info{flex:1;min-width:0}
     .daeun-item-luck{font-size:.75rem;font-weight:700;display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;margin-bottom:3px}
     .daeun-item-luck.good{color:var(--success);background:rgba(76,175,123,0.1)}
     .daeun-item-luck.bad{color:var(--warn);background:rgba(211,47,47,0.08)}
     .daeun-item-luck.neutral{color:var(--earth);background:rgba(212,162,78,0.1)}
     .daeun-item-desc{font-size:.78rem;color:var(--txt2);line-height:1.5}
+    .daeun-item.n5-stable{border-left-color:#4a90d9}
+    .daeun-item.n5-warning{border-left-color:#e85a71}
+    .daeun-item.n5-critical{border-left-color:#e6a700}
+    .daeun-item.n5-opportunity{border-left-color:#4db076}
+    .daeun-item-luck.n5-stable{color:#4a90d9;background:rgba(74,144,217,0.1)}
+    .daeun-item-luck.n5-warning{color:#e85a71;background:rgba(232,90,113,0.08)}
+    .daeun-item-luck.n5-critical{color:#e6a700;background:rgba(230,167,0,0.1)}
+    .daeun-item-luck.n5-opportunity{color:#4db076;background:rgba(77,176,118,0.1)}
 
-    /* Tab Navigation */
-    .tab-nav{display:flex;gap:6px;margin-bottom:16px;background:var(--bg2);border-radius:14px;padding:4px}
-    .tab-btn{flex:1;padding:12px 8px;border:none;border-radius:12px;background:transparent;color:var(--txt2);font-size:.88rem;font-weight:600;cursor:pointer;transition:all .3s;font-family:inherit;-webkit-tap-highlight-color:transparent}
-    .tab-btn.active{background:var(--card-bg);color:var(--main);box-shadow:0 2px 8px rgba(0,0,0,0.06);font-weight:700}
+    /* Tab Navigation - Card Style */
+    .tab-nav{display:flex;gap:10px;margin-bottom:18px;padding:0}
+    .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 8px 14px;border:none;border-radius:16px;background:var(--card-bg);color:var(--txt2);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .3s;font-family:inherit;-webkit-tap-highlight-color:transparent;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.05);position:relative;overflow:hidden}
+    .tab-btn .tab-icon{font-size:1.5rem;line-height:1;transition:transform .3s}
+    .tab-btn .tab-title{font-weight:700;font-size:.85rem;transition:color .3s}
+    .tab-btn .tab-desc{font-size:.7rem;font-weight:500;color:var(--muted);transition:color .3s}
+    .tab-btn.active{background:linear-gradient(135deg,var(--main),#FF8A9B);color:#fff;box-shadow:0 4px 16px rgba(232,90,113,0.3);transform:translateY(-2px)}
+    .tab-btn.active .tab-title{color:#fff}
+    .tab-btn.active .tab-desc{color:rgba(255,255,255,0.85)}
+    .tab-btn.active .tab-icon{transform:scale(1.15)}
+    .tab-btn:not(.active):hover{background:rgba(232,90,113,0.06);transform:translateY(-1px);box-shadow:0 3px 12px rgba(0,0,0,0.08)}
+
+    /* Diet Type Selector */
+    .diet-type-selector{background:var(--card-bg);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+    .diet-type-label{font-size:.85rem;font-weight:700;color:var(--txt);margin-bottom:12px;text-align:center}
+    .diet-type-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .diet-type-btn{padding:10px 8px;border:1.5px solid var(--border);border-radius:12px;background:var(--card-bg);color:var(--txt2);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .25s;font-family:inherit;-webkit-tap-highlight-color:transparent}
+    .diet-type-btn.active{border-color:var(--main);background:rgba(232,90,113,0.08);color:var(--main);font-weight:700;box-shadow:0 2px 8px rgba(232,90,113,0.12)}
+
+    /* Custom Diet Result */
+    .custom-diet-info{background:var(--card-bg);border-radius:16px;padding:16px;margin-top:16px;box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+    .custom-diet-principle{font-size:.88rem;font-weight:600;color:var(--txt);line-height:1.6;margin-bottom:10px}
+    .custom-diet-target{font-size:.82rem;color:var(--main);font-weight:700;background:rgba(232,90,113,0.06);border-radius:10px;padding:8px 12px;margin-bottom:8px}
+    .custom-diet-tip{font-size:.8rem;color:var(--txt2);line-height:1.5}
+
+    /* Weekly Day Card */
+    .weekly-day-card{background:var(--card-bg);border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 1px 8px rgba(0,0,0,0.04)}
+    .weekly-day-header{font-size:.88rem;font-weight:700;color:var(--txt);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+    .weekly-meal-row{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:.82rem;line-height:1.5}
+    .weekly-meal-time{flex-shrink:0;font-weight:600;color:var(--txt2);width:58px}
+    .weekly-meal-menu{flex:1;color:var(--txt);font-weight:500}
+    .weekly-meal-meta{flex-shrink:0;display:flex;align-items:center;gap:4px;font-size:.75rem;color:var(--muted)}
+    .weekly-meal-tag{background:rgba(232,90,113,0.08);color:var(--main);padding:2px 6px;border-radius:6px;font-size:.7rem;font-weight:600}
     .tab-content{display:none;opacity:1!important;transform:none!important}
     .tab-content.active{display:block;animation:none}
     .saju-pillar-card,.wonkuk-card,.byungyak-card,.bottleneck-card,.daeun-card{opacity:1!important;transform:none!important}
@@ -705,6 +750,8 @@
 
       updateVisitHistory(profile);
       const saju=calculateSaju(profile.birthYear,profile.birthMonth,profile.birthDay,profile.birthHour,profile.birthMinute||0,profile.gender);
+      window.__saju=saju;
+      window.__profile=profile;
       console.log('[사주] 입력값:', profile.birthYear+'년', profile.birthMonth+'월', profile.birthDay+'일', profile.birthHour+'시');
       console.log('[사주] 일주:', CHEONGAN[saju.day.gan]+JIJI[saju.day.ji], '일간오행:', CHEONGAN_ELEMENT[saju.day.gan]);
       const inter=analyzeTodayInteraction(saju);
@@ -773,20 +820,31 @@
       }).join('');
       // === 사주 팔자 카드 데이터 ===
       const pillars = [
-        { label: '시주(時柱, 시간)', p: saju.hour, isSelf: false },
-        { label: '일주(日柱, 나)', p: saju.day, isSelf: true },
+        { label: '년주(年柱, 년)', p: saju.year, isSelf: false },
         { label: '월주(月柱, 월)', p: saju.month, isSelf: false },
-        { label: '년주(年柱, 년)', p: saju.year, isSelf: false }
+        { label: '일주(日柱, 나)', p: saju.day, isSelf: true },
+        { label: '시주(時柱, 시간)', p: saju.hour, isSelf: false }
       ];
+      const tileClassMap = {'목':'saju-tile-wood','화':'saju-tile-fire','토':'saju-tile-earth','금':'saju-tile-metal','수':'saju-tile-water'};
       const pillarHTML = pillars.map(({ label, p, isSelf }) => {
         const ganEl = CHEONGAN_ELEMENT[p.gan];
         const jiEl = JIJI_ELEMENT[p.ji];
         const sipsinText = isSelf ? '일간(본인)' : getSipsin(saju.day.gan, p.gan);
-        return `<div class="saju-pillar-item${isSelf ? ' day-pillar' : ''}">
+        const selfBadge = '';
+        return `<div class="saju-pillar-item">
+          ${selfBadge}
           <div class="saju-pillar-label">${label}</div>
-          <div class="saju-pillar-gan" style="color:${elemColors[ganEl]}">${CHEONGAN[p.gan]}</div>
-          <div class="saju-pillar-ji" style="color:${elemColors[jiEl]}">${JIJI[p.ji]}</div>
-          <div class="saju-pillar-el">${ELEMENT_EMOJI[ganEl]}${ganEl} · ${ELEMENT_EMOJI[jiEl]}${jiEl}</div>
+          <div class="saju-pillar-tiles">
+            <div class="saju-tile ${tileClassMap[ganEl]}">
+              <div class="saju-tile-hanja">${CHEONGAN_HANJA[p.gan]}</div>
+              <div class="saju-tile-kr">${CHEONGAN[p.gan]}·${ganEl}</div>
+            </div>
+            <div class="saju-tile ${tileClassMap[jiEl]}">
+              <div class="saju-tile-hanja">${JIJI_HANJA[p.ji]}</div>
+              <div class="saju-tile-kr">${JIJI[p.ji]}·${jiEl}</div>
+            </div>
+          </div>
+          <div class="saju-pillar-el">${ELEMENT_EMOJI[ganEl]}${ganEl}(${hanjaMap[ganEl]}) · ${ELEMENT_EMOJI[jiEl]}${jiEl}(${hanjaMap[jiEl]})</div>
           <div class="saju-pillar-sipsin">${sipsinText}</div>
         </div>`;
       }).join('');
@@ -813,6 +871,31 @@
       const daeunData = calculateDaeun(saju);
       const daeunLuckLabel = { good: '상승기', bad: '주의기', neutral: '안정기' };
       const daeunLuckDot = { good: '🟢', bad: '🔴', neutral: '🟡' };
+
+      // 향후 5년 분석
+      const currentYear = new Date().getFullYear();
+      const next5Data = analyzeNext5Years(saju, currentYear);
+      const next5LevelLabel = { stable: '안정', warning: '주의', critical: '충(沖)', opportunity: '기회' };
+      const next5LevelDot = { stable: '🔵', warning: '🔴', critical: '🟡', opportunity: '🟢' };
+      const next5LevelColor = { stable: '#4a90d9', warning: '#e85a71', critical: '#e6a700', opportunity: '#4db076' };
+      const next5ItemsHTML = '<div class="daeun-list">' + next5Data.map(function(n) {
+        var cls = 'n5-' + n.level;
+        return '<div class="daeun-item ' + cls + '">'
+          + '<div class="daeun-item-age">'
+          + '<div class="daeun-item-age-range">' + n.year + '년</div>'
+          + '<div class="daeun-item-age-year">' + n.animal + '띠</div>'
+          + '</div>'
+          + '<div class="daeun-item-pillar">'
+          + '<div class="daeun-item-gan">' + n.ganText + '</div>'
+          + '<div class="daeun-item-ji">' + n.jiText + '</div>'
+          + '</div>'
+          + '<div class="daeun-item-info">'
+          + '<div class="daeun-item-luck ' + cls + '">' + next5LevelDot[n.level] + ' ' + next5LevelLabel[n.level] + '</div>'
+          + '<div class="daeun-item-desc">' + n.comment + '</div>'
+          + '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">' + n.sipsin.replace(/<br>/g, '') + ' · ' + n.animal + '띠의 해 · ' + ELEMENT_EMOJI[n.element] + n.element + '</div>'
+          + '</div>'
+          + '</div>';
+      }).join('') + '</div>';
       const daeunItemsHTML = daeunData.list.map(function(d) {
         const ganEl = CHEONGAN_ELEMENT[d.gan];
         const jiEl = JIJI_ELEMENT[d.ji];
@@ -845,17 +928,30 @@
 
       let html=`
         <div class="greeting-section">
-          <div class="greeting-hello">${getGreeting(profile.fullName||profile.name)}</div>
+          <div class="greeting-hello">${getGreeting(profile.name)}</div>
           <div class="greeting-date">${dateStr}</div>
           <span class="greeting-ilju">${inter.todayGanH}(${hanjaMap[inter.todayEl]}) · ${inter.todayEl}의 기운</span>
           ${streak>1?`<span class="streak-badge">🔥 ${streak}일 연속 방문</span>`:''}
           ${revisitMsg?`<div class="revisit-msg">${revisitMsg}</div>`:''}
         </div>
 
-        <!-- 탭 네비게이션: 전체 운세 / 오늘 하루 -->
+        <!-- 탭 네비게이션: 나의 사주 / 오늘 하루식단 / 오늘 맞춤식단 -->
         <div class="tab-nav">
-          <button class="tab-btn active" onclick="switchTab('overall')">📊 나의 사주</button>
-          <button class="tab-btn" onclick="switchTab('daily')">🍽️ 오늘 하루</button>
+          <button class="tab-btn active" onclick="switchTab('overall')">
+            <span class="tab-icon">📊</span>
+            <span class="tab-title">나의 사주</span>
+            <span class="tab-desc">운세 보기</span>
+          </button>
+          <button class="tab-btn" onclick="switchTab('daily')">
+            <span class="tab-icon">🔮</span>
+            <span class="tab-title">오늘운세</span>
+            <span class="tab-desc">운세 & 오늘식단</span>
+          </button>
+          <button class="tab-btn" onclick="switchTab('custom')">
+            <span class="tab-icon">🎯</span>
+            <span class="tab-title">맞춤식단</span>
+            <span class="tab-desc">다이어트 플랜</span>
+          </button>
         </div>
 
         <!-- ===== 전체 운세 탭 (기본 표시) ===== -->
@@ -887,14 +983,30 @@
                 </svg>
                 <div class="score-ring-center">
                   <img class="score-mascot" src="물방울2.png" alt="물방울 캐릭터">
-                  <div class="score-label">${profile.name}님의 컨디션</div>
+                  <div class="score-label">${profile.name}님의 오늘 컨디션</div>
                   <div class="score-number">${totalScore}<span>점</span></div>
                 </div>
               </div>
-              <div class="score-msg">${getOverallMsg(totalScore,inter,profile.name)}</div>
+              <div style="background:rgba(255,255,255,0.7);border-radius:14px;padding:14px 16px;margin:0;text-align:left;backdrop-filter:blur(4px);position:relative;z-index:2">
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+                  <span style="font-size:.88rem;font-weight:800;color:var(--main)">${profile.fullName||profile.name}님!</span>
+                  <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(232,90,113,0.08);border:1px solid rgba(232,90,113,0.12);border-radius:10px;padding:5px 12px;font-size:.78rem;font-weight:700;color:var(--txt)">
+                    ${ELEMENT_EMOJI[weakEl]} ${weakEl}(${hanjaMap[weakEl]}) 기운이 <strong style="color:var(--main)">${Math.round((elCounts[weakEl]/8)*100)}%</strong>
+                  </span>
+                </div>
+                <div style="font-size:.82rem;color:var(--txt2);line-height:1.65;margin-bottom:6px">
+                  ${weakEl === '목' ? '새로운 시작이나 도전 앞에서 망설였던 순간이 있지 않으셨나요?' : weakEl === '화' ? '열정을 표현하지 못해 오해받은 적이 있지 않으셨나요?' : weakEl === '토' ? '마음의 중심이 흔들려 불안했던 적이 있지 않으셨나요?' : weakEl === '금' ? '결단을 내려야 할 때 우유부단했던 적이 있지 않으셨나요?' : '예민해지고 생각이 많아져 지쳤던 적이 있지 않으셨나요?'}
+                </div>
+                <div style="font-size:.82rem;color:var(--txt);line-height:1.65;font-weight:500">
+                  하지만 ${profile.name}님의 <strong style="color:${elemColors[strongEl]}">${ELEMENT_EMOJI[strongEl]} ${strongEl}(${hanjaMap[strongEl]}) ${Math.round((elCounts[strongEl]/8)*100)}%</strong>가 균형을 잡아주고,
+                  <strong style="color:var(--main)">${getSipsin(saju.day.gan, saju.year.gan).replace(/<br>/g, '')}</strong>이 당신만의 강점을 만들어주는 사주입니다 ✨
+                </div>
+              </div>
               <div class="score-ground"></div>
             </div>
           </div>
+
+
 
           <!-- 사주 원국 풍경화 -->
           <div class="wonkuk-card">
@@ -902,6 +1014,70 @@
             <div class="saju-pillar-grid">
               ${pillarHTML}
             </div>
+          </div>
+
+          <!-- 향후 5년 토글 -->
+          <div class="daeun-card">
+            <div class="daeun-toggle" onclick="toggleDaeun(this)">
+              <div class="daeun-toggle-left">
+                <div class="daeun-toggle-title">⚡ 향후 5년 주요 변곡점</div>
+                <div class="daeun-toggle-sub">충(沖)·형(刑)으로 보는 변화의 시기</div>
+              </div>
+              <span class="daeun-toggle-arrow">▼</span>
+            </div>
+            <div class="daeun-body">
+              <div class="daeun-desc">${currentYear}년~${currentYear+4}년, ${profile.name}님에게 큰 변화가 예상되는 시기와 대처법입니다.</div>
+              ${next5ItemsHTML}
+            </div>
+          </div>
+
+          <!-- 대운 흐름 (토글) -->
+          <div class="daeun-card">
+            <div class="daeun-toggle" onclick="toggleDaeun(this)">
+              <div class="daeun-toggle-left">
+                <div class="daeun-toggle-title">📈 ${profile.name}님의 대운(大運) 흐름</div>
+                <div class="daeun-toggle-sub">10년 단위 운의 흐름</div>
+              </div>
+              <span class="daeun-toggle-arrow">▼</span>
+            </div>
+            <div class="daeun-body">
+              <div class="daeun-desc">${profile.name}님의 10년 단위 운의 전략적 흐름입니다. 교운기(交運期)에 주목하세요.</div>
+              <div class="daeun-list">
+                ${daeunItemsHTML}
+              </div>
+            </div>
+          </div>
+
+          <!-- 사주 4기둥 설명 -->
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:18px 16px;margin-bottom:16px;box-shadow:var(--card-shadow)">
+            <div style="background:var(--main-bg);border-radius:14px;padding:14px 16px;font-size:.8rem;color:var(--txt2);line-height:1.8">
+              <div style="font-weight:700;color:var(--main);margin-bottom:6px;font-size:.82rem">📌 사주 4기둥이 뭘 의미하나요?</div>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span>• <strong style="color:var(--txt)">년주(年柱)</strong> — 조상·가문, 유년기(0~15세)</span>
+                <span>• <strong style="color:var(--txt)">월주(月柱)</strong> — 부모·사회, 청년기(15~30세)</span>
+                <span>• <strong style="color:var(--txt)">일주(日柱)</strong> — <strong style="color:var(--main)">'나'</strong>와 배우자, 중년기(30~45세)</span>
+                <span>• <strong style="color:var(--txt)">시주(時柱)</strong> — 자녀·말년, 장년기(45세~)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 오행 설명 -->
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:18px 16px;margin-bottom:16px;box-shadow:var(--card-shadow)">
+            <div style="background:var(--main-bg);border-radius:14px;padding:14px 16px;font-size:.8rem;color:var(--txt2);line-height:1.8">
+              <div style="font-weight:700;color:var(--main);margin-bottom:6px;font-size:.82rem">🔮 오행(五行)이란?</div>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span>• ${ELEMENT_EMOJI['목']} <strong style="color:#4CAF7B">목(木)</strong> — 성장, 시작, 창조를 상징합니다.</span>
+                <span>• ${ELEMENT_EMOJI['화']} <strong style="color:#E85A71">화(火)</strong> — 열정, 표현, 확장을 상징합니다.</span>
+                <span>• ${ELEMENT_EMOJI['토']} <strong style="color:#D4A24E">토(土)</strong> — 안정, 중용, 신뢰를 상징합니다.</span>
+                <span>• ${ELEMENT_EMOJI['금']} <strong style="color:#7B8DA5">금(金)</strong> — 결실, 의리, 단단함을 상징합니다.</span>
+                <span>• ${ELEMENT_EMOJI['수']} <strong style="color:#5A85B5">수(水)</strong> — 지혜, 휴식, 유연성을 상징합니다.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 타고난 기운 -->
+          <div class="wonkuk-card">
+            <div style="font-family:'Noto Sans KR',sans-serif;font-size:1rem;font-weight:800;color:var(--txt);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:6px">🌿 ${profile.name}님의 타고난 기운</div>
             <div class="wonkuk-landscape">
               <strong>▸ 원국의 풍경:</strong> ${landscape.landscape}
             </div>
@@ -929,34 +1105,17 @@
             <div class="bottleneck-grid">
               <div class="bottleneck-item excess">
                 <div class="bottleneck-item-label">⚠️ 과잉 (병)</div>
-                <div class="bottleneck-item-el" style="color:${elemColors[strongEl]}">${ELEMENT_EMOJI[strongEl]} ${strongEl} (${elCounts[strongEl]}개)</div>
+                <div class="bottleneck-item-el" style="color:${elemColors[strongEl]}">${ELEMENT_EMOJI[strongEl]} ${strongEl}(${hanjaMap[strongEl]}) (${elCounts[strongEl]}개)</div>
                 <div class="bottleneck-item-desc">${(elDescMap[strongEl]||{}).excess || ''}</div>
               </div>
               <div class="bottleneck-item deficit">
                 <div class="bottleneck-item-label">📉 부족</div>
-                <div class="bottleneck-item-el" style="color:${elemColors[weakEl]}">${ELEMENT_EMOJI[weakEl]} ${weakEl} (${elCounts[weakEl]}개)</div>
+                <div class="bottleneck-item-el" style="color:${elemColors[weakEl]}">${ELEMENT_EMOJI[weakEl]} ${weakEl}(${hanjaMap[weakEl]}) (${elCounts[weakEl]}개)</div>
                 <div class="bottleneck-item-desc">${(elDescMap[weakEl]||{}).deficit || ''}</div>
               </div>
             </div>
             <div class="bottleneck-rx">
               🏷️ <strong>${profile.name}님을 위한 처방:</strong> 용신(用神)인 ${yongsin.yongsin}(${ELEMENT_EMOJI[yongsin.yongsin]})의 기운을 보충하세요. ${yongsinColorMap[yongsin.yongsin] || ''} ${yongsinActionMap[yongsin.yongsin] || ''}
-            </div>
-          </div>
-
-          <!-- 대운 흐름 (토글) -->
-          <div class="daeun-card">
-            <div class="daeun-toggle" onclick="toggleDaeun(this)">
-              <div class="daeun-toggle-left">
-                <div class="daeun-toggle-title">📈 ${profile.name}님의 대운 흐름</div>
-                <div class="daeun-toggle-sub">10년 단위 운의 흐름</div>
-              </div>
-              <span class="daeun-toggle-arrow">▼</span>
-            </div>
-            <div class="daeun-body">
-              <div class="daeun-desc">${profile.name}님의 10년 단위 운의 전략적 흐름입니다. 교운기(交運期)에 주목하세요.</div>
-              <div class="daeun-list">
-                ${daeunItemsHTML}
-              </div>
             </div>
           </div>
 
@@ -1006,29 +1165,7 @@
             <div class="today-energy-sub">모든 사람에게 동일하게 적용되는 천기(天氣, 하늘의 기운)입니다</div>
           </div>
 
-          <div style="height:8px"></div>
-          <div class="section-title">📊 ${profile.name}님의 오행(五行) 체질 분석</div>
-          <div class="elem-chart-card">
-            ${elemChartHTML}
-            <div class="elem-summary">
-              <strong>강한 기운(過剩, 넘침):</strong> ${yongsin.byung}(${hanjaMap[yongsin.byung]}) — ${organMap[yongsin.byung]} 기능 활발<br>
-              <strong style="color:var(--warn)">약한 기운(不足, 모자람):</strong> ${weakEl}(${hanjaMap[weakEl]}) — ${organMap[weakEl]} 기능 보강 필요
-            </div>
-          </div>
 
-          <div class="section-title">⚠️ ${profile.name}님의 체질 건강 체크</div>
-          <div class="symptom-card">
-            <div style="font-size:.9rem;font-weight:600;color:var(--txt);">${weakEl}(${hanjaMap[weakEl]}) 기운이 부족하고 ${strongEl}(${hanjaMap[strongEl]}) 기운이 과잉인 ${profile.name}님,<br>혹시 이런 증상이 있진 않으신가요?</div>
-            <div class="symptom-grid">
-              ${symptoms.map(s=>`<div class="symptom-item"><div class="symptom-emoji">${s.e}</div><div class="symptom-name">${s.n}</div><div class="symptom-desc">${s.d}</div></div>`).join('')}
-            </div>
-            <div class="symptom-note">💡 ${healthData.dayGanNote}<br>${profile.name}님은 ${weakEl} 기운 보충${josa과와(weakEl)} ${strongEl} 기운 조절이 필요합니다. 오늘의 식단으로 균형을 맞춰보세요.</div>
-          </div>
-
-          <div class="briefing-card">
-            <div class="briefing-title">📋 ${profile.name}님의 건강 브리핑(맞춤 분석)</div>
-            <div class="briefing-text">${briefing}</div>
-          </div>
 
           <div style="height:8px"></div>
           <div class="food-summary">
@@ -1046,7 +1183,7 @@
           </div>
 
           <div style="height:8px"></div>
-          <div class="section-title">🥬 ${profile.name}님을 위한 오늘의 식재료</div>
+          <div class="section-title">✨ ${profile.name}님을 위한 오늘의 추천 음식 ✨</div>
           <div class="ingredient-hero-wrap">
             <div class="ingredient-hero">
               ${ingredient.image?`<div class="ingredient-img-wrap"><img class="ingredient-img" src="${ingredient.image}" alt="${ingredient.name}" onerror="this.parentElement.outerHTML='<span class=\\'ingredient-emoji\\'>${ingredient.emoji}</span>'"></div>`:`<span class="ingredient-emoji">${ingredient.emoji}</span>`}
@@ -1057,27 +1194,57 @@
             </div>
           </div>
 
-          <div class="section-title">🍽️ ${profile.name}님의 오늘 추천 식단</div>
-          ${mealPlan}
-
-          ${recipe?`
-          <div class="section-title">👨‍🍳 ${profile.name}님을 위한 레시피: ${recipe.title}</div>
-          <div class="card">
-            <div class="recipe-story">${getRecipeStory(inter,weakEl,hanjaMap,ingredient,recipe,organMap)}</div>
-            <div class="recipe-title">📝 재료</div>
-            <div class="recipe-ingredients">${recipe.ingredients.join(' · ')}</div>
-            <div class="recipe-title">👨‍🍳 만드는 법</div>
-            <ol class="recipe-steps">${recipe.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
-            <div class="recipe-meta">
-              <span>⏱️ ${recipe.time}</span>
-              <span>🔥 ${recipe.kcal}</span>
-              <span>📊 ${recipe.difficulty}</span>
-            </div>
-          </div>`:''}
-
           <div class="disclaimer-banner" style="margin-top:24px">
             <div class="disclaimer-title">재미로 본 나의 사주 식단, 어떠셨나요?</div>
             <div class="disclaimer-desc">나에게 맞는 다이어트 프로그램, 날씬예약에서 시작해보세요</div>
+            <a class="banner-cta-btn" href="https://날씬예약.com" target="_blank" rel="noopener">날씬예약 전문 상담 받으러 가기 →</a>
+          </div>
+        </div>
+
+        <!-- ===== 오늘 맞춤식단 탭 ===== -->
+        <div id="tabCustom" class="tab-content">
+          <div class="section-title">🎯 ${profile.name}님의 맞춤 다이어트 식단</div>
+          <div class="diet-type-selector">
+            <div class="diet-type-label">다이어트 유형을 선택하세요</div>
+            <div class="diet-type-grid">
+              <button class="diet-type-btn active" data-diet="lchf" onclick="selectDiet('lchf')">🥑 저탄고지</button>
+              <button class="diet-type-btn" data-diet="lowgi" onclick="selectDiet('lowgi')">🍚 저혈당</button>
+              <button class="diet-type-btn" data-diet="highprotein" onclick="selectDiet('highprotein')">💪 고단백</button>
+              <button class="diet-type-btn" data-diet="mediterranean" onclick="selectDiet('mediterranean')">🫒 지중해식</button>
+              <button class="diet-type-btn" data-diet="vegan" onclick="selectDiet('vegan')">🥬 비건</button>
+              <button class="diet-type-btn" data-diet="intermittent" onclick="selectDiet('intermittent')">⏰ 간헐적단식</button>
+              <button class="diet-type-btn" data-diet="antiinflam" onclick="selectDiet('antiinflam')">🛡️ 항염증</button>
+              <button class="diet-type-btn" data-diet="balanced" onclick="selectDiet('balanced')">⚖️ 균형식단</button>
+            </div>
+          </div>
+          <div id="customDietResult"></div>
+
+          <div class="section-title" style="margin-top:8px">📊 ${profile.name}님의 오행(五行) 체질 분석</div>
+          <div class="elem-chart-card">
+            ${elemChartHTML}
+            <div class="elem-summary">
+              <strong>강한 기운(過剩, 넘침):</strong> ${yongsin.byung}(${hanjaMap[yongsin.byung]}) — ${organMap[yongsin.byung]} 기능 활발<br>
+              <strong style="color:var(--warn)">약한 기운(不足, 모자람):</strong> ${weakEl}(${hanjaMap[weakEl]}) — ${organMap[weakEl]} 기능 보강 필요
+            </div>
+          </div>
+
+          <div class="section-title">⚠️ ${profile.name}님의 체질 건강 체크</div>
+          <div class="symptom-card">
+            <div style="font-size:.9rem;font-weight:600;color:var(--txt);">${weakEl}(${hanjaMap[weakEl]}) 기운이 부족하고 ${strongEl}(${hanjaMap[strongEl]}) 기운이 과잉인 ${profile.name}님,<br>혹시 이런 증상이 있진 않으신가요?</div>
+            <div class="symptom-grid">
+              ${symptoms.map(s=>`<div class="symptom-item"><div class="symptom-emoji">${s.e}</div><div class="symptom-name">${s.n}</div><div class="symptom-desc">${s.d}</div></div>`).join('')}
+            </div>
+            <div class="symptom-note">💡 ${healthData.dayGanNote}<br>${profile.name}님은 ${weakEl}(${hanjaMap[weakEl]}) 기운 보충${josa과와(weakEl)} ${strongEl}(${hanjaMap[strongEl]}) 기운 조절이 필요합니다. 식단으로 균형을 맞춰보세요.</div>
+          </div>
+
+          <div class="briefing-card">
+            <div class="briefing-title">📋 ${profile.name}님의 건강 브리핑(맞춤 분석)</div>
+            <div class="briefing-text">${briefing}</div>
+          </div>
+
+          <div class="disclaimer-banner" style="margin-top:24px">
+            <div class="disclaimer-title">나에게 딱 맞는 다이어트, 찾으셨나요?</div>
+            <div class="disclaimer-desc">전문 상담으로 더 정확한 식단을 받아보세요</div>
             <a class="banner-cta-btn" href="https://날씬예약.com" target="_blank" rel="noopener">날씬예약 전문 상담 받으러 가기 →</a>
           </div>
         </div>
@@ -1216,10 +1383,10 @@
     // === Overall Message ===
     function getOverallMsg(score,inter,name){
       name=name||'';
-      if(score>=80)return `${name}님, 오늘은 ${inter.userEl}의 기운이 빛나는<br>최고의 하루예요! 🎉✨`;
-      if(score>=60)return `${name}님에게 좋은 기운이 흐르고 있어요!<br>긍정적으로 보내세요 💫🌟`;
-      if(score>=40)return `${name}님, 무난한 하루예요 😊<br>기본에 충실하면 좋은 결과가 있을 거예요 🍀`;
-      return `${name}님, 오늘은 차분하게 보내는 게 좋아요 🧘‍♀️<br>내면에 집중하는 하루로! 🌙`;
+      if(score>=80)return `오늘은 ${inter.userEl}의 기운이 빛나는 최고의 하루예요!\u00A0🎉`;
+      if(score>=60)return `오늘도 당신만의 기운으로 빛나는 하루 보내세요\u00A0✨`;
+      if(score>=40)return `기본에 충실하면 좋은 결과가 있을 거예요\u00A0🍀`;
+      return `오늘은 차분하게 내면에 집중하는 하루로\u00A0🌙`;
     }
 
     // === Today's Meals ===
@@ -1376,14 +1543,62 @@
     function switchTab(tab){
       document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+      const btns=document.querySelectorAll('.tab-btn');
       if(tab==='overall'){
-        document.querySelector('.tab-btn:first-child').classList.add('active');
+        btns[0].classList.add('active');
         document.getElementById('tabOverall').classList.add('active');
-      } else {
-        document.querySelector('.tab-btn:last-child').classList.add('active');
+      } else if(tab==='daily'){
+        btns[1].classList.add('active');
         document.getElementById('tabDaily').classList.add('active');
+      } else {
+        btns[2].classList.add('active');
+        document.getElementById('tabCustom').classList.add('active');
+        if(!window.__customDietLoaded){selectDiet('lchf');window.__customDietLoaded=true;}
       }
       window.scrollTo({top:document.querySelector('.tab-nav').offsetTop-70,behavior:'smooth'});
+    }
+
+    function selectDiet(type){
+      document.querySelectorAll('.diet-type-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelector('.diet-type-btn[data-diet="'+type+'"]').classList.add('active');
+      const saju=window.__saju;
+      const profile=window.__profile;
+      if(!saju||!profile)return;
+      const result=getDietPlan(saju,type);
+      const container=document.getElementById('customDietResult');
+      const today=new Date();
+      const todayDayIdx=today.getDay()===0?6:today.getDay()-1;
+      const todayPlan=result.plan[todayDayIdx];
+      const mealTypes={breakfast:{label:'아침',emoji:'🌅'},lunch:{label:'점심',emoji:'🌞'},dinner:{label:'저녁',emoji:'🌙'}};
+      const ELEMENT_EMOJI_MAP={'목':'🌿','화':'🔥','토':'🏔️','금':'⚔️','수':'💧'};
+      const hanjaMap={'목':'木','화':'火','토':'土','금':'金','수':'水'};
+      const yongsin=findYongsin(saju);
+      const weakEl=yongsin.burok;
+      const needEl=yongsin.yongsin;
+      container.innerHTML=`
+        <div class="custom-diet-info" style="margin-bottom:12px;text-align:center">
+          <div style="font-size:1.1rem;font-weight:800;color:var(--main);margin-bottom:8px">${result.dietName}</div>
+          <div style="font-size:.88rem;font-weight:600;color:var(--txt);margin-bottom:6px;line-height:1.6">${result.principle}</div>
+          <div style="font-size:.82rem;font-weight:500;color:var(--txt2);margin-bottom:10px">${result.yongsinNote}</div>
+          <div class="custom-diet-target">📊 ${result.dailyTarget}</div>
+        </div>
+        <div style="font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;font-weight:700;color:var(--txt);margin-bottom:14px;text-align:center">🍽️ 오늘(${['월','화','수','목','금','토','일'][todayDayIdx]}요일) ${profile.name}님 맞춤 식단</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+          ${['breakfast','lunch','dinner'].map(function(meal){
+            const m=todayPlan[meal];
+            const mt=mealTypes[meal];
+            return '<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px">'
+              +'<div style="font-size:1.4rem;line-height:1;padding-top:2px">'+mt.emoji+'</div>'
+              +'<div style="flex:1">'
+              +'<div style="font-size:.75rem;font-weight:700;color:var(--main);margin-bottom:3px">'+mt.label+' · '+m.type+' '+m.kcal+'</div>'
+              +'<div style="font-size:.85rem;color:var(--txt);font-weight:500;line-height:1.5">'+m.menu+'</div>'
+              +'</div>'
+              +'</div>';
+          }).join('')}
+        </div>
+        <div style="background:linear-gradient(135deg,var(--main-bg),rgba(232,90,113,0.04));border-radius:12px;padding:12px 14px;font-size:.78rem;color:var(--txt2);line-height:1.6">
+          ${ELEMENT_EMOJI_MAP[weakEl]||'✨'} <strong style="color:var(--txt)">${profile.name}님 체질 포인트:</strong> ${weakEl}(${hanjaMap[weakEl]}) 기운 보충을 위해 ${needEl} 계열 식재료를 식사에 추가하면 더 효과적이에요!
+        </div>`;
     }
 
     function goHome(){

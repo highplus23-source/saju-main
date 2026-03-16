@@ -642,10 +642,11 @@ function getDietPlan(saju, dietType) {
     });
   }
 
-  const elEmoji = ELEMENT_EMOJI[need] || '🌿';
-  const burokEmoji = ELEMENT_EMOJI[burok] || '✨';
+  const hanja = {'목':'木','화':'火','토':'土','금':'金','수':'水'};
   return {
-    principle: `[${cfg.name}] 다이어트도 하면서, 사주에서 부족한 ${burok}(${burokEmoji}) 기운까지 보충하는 영리한 식단이에요! 용신 ${need}(${elEmoji}) 식재료를 중심으로 구성했어요.`,
+    dietName: cfg.name,
+    principle: `사주에서 부족한 ${burok}(${hanja[burok]}) 기운을 보충하는 다이어트 식단`,
+    yongsinNote: `용신 ${need}(${hanja[need]}) 식재료를 중심으로 구성`,
     dailyTarget: `${cfg.target}`,
     tip: `💡 이 식단을 참고해서 나만의 식단을 짜보세요~ 몸도 마음도 가볍게! 🍃`,
     plan
@@ -1131,21 +1132,22 @@ function getPersonalizedBriefing(saju, inter, weakEl, strongEl, organMap) {
   const weakCount = el[weakEl] || 0;
   const hourJi = saju.hour.ji;
   const gender = saju.gender;
+  const _hj = {'목':'木','화':'火','토':'土','금':'金','수':'水'};
 
   // 부족 오행 심각도
   let severityMsg;
   if (weakCount === 0) {
-    severityMsg = `<strong style="color:var(--warn)">${weakEl} 기운이 완전히 비어 있어</strong> ${organMap[weakEl]} 기능에 각별한 주의가 필요합니다!`;
+    severityMsg = `<strong style="color:var(--warn)">${weakEl}(${_hj[weakEl]}) 기운이 완전히 비어 있어</strong> ${organMap[weakEl]} 기능에 각별한 주의가 필요합니다!`;
   } else if (weakCount === 1) {
-    severityMsg = `${weakEl} 기운이 약한 편이라 ${organMap[weakEl]} 기능이 저하되기 쉽습니다.`;
+    severityMsg = `${weakEl}(${_hj[weakEl]}) 기운이 약한 편이라 ${organMap[weakEl]} 기능이 저하되기 쉽습니다.`;
   } else {
-    severityMsg = `${weakEl} 기운이 다소 부족하지만 심각한 수준은 아닙니다. 꾸준한 관리가 도움됩니다.`;
+    severityMsg = `${weakEl}(${_hj[weakEl]}) 기운이 다소 부족하지만 심각한 수준은 아닙니다. 꾸준한 관리가 도움됩니다.`;
   }
 
   // 과잉 오행
   let strongMsg = '';
   if (strongEl !== weakEl) {
-    strongMsg = ` 반면 ${strongEl} 기운은 과잉되어 있으니 줄이는 노력도 병행하세요.`;
+    strongMsg = ` 반면 ${strongEl}(${_hj[strongEl]}) 기운은 과잉되어 있으니 줄이는 노력도 병행하세요.`;
   }
 
   // 오늘과의 관계에 따른 톤
