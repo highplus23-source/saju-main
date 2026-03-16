@@ -5,7 +5,7 @@
 // 본인의 Supabase 프로젝트 값으로 교체하세요.
 // =============================================
 
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';       // 예: https://xyzcompany.supabase.co
+const SUPABASE_URL = 'https://nephivxgltsihjldssmr.supabase.co';
 const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // 예: eyJhbGciOiJIUzI1NiIs...
 
 let _supabase = null;
