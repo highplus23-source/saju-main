@@ -390,17 +390,21 @@
     /* Saju Pillar Card */
     .saju-pillar-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:20px 16px;margin-bottom:16px;box-shadow:var(--card-shadow)}
     .saju-pillar-title{font-family:'Noto Sans KR',sans-serif;font-size:1.05rem;font-weight:800;color:var(--txt);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px}
-    .saju-pillar-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px;overflow:hidden}
-    .saju-pillar-item{text-align:center;background:#fff;border-radius:20px;position:relative;min-width:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;padding:20px 14px;gap:10px;box-shadow:0 2px 16px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.04)}
-    .saju-pillar-label{font-size:.78rem;color:var(--main);font-weight:700;letter-spacing:0.3px;background:var(--main-bg);padding:4px 14px;border-radius:20px}
-    .saju-pillar-self-badge{font-size:.58rem;font-weight:700;color:#fff;background:var(--main);padding:2px 8px;border-radius:6px;position:absolute;top:10px;right:10px}
-    .saju-pillar-tiles{display:flex;align-items:center;justify-content:center;gap:10px;margin:4px 0}
-    .saju-tile{width:64px;height:64px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform .2s;box-shadow:0 3px 10px rgba(0,0,0,0.1)}
+    .saju-pillar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;overflow:hidden}
+    .saju-pillar-item{text-align:center;background:#fff;border-radius:16px;position:relative;min-width:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;padding:12px 6px;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.04)}
+    .saju-pillar-item.self-pillar{border:2px solid var(--main);background:rgba(232,90,113,0.03)}
+    .saju-pillar-label{font-size:.65rem;color:var(--main);font-weight:700;letter-spacing:0.2px;background:var(--main-bg);padding:3px 8px;border-radius:12px}
+    .saju-pillar-self-badge{font-size:.52rem;font-weight:700;color:#fff;background:var(--main);padding:2px 6px;border-radius:6px;position:absolute;top:6px;right:6px}
+    .saju-pillar-tiles{display:flex;align-items:center;justify-content:center;gap:5px;margin:2px 0}
+    .saju-tile{width:44px;height:44px;border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:transform .2s;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
     .saju-tile:hover{transform:scale(1.05)}
-    .saju-tile-hanja{font-size:1.85rem;font-weight:900;line-height:1;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.1)}
-    .saju-tile-kr{font-size:.62rem;font-weight:600;color:rgba(255,255,255,0.9);line-height:1}
-    .saju-pillar-el{font-size:.78rem;font-weight:600;color:var(--txt2)}
-    .saju-pillar-sipsin{font-size:.72rem;color:var(--txt2);line-height:1.4;font-weight:500;word-break:keep-all;background:var(--bg);padding:5px 14px;border-radius:10px}
+    .saju-tile-hanja{font-size:1.25rem;font-weight:900;line-height:1;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.1)}
+    .saju-tile-kr{font-size:.52rem;font-weight:600;color:rgba(255,255,255,0.9);line-height:1}
+    .saju-pillar-el{font-size:.65rem;font-weight:700;color:var(--txt2);letter-spacing:1px}
+    .saju-pillar-sipsin{font-size:.6rem;color:var(--txt2);line-height:1.4;font-weight:500;word-break:keep-all;background:var(--bg);padding:4px 6px;border-radius:8px;text-align:center;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical}
+    .saju-pillar-text-tile{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0}
+    .saju-big-kr{font-size:1.6rem;font-weight:900;line-height:1.1;font-family:'Noto Sans KR',sans-serif;display:flex;flex-direction:column;align-items:center}
+    .saju-big-hanja{font-size:.65rem;font-weight:600;opacity:0.7;margin-top:1px}
     .saju-pillar-info{font-size:.78rem;color:var(--txt2);line-height:1.7;padding:12px 14px;background:var(--bg);border-radius:12px;margin-top:4px}
     .saju-pillar-info strong{color:var(--main);font-weight:700}
     .saju-yajasi-note{font-size:.72rem;color:var(--main);margin-top:8px;font-weight:500}
@@ -820,32 +824,25 @@
       }).join('');
       // === 사주 팔자 카드 데이터 ===
       const pillars = [
-        { label: '년주(年柱, 년)', p: saju.year, isSelf: false },
-        { label: '월주(月柱, 월)', p: saju.month, isSelf: false },
-        { label: '일주(日柱, 나)', p: saju.day, isSelf: true },
-        { label: '시주(時柱, 시간)', p: saju.hour, isSelf: false }
+        { label: '시주(時柱)', p: saju.hour, isSelf: false },
+        { label: '일주(日柱)', p: saju.day, isSelf: true },
+        { label: '월주(月柱)', p: saju.month, isSelf: false },
+        { label: '년주(年柱)', p: saju.year, isSelf: false }
       ];
       const tileClassMap = {'목':'saju-tile-wood','화':'saju-tile-fire','토':'saju-tile-earth','금':'saju-tile-metal','수':'saju-tile-water'};
       const pillarHTML = pillars.map(({ label, p, isSelf }) => {
         const ganEl = CHEONGAN_ELEMENT[p.gan];
         const jiEl = JIJI_ELEMENT[p.ji];
-        const sipsinText = isSelf ? '일간(본인)' : getSipsin(saju.day.gan, p.gan);
-        const selfBadge = '';
+        const elColorMap = {'목':'#3d9e6b','화':'#e85a71','토':'#f0a030','금':'#808088','수':'#2196f3'};
+        const sipsinFull = isSelf ? '일간(본인)' : getSipsin(saju.day.gan, p.gan).replace(/<br>/g, ' ');
         return `<div class="saju-pillar-item">
-          ${selfBadge}
           <div class="saju-pillar-label">${label}</div>
-          <div class="saju-pillar-tiles">
-            <div class="saju-tile ${tileClassMap[ganEl]}">
-              <div class="saju-tile-hanja">${CHEONGAN_HANJA[p.gan]}</div>
-              <div class="saju-tile-kr">${CHEONGAN[p.gan]}·${ganEl}</div>
-            </div>
-            <div class="saju-tile ${tileClassMap[jiEl]}">
-              <div class="saju-tile-hanja">${JIJI_HANJA[p.ji]}</div>
-              <div class="saju-tile-kr">${JIJI[p.ji]}·${jiEl}</div>
-            </div>
+          <div class="saju-pillar-text-tile">
+            <div class="saju-big-kr" style="color:${elColorMap[ganEl]}">${CHEONGAN[p.gan]}<span class="saju-big-hanja">${CHEONGAN_HANJA[p.gan]}</span></div>
+            <div class="saju-big-kr" style="color:${elColorMap[jiEl]}">${JIJI[p.ji]}<span class="saju-big-hanja">${JIJI_HANJA[p.ji]}</span></div>
           </div>
-          <div class="saju-pillar-el">${ELEMENT_EMOJI[ganEl]}${ganEl}(${hanjaMap[ganEl]}) · ${ELEMENT_EMOJI[jiEl]}${jiEl}(${hanjaMap[jiEl]})</div>
-          <div class="saju-pillar-sipsin">${sipsinText}</div>
+          <div class="saju-pillar-el">${hanjaMap[ganEl]}·${hanjaMap[jiEl]}</div>
+          <div class="saju-pillar-sipsin">${sipsinFull}</div>
         </div>`;
       }).join('');
 
