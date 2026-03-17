@@ -90,7 +90,7 @@
 
     /* Score Card */
     .score-card{border-radius:24px;padding:0;text-align:center;color:var(--txt);margin-bottom:16px;position:relative;overflow:hidden;border:none;box-shadow:none;background:transparent}
-    .score-scene{position:relative;background:linear-gradient(180deg,#FFE8E4 0%,#FFF0EE 40%,#FFF8F6 70%,#FFFFFF 100%);border-radius:24px;padding:36px 16px 24px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--card-shadow);min-height:360px}
+    .score-scene{position:relative;background:linear-gradient(180deg,#FFE8E4 0%,#FFF0EE 40%,#FFF8F6 70%,#FFFFFF 100%);border-radius:24px;padding:36px 16px 24px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--card-shadow);display:flex;flex-direction:column;align-items:center;justify-content:center}
     /* 3D Clouds - large floating */
     .score-cloud{position:absolute;pointer-events:none;filter:drop-shadow(0 6px 16px rgba(232,90,113,0.08));z-index:1}
     .score-cloud svg{display:block}
@@ -244,7 +244,7 @@
 
     /* Quick Food Summary */
     .food-summary{background:var(--main-bg);border:1px solid var(--border-accent);border-radius:20px;padding:22px 20px;margin-bottom:16px}
-    .food-summary-title{font-weight:700;font-size:.95rem;color:var(--success);margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:6px}
+    .food-summary-title{font-weight:800;font-size:1.1rem;color:var(--success);margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:6px}
     .food-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
     .food-summary-item{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:16px 8px;text-align:center}
     .food-summary-emoji{font-size:2.2rem;margin-bottom:8px;display:block}
@@ -393,18 +393,18 @@
     .saju-pillar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;overflow:hidden}
     .saju-pillar-item{text-align:center;background:#fff;border-radius:16px;position:relative;min-width:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;padding:12px 6px;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.04)}
     .saju-pillar-item.self-pillar{border:2px solid var(--main);background:rgba(232,90,113,0.03)}
-    .saju-pillar-label{font-size:.65rem;color:var(--main);font-weight:700;letter-spacing:0.2px;background:var(--main-bg);padding:3px 8px;border-radius:12px}
+    .saju-pillar-label{font-size:.75rem;color:var(--main);font-weight:700;letter-spacing:0.2px;background:var(--main-bg);padding:4px 10px;border-radius:12px}
     .saju-pillar-self-badge{font-size:.52rem;font-weight:700;color:#fff;background:var(--main);padding:2px 6px;border-radius:6px;position:absolute;top:6px;right:6px}
     .saju-pillar-tiles{display:flex;align-items:center;justify-content:center;gap:5px;margin:2px 0}
     .saju-tile{width:44px;height:44px;border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:transform .2s;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
     .saju-tile:hover{transform:scale(1.05)}
     .saju-tile-hanja{font-size:1.25rem;font-weight:900;line-height:1;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.1)}
     .saju-tile-kr{font-size:.52rem;font-weight:600;color:rgba(255,255,255,0.9);line-height:1}
-    .saju-pillar-el{font-size:.65rem;font-weight:700;color:var(--txt2);letter-spacing:1px}
-    .saju-pillar-sipsin{font-size:.6rem;color:var(--txt2);line-height:1.4;font-weight:500;word-break:keep-all;background:var(--bg);padding:4px 6px;border-radius:8px;text-align:center;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical}
+    .saju-pillar-el{font-size:.75rem;font-weight:700;color:var(--txt2);letter-spacing:1px}
+    .saju-pillar-sipsin{font-size:.55rem;color:var(--main);line-height:1.35;font-weight:600;word-break:keep-all;background:rgba(232,90,113,0.06);padding:4px 5px;border-radius:8px;text-align:center}
     .saju-pillar-text-tile{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0}
-    .saju-big-kr{font-size:1.6rem;font-weight:900;line-height:1.1;font-family:'Noto Sans KR',sans-serif;display:flex;flex-direction:column;align-items:center}
-    .saju-big-hanja{font-size:.65rem;font-weight:600;opacity:0.7;margin-top:1px}
+    .saju-big-kr{font-size:1.8rem;font-weight:900;line-height:1.1;font-family:'Noto Sans KR',sans-serif;display:flex;flex-direction:column;align-items:center}
+    .saju-big-hanja{font-size:.72rem;font-weight:600;opacity:0.7;margin-top:1px}
     .saju-pillar-info{font-size:.78rem;color:var(--txt2);line-height:1.7;padding:12px 14px;background:var(--bg);border-radius:12px;margin-top:4px}
     .saju-pillar-info strong{color:var(--main);font-weight:700}
     .saju-yajasi-note{font-size:.72rem;color:var(--main);margin-top:8px;font-weight:500}
@@ -426,7 +426,7 @@
     /* Oheng Byungyak Section */
     .byungyak-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:22px 16px;margin-bottom:16px;box-shadow:var(--card-shadow)}
     .byungyak-title{font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;font-weight:800;color:var(--txt);margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px}
-    .byungyak-bars{display:flex;align-items:flex-end;justify-content:center;gap:16px;margin-bottom:18px;padding:0 10px}
+    .byungyak-bars{display:flex;flex-direction:column;gap:0;margin-bottom:18px;padding:0 4px}
     .byungyak-bar-item{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
     .byungyak-bar-count{font-size:.88rem;font-weight:700;color:var(--txt2)}
     .byungyak-bar{width:100%;border-radius:6px 6px 0 0;min-height:8px;transition:height .8s ease-out}
@@ -462,15 +462,15 @@
     .daeun-body.open{display:block}
     .daeun-desc{font-size:.82rem;color:var(--txt2);margin-bottom:14px;line-height:1.6}
     .daeun-list{display:flex;flex-direction:column;gap:8px}
-    .daeun-item{display:flex;align-items:center;gap:12px;padding:14px;background:var(--bg3);border:1px solid var(--border);border-radius:14px;border-left:4px solid var(--border)}
+    .daeun-item{display:flex;align-items:center;gap:8px;padding:12px;background:var(--bg3);border:1px solid var(--border);border-radius:14px;border-left:4px solid var(--border)}
     .daeun-item.good{border-left-color:var(--success)}
     .daeun-item.bad{border-left-color:var(--warn)}
     .daeun-item.neutral{border-left-color:var(--earth)}
-    .daeun-item-age{min-width:70px;text-align:center}
-    .daeun-item-age-range{font-size:.88rem;font-weight:700;color:var(--txt)}
-    .daeun-item-age-year{font-size:.7rem;color:var(--muted)}
-    .daeun-item-pillar{min-width:36px;text-align:center}
-    .daeun-item-gan{font-size:.92rem;font-weight:900;line-height:1.2}
+    .daeun-item-age{min-width:48px;text-align:center;flex-shrink:0}
+    .daeun-item-age-range{font-size:.82rem;font-weight:700;color:var(--txt)}
+    .daeun-item-age-year{font-size:.65rem;color:var(--muted)}
+    .daeun-item-pillar{min-width:36px;text-align:center;flex-shrink:0}
+    .daeun-item-gan{font-size:.88rem;font-weight:900;line-height:1.2}
     .daeun-item-ji{font-size:.85rem;font-weight:700;line-height:1.3}
     .daeun-item-info{flex:1;min-width:0}
     .daeun-item-luck{font-size:.75rem;font-weight:700;display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;margin-bottom:3px}
@@ -834,17 +834,23 @@
         const ganEl = CHEONGAN_ELEMENT[p.gan];
         const jiEl = JIJI_ELEMENT[p.ji];
         const elColorMap = {'목':'#3d9e6b','화':'#e85a71','토':'#f0a030','금':'#808088','수':'#2196f3'};
-        const sipsinFull = isSelf ? '일간(본인)' : getSipsin(saju.day.gan, p.gan).replace(/<br>/g, ' ');
-        return `<div class="saju-pillar-item">
+        return `<div class="saju-pillar-item${isSelf?' self-pillar':''}">
           <div class="saju-pillar-label">${label}</div>
           <div class="saju-pillar-text-tile">
             <div class="saju-big-kr" style="color:${elColorMap[ganEl]}">${CHEONGAN[p.gan]}<span class="saju-big-hanja">${CHEONGAN_HANJA[p.gan]}</span></div>
             <div class="saju-big-kr" style="color:${elColorMap[jiEl]}">${JIJI[p.ji]}<span class="saju-big-hanja">${JIJI_HANJA[p.ji]}</span></div>
           </div>
-          <div class="saju-pillar-el">${hanjaMap[ganEl]}·${hanjaMap[jiEl]}</div>
-          <div class="saju-pillar-sipsin">${sipsinFull}</div>
+          <div class="saju-pillar-el">${ganEl}(${hanjaMap[ganEl]})<br>${jiEl}(${hanjaMap[jiEl]})</div>
         </div>`;
       }).join('');
+
+      // 십신 요약 박스
+      const sipsinSummary = pillars.map(({ label, p, isSelf }) => {
+        const shortLabel = label.replace(/\(.*\)/, '').trim();
+        const sipsinText = isSelf ? '일간(본인)' : getSipsin(saju.day.gan, p.gan).replace(/<br>/g, ' ');
+        return `<div style="display:flex;gap:6px;align-items:baseline"><strong style="color:var(--main);white-space:nowrap">${shortLabel} :</strong> <span>${sipsinText}</span></div>`;
+      }).join('');
+      const sipsinBoxHTML = `<div style="background:rgba(232,90,113,0.06);border:1px solid rgba(232,90,113,0.12);border-radius:14px;padding:12px 16px;margin-top:12px;font-size:.8rem;color:var(--txt);line-height:1.7;display:flex;flex-direction:column;gap:2px">${sipsinSummary}</div>`;
 
       const dayGanName = CHEONGAN[saju.day.gan] + CHEONGAN_HANJA[saju.day.gan];
       const personality = getPersonality(saju.day.gan);
@@ -883,13 +889,13 @@
           + '<div class="daeun-item-age-year">' + n.animal + '띠</div>'
           + '</div>'
           + '<div class="daeun-item-pillar">'
-          + '<div class="daeun-item-gan">' + n.ganText + '</div>'
-          + '<div class="daeun-item-ji">' + n.jiText + '</div>'
+          + '<div class="daeun-item-gan">' + n.ganText + n.jiText + '</div>'
+          + '<div class="daeun-item-ji" style="font-size:.7rem;color:var(--muted);font-weight:500">' + CHEONGAN_HANJA[CHEONGAN.indexOf(n.ganText)] + JIJI_HANJA[JIJI.indexOf(n.jiText)] + '</div>'
           + '</div>'
           + '<div class="daeun-item-info">'
           + '<div class="daeun-item-luck ' + cls + '">' + next5LevelDot[n.level] + ' ' + next5LevelLabel[n.level] + '</div>'
           + '<div class="daeun-item-desc">' + n.comment + '</div>'
-          + '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">' + n.sipsin.replace(/<br>/g, '') + ' · ' + n.animal + '띠의 해 · ' + ELEMENT_EMOJI[n.element] + n.element + '</div>'
+          + '<div style="font-size:.72rem;color:var(--muted);margin-top:4px;line-height:1.5">' + n.sipsin.replace(/<br>/g, '') + '<br>' + n.animal + '띠의 해 / ' + n.element + '(' + ELEMENT_EMOJI[n.element] + ')' + '</div>'
           + '</div>'
           + '</div>';
       }).join('') + '</div>';
@@ -902,8 +908,8 @@
           + '<div class="daeun-item-age-year">' + d.year + '~' + d.endYear + '</div>'
           + '</div>'
           + '<div class="daeun-item-pillar">'
-          + '<div class="daeun-item-gan" style="color:' + elemColors[ganEl] + '">' + d.ganText + '</div>'
-          + '<div class="daeun-item-ji" style="color:' + elemColors[jiEl] + '">' + d.jiText + '</div>'
+          + '<div class="daeun-item-gan" style="color:' + elemColors[ganEl] + '">' + d.ganText + d.jiText + '</div>'
+          + '<div class="daeun-item-ji" style="font-size:.7rem;color:var(--muted);font-weight:500">' + CHEONGAN_HANJA[d.gan] + JIJI_HANJA[d.ji] + '</div>'
           + '</div>'
           + '<div class="daeun-item-info">'
           + '<div class="daeun-item-luck ' + d.luck + '">' + daeunLuckDot[d.luck] + ' ' + daeunLuckLabel[d.luck] + '</div>'
@@ -912,14 +918,23 @@
           + '</div>';
       }).join('');
 
-      // 오행 바 차트 HTML (미리 생성)
+      // 오행 가로 바 차트 HTML
+      const totalEl = 8;
       const byungyakBarsHTML = ['목','화','토','금','수'].map(function(el) {
         const cnt = elCounts[el];
-        const barH = Math.max(cnt * 28, 8);
-        return '<div class="byungyak-bar-item">'
-          + '<div class="byungyak-bar-count">' + cnt + '개</div>'
-          + '<div class="byungyak-bar" style="height:' + barH + 'px;background:' + elemColors[el] + '"></div>'
-          + '<div class="byungyak-bar-label" style="color:' + elemColors[el] + '">' + ELEMENT_EMOJI[el] + el + '</div>'
+        const pct = ((cnt / totalEl) * 100).toFixed(1);
+        const barWidth = Math.max(pct, 5);
+        var status, statusColor, statusBg;
+        if (cnt >= 3) { status = '과다'; statusColor = '#e85a71'; statusBg = 'rgba(232,90,113,0.1)'; }
+        else if (cnt === 0) { status = '부족'; statusColor = '#5A85B5'; statusBg = 'rgba(90,133,181,0.1)'; }
+        else { status = '적정'; statusColor = '#4CAF7B'; statusBg = 'rgba(76,175,123,0.1)'; }
+        return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'
+          + '<div style="min-width:50px;font-size:.82rem;font-weight:800;color:' + elemColors[el] + '">' + el + '(' + hanjaMap[el] + ')</div>'
+          + '<div style="flex:1;height:22px;background:rgba(0,0,0,0.04);border-radius:11px;overflow:hidden;position:relative">'
+          + '<div style="height:100%;width:' + barWidth + '%;background:' + elemColors[el] + ';border-radius:11px;transition:width .6s ease"></div>'
+          + '</div>'
+          + '<div style="min-width:42px;font-size:.78rem;font-weight:700;color:var(--txt);text-align:right">' + pct + '%</div>'
+          + '<div style="min-width:36px;font-size:.68rem;font-weight:700;color:' + statusColor + ';background:' + statusBg + ';padding:2px 8px;border-radius:8px;text-align:center">' + status + '</div>'
           + '</div>';
       }).join('');
 
@@ -1011,6 +1026,7 @@
             <div class="saju-pillar-grid">
               ${pillarHTML}
             </div>
+            ${sipsinBoxHTML}
           </div>
 
           <!-- 향후 5년 토글 -->
@@ -1058,25 +1074,12 @@
             </div>
           </div>
 
-          <!-- 오행 설명 -->
-          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:18px 16px;margin-bottom:16px;box-shadow:var(--card-shadow)">
-            <div style="background:var(--main-bg);border-radius:14px;padding:14px 16px;font-size:.8rem;color:var(--txt2);line-height:1.8">
-              <div style="font-weight:700;color:var(--main);margin-bottom:6px;font-size:.82rem">🔮 오행(五行)이란?</div>
-              <div style="display:flex;flex-direction:column;gap:2px">
-                <span>• ${ELEMENT_EMOJI['목']} <strong style="color:#4CAF7B">목(木)</strong> — 성장, 시작, 창조를 상징합니다.</span>
-                <span>• ${ELEMENT_EMOJI['화']} <strong style="color:#E85A71">화(火)</strong> — 열정, 표현, 확장을 상징합니다.</span>
-                <span>• ${ELEMENT_EMOJI['토']} <strong style="color:#D4A24E">토(土)</strong> — 안정, 중용, 신뢰를 상징합니다.</span>
-                <span>• ${ELEMENT_EMOJI['금']} <strong style="color:#7B8DA5">금(金)</strong> — 결실, 의리, 단단함을 상징합니다.</span>
-                <span>• ${ELEMENT_EMOJI['수']} <strong style="color:#5A85B5">수(水)</strong> — 지혜, 휴식, 유연성을 상징합니다.</span>
-              </div>
-            </div>
-          </div>
 
           <!-- 타고난 기운 -->
           <div class="wonkuk-card">
             <div style="font-family:'Noto Sans KR',sans-serif;font-size:1rem;font-weight:800;color:var(--txt);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:6px">🌿 ${profile.name}님의 타고난 기운</div>
             <div class="wonkuk-landscape">
-              <strong>▸ 원국의 풍경:</strong> ${landscape.landscape}
+              <strong>▸ 나의 사주 하이라이트:</strong> ${landscape.landscape}
             </div>
             <div class="wonkuk-personality">
               <strong>▸ 기질:</strong> ${personality}
@@ -1084,7 +1087,6 @@
             </div>
           </div>
 
-          <!-- 오행 분석·병약 진단 -->
           <div class="byungyak-card">
             <div class="byungyak-title">🧬 ${profile.name}님의 오행 분석 · 병약(病藥) 진단</div>
             <div class="byungyak-bars">
@@ -1096,24 +1098,53 @@
             </div>
           </div>
 
+          <!-- 오행 설명 -->
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:18px 16px;margin-bottom:16px;box-shadow:var(--card-shadow)">
+            <div style="background:var(--main-bg);border-radius:14px;padding:14px 16px;font-size:.8rem;color:var(--txt2);line-height:1.8">
+              <div style="font-weight:700;color:var(--main);margin-bottom:6px;font-size:.82rem">🔮 오행(五行)이란?</div>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span>• <strong style="color:#4CAF7B">목(木)</strong> — 성장, 시작, 창조를 상징합니다.</span>
+                <span>• <strong style="color:#E85A71">화(火)</strong> — 열정, 표현, 확장을 상징합니다.</span>
+                <span>• <strong style="color:#D4A24E">토(土)</strong> — 안정, 중용, 신뢰를 상징합니다.</span>
+                <span>• <strong style="color:#7B8DA5">금(金)</strong> — 결실, 의리, 단단함을 상징합니다.</span>
+                <span>• <strong style="color:#5A85B5">수(水)</strong> — 지혜, 휴식, 유연성을 상징합니다.</span>
+              </div>
+            </div>
+          </div>
+
           <!-- 핵심 병목 지점 -->
           <div class="bottleneck-card">
             <div class="bottleneck-title">🔍 ${profile.name}님의 핵심 병목 지점</div>
             <div class="bottleneck-grid">
               <div class="bottleneck-item excess">
                 <div class="bottleneck-item-label">⚠️ 과잉 (병)</div>
-                <div class="bottleneck-item-el" style="color:${elemColors[strongEl]}">${ELEMENT_EMOJI[strongEl]} ${strongEl}(${hanjaMap[strongEl]}) (${elCounts[strongEl]}개)</div>
+                <div class="bottleneck-item-el" style="color:${elemColors[strongEl]}">${ELEMENT_EMOJI[strongEl]} ${strongEl} (${elCounts[strongEl]}개)</div>
                 <div class="bottleneck-item-desc">${(elDescMap[strongEl]||{}).excess || ''}</div>
               </div>
               <div class="bottleneck-item deficit">
                 <div class="bottleneck-item-label">📉 부족</div>
-                <div class="bottleneck-item-el" style="color:${elemColors[weakEl]}">${ELEMENT_EMOJI[weakEl]} ${weakEl}(${hanjaMap[weakEl]}) (${elCounts[weakEl]}개)</div>
+                <div class="bottleneck-item-el" style="color:${elemColors[weakEl]}">${ELEMENT_EMOJI[weakEl]} ${weakEl} (${elCounts[weakEl]}개)</div>
                 <div class="bottleneck-item-desc">${(elDescMap[weakEl]||{}).deficit || ''}</div>
               </div>
             </div>
             <div class="bottleneck-rx">
               🏷️ <strong>${profile.name}님을 위한 처방:</strong> 용신(用神)인 ${yongsin.yongsin}(${ELEMENT_EMOJI[yongsin.yongsin]})의 기운을 보충하세요. ${yongsinColorMap[yongsin.yongsin] || ''} ${yongsinActionMap[yongsin.yongsin] || ''}
             </div>
+          </div>
+
+
+          <div class="section-title">⚠️ ${profile.name}님의 체질 건강 체크</div>
+          <div class="symptom-card">
+            <div style="font-size:.9rem;font-weight:600;color:var(--txt);">${weakEl}(${hanjaMap[weakEl]}) 기운이 부족하고 ${strongEl}(${hanjaMap[strongEl]}) 기운이 과잉인 ${profile.name}님,<br>혹시 이런 증상이 있진 않으신가요?</div>
+            <div class="symptom-grid">
+              ${symptoms.map(s=>`<div class="symptom-item"><div class="symptom-emoji">${s.e}</div><div class="symptom-name">${s.n}</div><div class="symptom-desc">${s.d}</div></div>`).join('')}
+            </div>
+            <div class="symptom-note">💡 ${healthData.dayGanNote}<br>${profile.name}님은 ${weakEl}(${hanjaMap[weakEl]}) 기운 보충${josa과와(weakEl)} ${strongEl}(${hanjaMap[strongEl]}) 기운 조절이 필요합니다. 식단으로 균형을 맞춰보세요.</div>
+          </div>
+
+          <div class="briefing-card">
+            <div class="briefing-title">📋 ${profile.name}님의 건강 브리핑(맞춤 분석)</div>
+            <div class="briefing-text">${briefing}</div>
           </div>
 
           <div class="consult-cta" style="margin-top:20px">
@@ -1163,6 +1194,17 @@
           </div>
 
 
+          <div style="height:8px"></div>
+          <div class="section-title">✨ ${profile.name}님을 위한 오늘의 추천 음식 ✨</div>
+          <div class="ingredient-hero-wrap">
+            <div class="ingredient-hero">
+              ${ingredient.image?`<div class="ingredient-img-wrap"><img class="ingredient-img" src="${ingredient.image}" alt="${ingredient.name}" onerror="this.parentElement.outerHTML='<span class=\\'ingredient-emoji\\'>${ingredient.emoji}</span>'"></div>`:`<span class="ingredient-emoji">${ingredient.emoji}</span>`}
+              <div class="ingredient-name" style="color:${ingredient.color}">${ingredient.name}</div>
+              <div class="ingredient-benefit">${ingredient.benefit}</div>
+              <div style="font-size:.82rem;color:var(--txt2);line-height:1.7;margin:6px 0 18px;padding:0 12px">${ingredient.personalReason}</div>
+              <span class="ingredient-reason" style="background:linear-gradient(135deg,${ingredient.color},${ingredient.color}cc)">${weakEl}(${hanjaMap[weakEl]}) 보충 + ${strongEl}(${hanjaMap[strongEl]}) 조절</span>
+            </div>
+          </div>
 
           <div style="height:8px"></div>
           <div class="food-summary">
@@ -1177,18 +1219,6 @@
             <div class="avoid-title">❌ ${profile.name}님이 오늘 피해야 할 음식</div>
             <div class="avoid-items">❌ ${foods.bad.split(' / ').join(' / ❌ ')}</div>
             <div class="avoid-text">→ ${foods.badReason}</div>
-          </div>
-
-          <div style="height:8px"></div>
-          <div class="section-title">✨ ${profile.name}님을 위한 오늘의 추천 음식 ✨</div>
-          <div class="ingredient-hero-wrap">
-            <div class="ingredient-hero">
-              ${ingredient.image?`<div class="ingredient-img-wrap"><img class="ingredient-img" src="${ingredient.image}" alt="${ingredient.name}" onerror="this.parentElement.outerHTML='<span class=\\'ingredient-emoji\\'>${ingredient.emoji}</span>'"></div>`:`<span class="ingredient-emoji">${ingredient.emoji}</span>`}
-              <div class="ingredient-name" style="color:${ingredient.color}">${ingredient.name}</div>
-              <div class="ingredient-benefit">${ingredient.benefit}</div>
-              <div style="font-size:.82rem;color:var(--txt2);line-height:1.7;margin:6px 0 18px;padding:0 12px">${ingredient.personalReason}</div>
-              <span class="ingredient-reason" style="background:linear-gradient(135deg,${ingredient.color},${ingredient.color}cc)">${weakEl}(${hanjaMap[weakEl]}) 보충 + ${strongEl}(${hanjaMap[strongEl]}) 조절</span>
-            </div>
           </div>
 
           <div class="disclaimer-banner" style="margin-top:24px">
@@ -1216,33 +1246,11 @@
           </div>
           <div id="customDietResult"></div>
 
-          <div class="section-title" style="margin-top:8px">📊 ${profile.name}님의 오행(五行) 체질 분석</div>
-          <div class="elem-chart-card">
-            ${elemChartHTML}
-            <div class="elem-summary">
-              <strong>강한 기운(過剩, 넘침):</strong> ${yongsin.byung}(${hanjaMap[yongsin.byung]}) — ${organMap[yongsin.byung]} 기능 활발<br>
-              <strong style="color:var(--warn)">약한 기운(不足, 모자람):</strong> ${weakEl}(${hanjaMap[weakEl]}) — ${organMap[weakEl]} 기능 보강 필요
-            </div>
-          </div>
-
-          <div class="section-title">⚠️ ${profile.name}님의 체질 건강 체크</div>
-          <div class="symptom-card">
-            <div style="font-size:.9rem;font-weight:600;color:var(--txt);">${weakEl}(${hanjaMap[weakEl]}) 기운이 부족하고 ${strongEl}(${hanjaMap[strongEl]}) 기운이 과잉인 ${profile.name}님,<br>혹시 이런 증상이 있진 않으신가요?</div>
-            <div class="symptom-grid">
-              ${symptoms.map(s=>`<div class="symptom-item"><div class="symptom-emoji">${s.e}</div><div class="symptom-name">${s.n}</div><div class="symptom-desc">${s.d}</div></div>`).join('')}
-            </div>
-            <div class="symptom-note">💡 ${healthData.dayGanNote}<br>${profile.name}님은 ${weakEl}(${hanjaMap[weakEl]}) 기운 보충${josa과와(weakEl)} ${strongEl}(${hanjaMap[strongEl]}) 기운 조절이 필요합니다. 식단으로 균형을 맞춰보세요.</div>
-          </div>
-
-          <div class="briefing-card">
-            <div class="briefing-title">📋 ${profile.name}님의 건강 브리핑(맞춤 분석)</div>
-            <div class="briefing-text">${briefing}</div>
-          </div>
 
           <div class="disclaimer-banner" style="margin-top:24px">
-            <div class="disclaimer-title">나에게 딱 맞는 다이어트, 찾으셨나요?</div>
-            <div class="disclaimer-desc">전문 상담으로 더 정확한 식단을 받아보세요</div>
-            <a class="banner-cta-btn" href="https://날씬예약.com" target="_blank" rel="noopener">날씬예약 전문 상담 받으러 가기 →</a>
+            <div class="disclaimer-title">🏥 사주 체질 맞춤 다이어트 한약</div>
+            <div class="disclaimer-desc">식단 + 한약 병행으로 효과 2배!<br>날씬예약 제휴 한의원에서 1:1 체질 상담 받아보세요</div>
+            <a class="banner-cta-btn" href="https://날씬예약.com" target="_blank" rel="noopener">무료 상담 예약하기 →</a>
           </div>
         </div>
 
@@ -1595,6 +1603,12 @@
         </div>
         <div style="background:linear-gradient(135deg,var(--main-bg),rgba(232,90,113,0.04));border-radius:12px;padding:12px 14px;font-size:.78rem;color:var(--txt2);line-height:1.6">
           ${ELEMENT_EMOJI_MAP[weakEl]||'✨'} <strong style="color:var(--txt)">${profile.name}님 체질 포인트:</strong> ${weakEl}(${hanjaMap[weakEl]}) 기운 보충을 위해 ${needEl} 계열 식재료를 식사에 추가하면 더 효과적이에요!
+        </div>
+        <div style="margin-top:16px;padding:20px;background:linear-gradient(135deg,#fff5f7,#fff0f3);border:1.5px solid rgba(232,90,113,0.2);border-radius:16px;text-align:center">
+          <div style="font-size:.95rem;font-weight:800;color:var(--txt);margin-bottom:6px">💊 식단만으로 부족하다면?</div>
+          <div style="font-size:.82rem;color:var(--txt2);line-height:1.6;margin-bottom:14px">${profile.name}님의 사주 체질에 맞는 <strong style="color:var(--main)">다이어트 한약</strong>으로<br>더 빠르고 건강하게 목표 체중을 달성하세요</div>
+          <a href="https://날씬예약.com" target="_blank" rel="noopener" style="display:inline-block;padding:13px 28px;background:var(--main-gradient);color:#fff;font-size:.9rem;font-weight:800;border-radius:12px;text-decoration:none;box-shadow:0 4px 16px rgba(232,90,113,0.25);transition:all .2s">다이어트 한약 상담받기 →</a>
+          <div style="font-size:.7rem;color:var(--muted);margin-top:8px">날씬예약 제휴 한의원에서 1:1 맞춤 처방</div>
         </div>`;
     }
 

@@ -20,7 +20,8 @@
       "WebFetch(domain:highplus23-source.github.io)",
       "Bash(git commit:*)",
       "Bash(ls /Users/higplus/Downloads/saju-main2/*.png /Users/higplus/Downloads/saju-main2/*.jpeg /Users/higplus/Downloads/saju-main2/*.jpg)",
-      "Bash(ls -la /Users/higplus/Downloads/saju-main2/*.png /Users/higplus/Downloads/saju-main2/*.jpeg)"
+      "Bash(ls -la /Users/higplus/Downloads/saju-main2/*.png /Users/higplus/Downloads/saju-main2/*.jpeg)",
+      "WebFetch(domain:localhost)"
     ],
     "additionalDirectories": [
       "/Users/higplus/Downloads/saju-main2"
