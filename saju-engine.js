@@ -749,7 +749,14 @@ function getTodayFoods(weakEl, strongEl, rel) {
     'control': null
   };
 
-  const goodFoods = [...(foods[weakEl] || foods['목'])];
+  // Supabase 추천음식 데이터 우선 사용
+  let goodFoods;
+  if (window.__supaRecommendedFoods && window.__supaRecommendedFoods[weakEl]) {
+    console.log('[Supabase] 추천음식 DB 데이터 사용:', weakEl);
+    goodFoods = [...window.__supaRecommendedFoods[weakEl]];
+  } else {
+    goodFoods = [...(foods[weakEl] || foods['목'])];
+  }
   const bonus = bonusFoods[rel];
   if (bonus) goodFoods.push(bonus);
 
@@ -1348,7 +1355,10 @@ function getTodayMainIngredient(saju) {
     ]
   };
 
-  const list = ingredients[weakEl] || ingredients['목'];
+  // Supabase 데이터 우선 사용
+  const useSupaIngredients = window.__supaIngredients && window.__supaIngredients[weakEl] && window.__supaIngredients[weakEl].length > 0;
+  const list = useSupaIngredients ? window.__supaIngredients[weakEl] : (ingredients[weakEl] || ingredients['목']);
+  if (useSupaIngredients) console.log('[Supabase] 식재료 DB 데이터 사용:', weakEl, list.length + '개');
   const personalHash = sajuHash(saju, 77);
   const idx = (dayOfYear + personalHash) % list.length;
   const item = list[idx];
@@ -1376,6 +1386,12 @@ function getTodayMainIngredient(saju) {
 
 // ===== 오늘의 대표 식재료 레시피 =====
 function getTodayRecipe(ingredientName) {
+  // Supabase 레시피 데이터 우선 사용
+  if (window.__supaRecipes && window.__supaRecipes[ingredientName]) {
+    console.log('[Supabase] 레시피 DB 데이터 사용:', ingredientName);
+    return window.__supaRecipes[ingredientName];
+  }
+
   const recipes = {
     '시금치': {
       title: '시금치 된장국',

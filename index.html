@@ -645,10 +645,82 @@
 
   <div class="share-toast" id="shareToast"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="saju-engine.js?v=20260310"></script>
   <script>
     let gender = 'male';
     const STORAGE_KEY = 'sajuDailyProfile';
+
+    // === Supabase 연동 ===
+    const SUPABASE_URL = 'https://nephivxgltsihjldssmr.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5lcGhpdnhnbHRzaWhqbGRzc21yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2ODIxNDgsImV4cCI6MjA4ODI1ODE0OH0.5a6zI2_nVBEx2q-OI6pvmpb6G5aknpZ-ujqf0bRBxG4';
+    const supaClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Supabase 데이터 캐시
+    window.__supaIngredients = null;
+    window.__supaRecipes = null;
+    window.__supaMenus = null;
+    window.__supaRecommendedFoods = null;
+    window.__supaLoaded = false;
+
+    async function loadSupabaseData() {
+      try {
+        const [ingredientsRes, recipesRes, menusRes, foodsRes] = await Promise.all([
+          supaClient.from('ingredients').select('*'),
+          supaClient.from('recipes').select('*'),
+          supaClient.from('menus').select('*'),
+          supaClient.from('recommended_foods').select('*')
+        ]);
+
+        if (ingredientsRes.data) {
+          window.__supaIngredients = {};
+          ingredientsRes.data.forEach(item => {
+            if (!window.__supaIngredients[item.element]) window.__supaIngredients[item.element] = [];
+            window.__supaIngredients[item.element].push(item);
+          });
+          console.log('[Supabase] ✅ 식재료 로드:', ingredientsRes.data.length + '개');
+        }
+
+        if (recipesRes.data) {
+          window.__supaRecipes = {};
+          recipesRes.data.forEach(item => {
+            window.__supaRecipes[item.ingredient_name] = {
+              title: item.title,
+              time: item.time,
+              difficulty: item.difficulty,
+              kcal: item.kcal,
+              ingredients: item.recipe_ingredients,
+              steps: item.steps
+            };
+          });
+          console.log('[Supabase] ✅ 레시피 로드:', recipesRes.data.length + '개');
+        }
+
+        if (menusRes.data) {
+          window.__supaMenus = {};
+          menusRes.data.forEach(item => {
+            window.__supaMenus[item.ingredient_name] = item.menu_items;
+          });
+          console.log('[Supabase] ✅ 메뉴 로드:', menusRes.data.length + '개');
+        }
+
+        if (foodsRes.data) {
+          window.__supaRecommendedFoods = {};
+          foodsRes.data.forEach(item => {
+            if (!window.__supaRecommendedFoods[item.element]) window.__supaRecommendedFoods[item.element] = [];
+            window.__supaRecommendedFoods[item.element].push(item);
+          });
+          console.log('[Supabase] ✅ 추천음식 로드:', foodsRes.data.length + '개');
+        }
+
+        window.__supaLoaded = true;
+        console.log('[Supabase] 🎉 모든 데이터 로드 완료!');
+        return true;
+      } catch (err) {
+        console.warn('[Supabase] ⚠️ 데이터 로드 실패, 로컬 데이터 사용:', err.message);
+        return false;
+      }
+    }
 
     // === Form Helpers ===
     function sg(b){document.querySelectorAll('.gender-row .gbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');gender=b.dataset.g}
@@ -1705,7 +1777,9 @@
     }
 
     // === Init: Check for saved profile ===
-    (function init(){
+    (async function init(){
+      // Supabase 데이터 먼저 로드
+      await loadSupabaseData();
       const profile=loadProfile();
       if(profile&&profile.birthYear){
         showDashboard(profile);
