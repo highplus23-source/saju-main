@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OG 이미지 생성기 - 날씬예약</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #f0f2f5;
+      font-family: 'Noto Sans KR', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+      color: #333;
+    }
+    
+    /* OG 이미지 캔버스 (1200 x 630 비율 고정) */
+    .og-container {
+      width: 1200px;
+      height: 630px;
+      /* 날씬예약 브랜드 스타일 배경 */
+      background: #FFF5F3;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 80px 100px;
+    }
+
+    /* 배경 장식 (Blob) */
+    .blob-1 {
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 500px;
+      height: 500px;
+      background: linear-gradient(135deg, rgba(232,90,113,0.15), rgba(255,138,155,0.05));
+      border-radius: 50%;
+      filter: blur(40px);
+      z-index: 0;
+    }
+    .blob-2 {
+      position: absolute;
+      bottom: -150px;
+      left: -100px;
+      width: 600px;
+      height: 600px;
+      background: linear-gradient(135deg, rgba(126,87,194,0.08), rgba(66,165,245,0.05));
+      border-radius: 50%;
+      filter: blur(50px);
+      z-index: 0;
+    }
+
+    .content-left {
+      position: relative;
+      z-index: 1;
+      max-width: 650px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #E85A71, #FF8A9B);
+      color: white;
+      font-size: 24px;
+      font-weight: 700;
+      padding: 10px 24px;
+      border-radius: 50px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 20px rgba(232,90,113,0.3);
+    }
+
+    .title {
+      font-size: 80px;
+      font-weight: 900;
+      color: #1A1A2E;
+      line-height: 1.25;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+    }
+    .title span {
+      color: #E85A71;
+    }
+
+    .subtitle {
+      font-size: 32px;
+      font-weight: 500;
+      color: #5A5470;
+      line-height: 1.6;
+      letter-spacing: -1px;
+    }
+
+    .content-right {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 450px;
+    }
+
+    .mascot {
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 20px 40px rgba(232,90,113,0.25));
+    }
+
+    /* 컨트롤 UI 영역 */
+    .controls {
+      margin-top: 40px;
+      background: white;
+      padding: 24px 32px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 1200px;
+    }
+
+    .controls-header {
+      font-size: 18px;
+      font-weight: 700;
+      color: #E85A71;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 16px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: inherit;
+    }
+
+    .btn {
+      padding: 14px 32px;
+      background: #E85A71;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #d64960;
+    }
+
+    /* 화면이 작을 때 축소해서 보기 */
+    @media (max-width: 1300px) {
+      .preview-wrapper {
+        transform: scale(0.7);
+        transform-origin: top center;
+        margin-bottom: -150px;
+      }
+      .controls {
+        width: 100%;
+        max-width: 840px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="preview-wrapper">
+    <!-- 실제 캡처될 영역 (1200x630) -->
+    <div class="og-container" id="ogNode">
+      <div class="blob-1"></div>
+      <div class="blob-2"></div>
+      
+      <div class="content-left">
+        <div class="badge" id="previewBadge">정확한 사주 그리고 맞춤 식단</div>
+        <div class="title" id="previewTitle">매일 확인하는<br><span>나만의 사주 식단</span></div>
+        <div class="subtitle" id="previewSubtitle">사주 오행 분석으로 매일 달라지는<br>운세와 건강한 식단을 확인하세요.</div>
+      </div>
+      
+      <div class="content-right">
+        <!-- 기본 마스코트 이미지 (로컬 파일) -->
+        <img src="물방울2.png" alt="마스코트" class="mascot" id="mascotImg">
+      </div>
+    </div>
+  </div>
+
+  <!-- 컨트롤 패널 -->
+  <div class="controls">
+    <div class="controls-header">🛠 텍스트 수정 및 다운로드</div>
+    
+    <div class="input-group" style="background: #fff0f2; padding: 12px; border-radius: 8px; border: 1px solid #ffccd5; margin-bottom: 8px;">
+      <label style="width: 100px; font-weight: 700; color: #E85A71;">⚠️ 캐릭터 넣기</label>
+      <input type="file" id="imageUpload" accept="image/*" onchange="uploadMascot(event)" style="flex:1;">
+      <span style="font-size: 13px; color: #E85A71; font-weight: 700;">로컬(내 컴퓨터) 환경에서는 보안상 "다운로드" 전에 마스코트 이미지(물방울2.png)를 여기서 한 번 선택해주셔야 합니다!</span>
+    </div>
+
+    <div class="input-group">
+      <label style="width: 100px; font-weight: 700;">배지</label>
+      <input type="text" id="inputBadge" value="정확한 사주 그리고 맞춤 식단" oninput="updateText('previewBadge', this.value)">
+    </div>
+    
+    <div class="input-group">
+      <label style="width: 80px; font-weight: 700;">메인 카피</label>
+      <input type="text" id="inputTitle" value="매일 확인하는<br><span>나만의 사주 식단</span>" oninput="updateHTML('previewTitle', this.value)">
+      <span style="font-size: 12px; color: #888;">&lt;br&gt;로 줄바꿈, &lt;span&gt;태그로 포인트 컬러(핑크)</span>
+    </div>
+
+    <div class="input-group">
+      <label style="width: 80px; font-weight: 700;">서브 카피</label>
+      <input type="text" id="inputSubtitle" value="사주 오행 분석으로 매일 달라지는<br>운세와 건강한 식단을 확인하세요." oninput="updateHTML('previewSubtitle', this.value)">
+    </div>
+
+    <button class="btn" onclick="downloadOGImage()">⬇️ og-image.png 다운로드</button>
+  </div>
+
+  <script>
+    function updateText(id, val) {
+      document.getElementById(id).innerText = val;
+    }
+    function updateHTML(id, val) {
+      document.getElementById(id).innerHTML = val;
+    }
+
+    // 로컬 파일의 CORS 에러를 막기 위해 이미지를 DataURL로 변환하여 렌더링
+    function uploadMascot(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('mascotImg').src = e.target.result;
+      }
+      reader.readAsDataURL(file);
+    }
+
+    async function downloadOGImage() {
+      const node = document.getElementById('ogNode');
+      const wrapper = document.querySelector('.preview-wrapper');
+      const btn = document.querySelector('.btn');
+      const originalText = btn.innerText;
+      
+      btn.innerText = '생성 중...';
+      btn.disabled = true;
+
+      // 브라우저 줌/스케일에 의한 캡처 잘림 현상 방지
+      const prevTransform = wrapper.style.transform;
+      wrapper.style.transform = 'scale(1)';
+
+      try {
+        const canvas = await html2canvas(node, {
+          scale: 1, // 1200x630 원본 크기 유지
+          useCORS: true,
+          backgroundColor: '#FFF5F3',
+          width: 1200,
+          height: 630,
+          windowWidth: 1200,
+          windowHeight: 630
+        });
+
+        const link = document.createElement('a');
+        link.download = 'og-image.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      } catch (err) {
+        console.error(err);
+        alert('이미지 생성에 실패했습니다.');
+      } finally {
+        wrapper.style.transform = prevTransform;
+        btn.innerText = originalText;
+        btn.disabled = false;
+      }
+    }
+  </script>
+
+</body>
+</html>
